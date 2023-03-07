@@ -1,11 +1,11 @@
 import React from 'react';
-import { Nanum_Gothic } from 'next/font/google';
+import { Noto_Sans_KR } from 'next/font/google';
 import Header from '@/components/common/Header';
 
-const nanumGothic = Nanum_Gothic({
+const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
   weight: ['400', '700'],
-  preload: false,
+  variable: '--font-noto-sans-kr',
 });
 
 export const metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <head />
-      <body className={nanumGothic.className}>
+      <body className={`${notoSansKr.variable} font-sans flex justify-center items-center`}>
         <Header />
         {children}
       </body>
