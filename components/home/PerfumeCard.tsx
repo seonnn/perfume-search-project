@@ -1,15 +1,21 @@
 import React from 'react';
-import wild_bluebell from '@/public/perfumeImg/조말론_와일드블루벨.png';
 import Image from 'next/image';
 
-function PerfumeCard() {
+interface PerfumeCardProps {
+  brand: string;
+  name: string;
+  imgUrl: string;
+  id: number;
+}
+
+function PerfumeCard({ brand, name, imgUrl, id }: PerfumeCardProps) {
   return (
     <div className="flex flex-col gap-3 cursor-pointer w-56">
       <div className="flex justify-center items-center w-56 h-56 bg-stone-50 p-4">
-        <Image src={wild_bluebell} alt="조말론 와일드블루벨 코롱" />
+        <Image src={imgUrl} alt={name} width={192} height={192} />
       </div>
-      <div className="text-sm">조말론</div>
-      <div>와일드 블루벨 코롱</div>
+      <div className="text-sm text-stone-500">{brand}</div>
+      <div className="text-stone-800">{name}</div>
     </div>
   );
 }
