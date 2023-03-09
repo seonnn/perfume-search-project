@@ -12,6 +12,13 @@ module.exports = {
       padding: {
         22.5: '5.625rem',
       },
+      margin: {
+        '-1': '-1px',
+        22.5: '5.625rem',
+      },
+      borderWidth: {
+        1: '1px',
+      },
     },
   },
   plugins: [],
