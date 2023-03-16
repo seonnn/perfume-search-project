@@ -1,7 +1,7 @@
-import '@/app/globals.css';
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
 import { perfumeList } from '@/utils/noteList';
+import Link from 'next/link';
 import React from 'react';
 
 function Home() {
@@ -15,13 +15,9 @@ function Home() {
         </div>
         <div className="grid grid-cols-4 gap-5">
           {perfumeList.map((perfume) => (
-            <PerfumeCard
-              key={perfume.id}
-              brand={perfume.brand}
-              name={perfume.name}
-              imgUrl={perfume.imgUrl}
-              id={perfume.id}
-            />
+            <Link key={perfume.id} href={`/${perfume.id}`}>
+              <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
+            </Link>
           ))}
         </div>
       </main>
