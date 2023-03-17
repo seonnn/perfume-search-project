@@ -71,4 +71,4 @@ export const perfumeList = [
   },
 ];
 
-export const brnadList = [...new Set(perfumeList.map((perfume) => perfume.brand))];
+export const brandList = [...new Set(perfumeList.map((perfume) => perfume.brand))];
