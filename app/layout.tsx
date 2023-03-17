@@ -1,4 +1,5 @@
 import React from 'react';
+import '@/app/globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import Header from '@/components/common/Header';
 
