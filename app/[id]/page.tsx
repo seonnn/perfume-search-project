@@ -11,10 +11,10 @@ function PerfumeDetail() {
 
   if (!item) return <div>Loading...</div>;
   return (
-    <div className="h-screen w-full flex justify-center items-center border-2 border-red-500">
-      <div className="box-border w-full max-w-7xl flex justify-start gap-24 border-4 border-blue-500">
-        <Image src={item.imgUrl} alt={item.name} width={500} height={500} property="true" className="border-2" />
-        <div>
+    <div className="h-screen w-full flex justify-center items-center">
+      <div className="box-border w-full max-w-7xl flex justify-start gap-24">
+        <Image src={item.imgUrl} alt={item.name} width={500} height={500} className="bg-stone-50" />
+        <div className="h-125">
           <div className="flex flex-col gap-4">
             <h3 className="text-stone-600 text-xl">{item.brand}</h3>
             <h2 className="text-stone-800 font-bold text-3xl">{item.name}</h2>
