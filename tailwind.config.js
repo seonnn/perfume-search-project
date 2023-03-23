@@ -9,6 +9,9 @@ module.exports = {
       width: {
         69: '17.25rem',
       },
+      height: {
+        125: '31.25rem',
+      },
       padding: {
         22.5: '5.625rem',
       },
@@ -18,6 +21,12 @@ module.exports = {
       },
       borderWidth: {
         1: '1px',
+      },
+      colors: {
+        beige: {
+          400: '#C8BDBA',
+          500: '#B0A6A4',
+        },
       },
     },
   },
