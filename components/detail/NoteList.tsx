@@ -1,4 +1,5 @@
 import React from 'react';
+import Badge from '../common/Badge';
 
 interface NoteListProps {
   noteList: string[];
@@ -32,11 +33,11 @@ function NoteList({ noteList, position }: NoteListProps) {
     <div className="flex flex-col text-stone-600 gap-3">
       <div className="text-xl font-bold">{notePosition[position].name}</div>
       <div>{notePosition[position].description}</div>
-      {noteList.map((note) => (
-        <div key={note} className="border-1 w-fit border-stone-600 px-3 py-1 rounded-xl">
-          {note}
-        </div>
-      ))}
+      <div className="flex gap-3 font-bold">
+        {noteList.map((note, idx) => (
+          <Badge key={note} text={note} mode={idx % 2 === 0 ? 'basic' : 'reverse'} />
+        ))}
+      </div>
     </div>
   );
 }
