@@ -34,8 +34,8 @@ function NoteList({ noteList, position }: NoteListProps) {
       <div className="text-xl font-bold">{notePosition[position].name}</div>
       <div>{notePosition[position].description}</div>
       <div className="flex gap-3 font-bold">
-        {noteList.map((note, idx) => (
-          <Badge key={note} text={note} mode={idx % 2 === 0 ? 'basic' : 'reverse'} />
+        {noteList.map((note) => (
+          <Badge key={note} text={note} mode="basic" />
         ))}
       </div>
     </div>
