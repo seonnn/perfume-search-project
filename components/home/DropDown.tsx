@@ -18,7 +18,7 @@ function DropDown({ fragrance }: { fragrance: string }) {
         <span className="font-bold">{fragrance}</span>
         <FaAngleRight className={`transition-transform${isOpend ? ' rotate-90' : ''}`} size={18} />
       </div>
-      {isOpend ? <FilterList list={noteList[fragrance]} /> : <></>}
+      {isOpend && <FilterList list={noteList[fragrance]} />}
     </div>
   );
 }
