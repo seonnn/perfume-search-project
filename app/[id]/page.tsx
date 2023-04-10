@@ -7,7 +7,7 @@ import React from 'react';
 
 function PerfumeDetail() {
   const pathname = usePathname();
-  const item = perfumeList.find((perfume) => pathname && perfume.id === +pathname?.slice(1));
+  const item = perfumeList.find((perfume) => pathname && perfume.id === +pathname.slice(1));
 
   if (!item) return <div>Loading...</div>;
   return (
