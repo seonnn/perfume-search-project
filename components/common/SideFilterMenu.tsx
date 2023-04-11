@@ -2,7 +2,6 @@ import { noteList } from '@/utils/noteList';
 import React from 'react';
 import DropDown from '../home/DropDown';
 import SearchBar from '../home/SearchBar';
-import { FaCheckSquare, FaRegCheckSquare } from 'react-icons/fa';
 import { brandList } from '@/utils/noteList';
 import FilterList from './FilterList';
 

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { noteList } from '@/utils/noteList';
-import { FaCheckSquare, FaRegCheckSquare, FaAngleRight } from 'react-icons/fa';
+import { FaAngleRight } from 'react-icons/fa';
 import FilterList from '../common/FilterList';
 
 function DropDown({ fragrance }: { fragrance: string }) {
