@@ -18,7 +18,7 @@ function SideFilterMenu() {
       <div className="border-b-1 py-3 px-4">
         <h3 className="text-xl text-stone-800 font-bold py-2">Brands</h3>
         <SearchBar />
-        <FilterList list={brandList} />
+        <FilterList list={brandList} type={'brand'} />
       </div>
     </aside>
   );
