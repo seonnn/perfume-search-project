@@ -1,9 +1,9 @@
 'use client';
-import NoteList from '@/components/detail/NoteList';
 import { perfumeList } from '@/utils/noteList';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import NoteBadges from '@/components/detail/NoteBadges';
 
 function PerfumeDetail() {
   const pathname = usePathname();
@@ -20,9 +20,9 @@ function PerfumeDetail() {
             <h2 className="text-stone-800 font-bold text-3xl">{item.name}</h2>
           </div>
           <div className="flex flex-col w-full mt-6 gap-4">
-            <NoteList noteList={item.topNote} position="top" />
-            <NoteList noteList={item.heartNote} position="middle" />
-            <NoteList noteList={item.baseNote} position="base" />
+            <NoteBadges list={item.topNote} position="top" />
+            <NoteBadges list={item.middleNote} position="middle" />
+            <NoteBadges list={item.baseNote} position="base" />
           </div>
         </div>
       </div>
