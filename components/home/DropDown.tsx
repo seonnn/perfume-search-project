@@ -1,10 +1,14 @@
 'use client';
 import React, { useState } from 'react';
-import { noteList } from '@/utils/noteList';
 import { FaAngleRight } from 'react-icons/fa';
-import FilterList from '../common/FilterList';
+import FilterList, { FilterListElement } from '../common/FilterList';
 
-function DropDown({ fragrance }: { fragrance: string }) {
+interface DropDownProps {
+  title: string;
+  dropDownList: FilterListElement[];
+}
+
+function DropDown({ title, dropDownList }: DropDownProps) {
   const [isOpend, setIsOpened] = useState(false);
 
   return (
@@ -15,10 +19,10 @@ function DropDown({ fragrance }: { fragrance: string }) {
           setIsOpened(!isOpend);
         }}
       >
-        <span className="font-bold">{fragrance}</span>
+        <span className="font-bold">{title}</span>
         <FaAngleRight className={`transition-transform${isOpend ? ' rotate-90' : ''}`} size={18} />
       </div>
-      {isOpend && <FilterList list={noteList[fragrance]} type={'note'} />}
+      {isOpend && <FilterList list={dropDownList} type={'note'} />}
     </div>
   );
 }
