@@ -1,6 +1,8 @@
 'use client';
 import useCustomSearchParams from '@/hooks/useCustomSearchParams';
-import React, { useEffect, useState } from 'react';
+import { searchParamsAtom, SearchParamsKey } from '@/recoil/atom';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import FilterItem from './FilterItem';
 
 export interface FilterListElement {
@@ -13,15 +15,9 @@ interface FilterListProps {
   type: string;
 }
 
-interface SearchParamsKey {
-  [key: string]: number[] | undefined;
-  note?: number[];
-  brand?: number[];
-}
-
 function FilterList({ list, type }: FilterListProps) {
   const { searchParams, setSearchParams } = useCustomSearchParams<SearchParamsKey>();
-  const [queryParams, setQueryParams] = useState<SearchParamsKey>({ note: [], brand: [] });
+  const [queryParams, setQueryParams] = useRecoilState<SearchParamsKey>(searchParamsAtom);
 
   const handleFilterSelected = (type: string, id: number) => {
     setQueryParams((prev) => {
