@@ -1,6 +1,6 @@
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
-import { perfumeList } from '@/utils/noteList';
+import { brandList, perfumeList } from '@/utils/noteList';
 import Link from 'next/link';
 import React from 'react';
 
@@ -16,7 +16,12 @@ function Home() {
         <div className="grid grid-cols-4 gap-5">
           {perfumeList.map((perfume) => (
             <Link key={perfume.id} href={`/${perfume.id}`}>
-              <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
+              <PerfumeCard
+                brand={brandList.find((brand) => brand.b_id === perfume.b_id)?.b_name}
+                name={perfume.name}
+                imgUrl={perfume.imgUrl}
+                id={perfume.id}
+              />
             </Link>
           ))}
         </div>
