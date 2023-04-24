@@ -6,7 +6,7 @@ export interface SearchParamsKey {
   brand: number[];
 }
 
-export const searchParamsAtom = atom<SearchParamsKey>({
-  key: 'searchParamsAtom',
+export const queryParamsAtom = atom<SearchParamsKey>({
+  key: 'queryParamsAtom',
   default: { note: [], brand: [] },
 });
