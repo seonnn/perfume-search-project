@@ -2,6 +2,7 @@ import React from 'react';
 import '@/app/globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import Header from '@/components/common/Header';
+import Recoil from '@/components/Recoil';
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
@@ -25,8 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <head />
       <body className={`${notoSansKr.variable} font-sans flex justify-center items-center`}>
-        <Header />
-        {children}
+        <Recoil>
+          <Header />
+          {children}
+        </Recoil>
       </body>
     </html>
   );
