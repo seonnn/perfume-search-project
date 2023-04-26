@@ -188,7 +188,7 @@ export const perfumeList = [
   },
   {
     id: 20,
-    brand: '클린',
+    b_id: 2,
     name: '클래식 웜 코튼 EDP',
     topNote: [4, 5],
     middleNote: [13, 24],
