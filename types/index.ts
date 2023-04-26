@@ -13,3 +13,13 @@ export interface Brand {
   b_id: number;
   b_name: string;
 }
+
+export interface Perfume {
+  id: number;
+  b_id: number;
+  name: string;
+  topNote: number[];
+  middleNote: number[];
+  baseNote: number[];
+  imgUrl: string;
+}
