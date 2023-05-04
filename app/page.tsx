@@ -4,6 +4,7 @@ import PerfumeCard from '@/components/home/PerfumeCard';
 import { queryParamsAtom } from '@/recoil/atom';
 import { Perfume } from '@/types';
 import { brandList, perfumeList } from '@/utils/noteList';
+import { supabase } from '@/utils/supabase';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -14,6 +15,23 @@ function Home() {
 
   useEffect(() => {
     setPerfumeListData(perfumeList);
+
+    const getPerfumeList = async () => {
+      const { data, error } = await supabase.from('perfume_list').select(
+        `
+          p_id,
+          p_name,
+          imgurl,
+          brand_list (
+            b_name
+          )
+        `
+      );
+
+      console.log(data, error);
+    };
+
+    getPerfumeList();
   }, [queryParams]);
 
   if (!perfumeListData) return <div>Loading...</div>;
