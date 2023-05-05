@@ -1,10 +1,23 @@
+'use client';
+import { getPerfumeList } from '@/apis/home';
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
-import { brandList, perfumeList } from '@/utils/noteList';
+import { queryParamsAtom } from '@/recoil/atom';
+import { Perfume } from '@/types';
+import { perfumeList } from '@/utils/noteList';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 function Home() {
+  const [perfumeListData, setPerfumeListData] = useState<Perfume[] | null>();
+  const queryParams = useRecoilValue(queryParamsAtom);
+
+  useEffect(() => {
+    getPerfumeList().then((res) => setPerfumeListData(res));
+  }, [queryParams]);
+
+  if (!perfumeListData) return <div>Loading...</div>;
   return (
     <div className="flex justify-between my-44 w-full max-w-screen-xl">
       <SideFilterMenu />
@@ -14,14 +27,9 @@ function Home() {
           <div className="text-stone-700">{perfumeList.length}개의 향수가 검색되었습니다.</div>
         </div>
         <div className="grid grid-cols-4 gap-5">
-          {perfumeList.map((perfume) => (
+          {perfumeListData.map((perfume) => (
             <Link key={perfume.id} href={`/${perfume.id}`}>
-              <PerfumeCard
-                brand={brandList.find((brand) => brand.b_id === perfume.b_id)?.b_name}
-                name={perfume.name}
-                imgUrl={perfume.imgUrl}
-                id={perfume.id}
-              />
+              <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
             </Link>
           ))}
         </div>
