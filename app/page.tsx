@@ -1,37 +1,20 @@
 'use client';
+import { getPerfumeList } from '@/apis/home';
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
 import { queryParamsAtom } from '@/recoil/atom';
 import { Perfume } from '@/types';
-import { brandList, perfumeList } from '@/utils/noteList';
-import { supabase } from '@/utils/supabase';
+import { perfumeList } from '@/utils/noteList';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 function Home() {
-  const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
+  const [perfumeListData, setPerfumeListData] = useState<Perfume[] | null>();
   const queryParams = useRecoilValue(queryParamsAtom);
 
   useEffect(() => {
-    setPerfumeListData(perfumeList);
-
-    const getPerfumeList = async () => {
-      const { data, error } = await supabase.from('perfume_list').select(
-        `
-          p_id,
-          p_name,
-          imgurl,
-          brand_list (
-            b_name
-          )
-        `
-      );
-
-      console.log(data, error);
-    };
-
-    getPerfumeList();
+    getPerfumeList().then((res) => setPerfumeListData(res));
   }, [queryParams]);
 
   if (!perfumeListData) return <div>Loading...</div>;
@@ -46,12 +29,7 @@ function Home() {
         <div className="grid grid-cols-4 gap-5">
           {perfumeListData.map((perfume) => (
             <Link key={perfume.id} href={`/${perfume.id}`}>
-              <PerfumeCard
-                brand={brandList.find((brand) => brand.b_id === perfume.b_id)?.b_name}
-                name={perfume.name}
-                imgUrl={perfume.imgUrl}
-                id={perfume.id}
-              />
+              <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
             </Link>
           ))}
         </div>
