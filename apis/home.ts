@@ -1,18 +1,13 @@
 import { Perfume } from '@/types';
+import { PerfumeListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 
-interface getPerfumeDataResponse {
-  p_id: number;
-  p_name: string;
-  imgurl: string;
-  brand_list: { b_name: string };
-}
-
-export const getPerfumeList = async (): Promise<Perfume[] | null> => {
-  const { data, error } = await supabase
-    .from('perfume_list')
-    .select(
-      `
+export const getPerfumeList = async (): Promise<Perfume[]> => {
+  try {
+    const { data } = await supabase
+      .from('perfume_list')
+      .select(
+        `
       p_id,
       p_name,
       imgurl,
@@ -20,24 +15,25 @@ export const getPerfumeList = async (): Promise<Perfume[] | null> => {
         b_name
       )
     `
-    )
-    .returns<getPerfumeDataResponse[]>();
+      )
+      .returns<PerfumeListResponseData[]>();
 
-  if (!data) return null;
+    if (!data || !data.length) {
+      return [];
+    }
 
-  if (error) {
+    return data.map((perfume) => {
+      const {
+        p_id: id,
+        p_name: name,
+        imgurl: imgUrl,
+        brand_list: { b_name: brand },
+      } = perfume;
+
+      return { id, name, imgUrl, brand };
+    });
+  } catch (error) {
     console.error(error);
-    return null;
+    throw new Error('향수 목록 조회 실패');
   }
-
-  return data.map((perfume) => {
-    const {
-      p_id: id,
-      p_name: name,
-      imgurl: imgUrl,
-      brand_list: { b_name: brand },
-    } = perfume;
-
-    return { id, name, imgUrl, brand };
-  });
 };
