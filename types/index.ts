@@ -16,6 +16,13 @@ export interface Brand {
 
 export interface Perfume {
   id: number;
+  name: string;
+  imgUrl: string;
+  brand: string;
+}
+
+export interface PerfumeDetail {
+  id: number;
   b_id: number;
   name: string;
   topNote: number[];
