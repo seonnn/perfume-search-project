@@ -57,16 +57,6 @@ export const getNoteList = async () => {
       return [];
     }
 
-    console.log(
-      data.map((note) => {
-        const noteList = note.note_list.map((item) => {
-          return { id: item.n_id, name: item.n_name };
-        });
-
-        return { fragranceId: note.f_id, noteList };
-      })
-    );
-
     return data.map((note) => {
       const noteList = note.note_list.map((item) => {
         return { id: item.n_id, name: item.n_name };
