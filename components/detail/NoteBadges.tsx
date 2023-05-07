@@ -1,9 +1,9 @@
-import { noteList } from '@/utils/noteList';
+import { Note } from '@/types';
 import React from 'react';
 import Badge from '../common/Badge';
 
 interface NoteListProps {
-  list: number[];
+  list: Note[];
   position: string;
 }
 
@@ -35,8 +35,8 @@ function NoteBadges({ list, position }: NoteListProps) {
       <div className="text-xl font-bold">{notePosition[position].name}</div>
       <div>{notePosition[position].description}</div>
       <div className="flex gap-3 font-bold">
-        {list.map((el) => (
-          <Badge key={el} text={noteList.find((note) => note.n_id === el)?.n_name} mode="basic" />
+        {list.map((note) => (
+          <Badge key={note.id} text={note.name} mode="basic" />
         ))}
       </div>
     </div>
