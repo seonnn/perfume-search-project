@@ -15,3 +15,11 @@ export interface PerfumeDetailResponseData extends PerfumeListResponseData {
     };
   }[];
 }
+
+export interface NoteListResponseData {
+  f_id: number;
+  note_list: {
+    n_id: number;
+    n_name: string;
+  }[];
+}
