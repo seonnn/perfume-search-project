@@ -1,12 +1,23 @@
 export interface Fragrance {
-  f_id: number;
-  f_name: string;
+  id: number;
+  name: string;
 }
 
 export interface Note {
-  n_id: number;
-  n_name: string;
-  f_id: number;
+  id: number;
+  name: string;
+  fragranceId?: number;
+}
+
+export interface NoteList {
+  fragranceId: number;
+  noteList: Note[];
+}
+
+export interface PerfumeNoteList {
+  topNote: Note[];
+  middleNote: Note[];
+  baseNote: Note[];
 }
 
 export interface Brand {
@@ -22,11 +33,8 @@ export interface Perfume {
 }
 
 export interface PerfumeDetail {
-  id: number;
-  b_id: number;
   name: string;
-  topNote: number[];
-  middleNote: number[];
-  baseNote: number[];
   imgUrl: string;
+  brandName: string;
+  perfumeNoteList: PerfumeNoteList;
 }
