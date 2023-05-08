@@ -1,5 +1,5 @@
 import { Perfume } from '@/types';
-import { NoteListResponseData, PerfumeListResponseData } from '@/types/response';
+import { BrandListResponseData, NoteListResponseData, PerfumeListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 
 export const getPerfumeList = async (): Promise<Perfume[]> => {
@@ -57,16 +57,6 @@ export const getNoteList = async () => {
       return [];
     }
 
-    console.log(
-      data.map((note) => {
-        const noteList = note.note_list.map((item) => {
-          return { id: item.n_id, name: item.n_name };
-        });
-
-        return { fragranceId: note.f_id, noteList };
-      })
-    );
-
     return data.map((note) => {
       const noteList = note.note_list.map((item) => {
         return { id: item.n_id, name: item.n_name };
@@ -77,5 +67,31 @@ export const getNoteList = async () => {
   } catch (error) {
     console.error(error);
     throw new Error('노트 조회 실패');
+  }
+};
+
+export const getBrandList = async () => {
+  try {
+    const { data } = await supabase
+      .from('brand_list')
+      .select(
+        `
+      b_id,
+      b_name
+    `
+      )
+      .returns<BrandListResponseData[]>();
+
+    if (!data || !data.length) {
+      return [];
+    }
+
+    return data.map((brand) => {
+      const { b_id: id, b_name: name } = brand;
+      return { id, name };
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error('브랜드 목록 조회 실패');
   }
 };

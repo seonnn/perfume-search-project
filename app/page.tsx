@@ -1,9 +1,9 @@
 'use client';
-import { getNoteList, getPerfumeList } from '@/apis/home';
+import { getBrandList, getNoteList, getPerfumeList } from '@/apis/home';
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
 import { queryParamsAtom } from '@/recoil/atom';
-import { NoteList, Perfume } from '@/types';
+import { BrandList, NoteList, Perfume } from '@/types';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -11,20 +11,24 @@ import { useRecoilValue } from 'recoil';
 function Home() {
   const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
   const [noteList, setNoteList] = useState<NoteList[]>([]);
+  const [brandList, setBrandList] = useState<BrandList[]>([]);
   const queryParams = useRecoilValue(queryParamsAtom);
 
   useEffect(() => {
-    getNoteList().then((res) => setNoteList(res));
+    Promise.all([getNoteList(), getBrandList()]).then(([notes, brands]) => {
+      setNoteList(notes);
+      setBrandList(brands);
+    });
   }, []);
 
   useEffect(() => {
     getPerfumeList().then((res) => setPerfumeListData(res));
   }, [queryParams]);
 
-  if (!perfumeListData || !noteList) return <div>Loading...</div>;
+  if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
     <div className="flex justify-between my-44 w-full max-w-screen-xl">
-      <SideFilterMenu noteList={noteList} />
+      <SideFilterMenu noteList={noteList} brandList={brandList} />
       <main>
         <div className="flex flex-col items-center gap-4 mb-4">
           <h2 className="text-2xl text-stone-800 font-bold">향수</h2>

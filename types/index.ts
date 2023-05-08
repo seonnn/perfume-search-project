@@ -9,6 +9,8 @@ export interface Note {
   fragranceId?: number;
 }
 
+export interface BrandList extends Fragrance {}
+
 export interface NoteList {
   fragranceId: number;
   noteList: Note[];

@@ -23,3 +23,8 @@ export interface NoteListResponseData {
     n_name: string;
   }[];
 }
+
+export interface BrandListResponseData {
+  b_id: number;
+  b_name: string;
+}
