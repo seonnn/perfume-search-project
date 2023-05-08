@@ -76,18 +76,21 @@ export interface Database {
       }
       perfume_note_list: {
         Row: {
+          b_id: number | null
           n_id: number
           n_type: string
           p_id: number
           p_n_id: number
         }
         Insert: {
+          b_id?: number | null
           n_id: number
           n_type: string
           p_id: number
           p_n_id?: number
         }
         Update: {
+          b_id?: number | null
           n_id?: number
           n_type?: string
           p_id?: number
