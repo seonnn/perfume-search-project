@@ -5,6 +5,10 @@ export interface PerfumeListResponseData {
   brand_list: { b_name: string };
 }
 
+export interface FilteredPerfumeListResponseData {
+  perfume_list: PerfumeDetailResponseData;
+}
+
 export interface PerfumeDetailResponseData extends PerfumeListResponseData {
   perfume_note_list: {
     n_id: number;
