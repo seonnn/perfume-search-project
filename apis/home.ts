@@ -1,5 +1,10 @@
 import { Perfume } from '@/types';
-import { BrandListResponseData, NoteListResponseData, PerfumeListResponseData } from '@/types/response';
+import {
+  BrandListResponseData,
+  FilteredPerfumeListResponseData,
+  NoteListResponseData,
+  PerfumeListResponseData,
+} from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 
 export const getPerfumeList = async (): Promise<Perfume[]> => {
@@ -35,6 +40,54 @@ export const getPerfumeList = async (): Promise<Perfume[]> => {
   } catch (error) {
     console.error(error);
     throw new Error('향수 목록 조회 실패');
+  }
+};
+
+export const getFilteredPerfumeList = async (notes: number[], brands: number[]): Promise<Perfume[]> => {
+  try {
+    const filteredData = supabase.from('perfume_note_list').select(`
+      perfume_list (
+        p_id,
+        p_name,
+        imgurl,
+        brand_list (
+          b_name
+        )
+      )
+    `);
+
+    if (notes.length) {
+      filteredData.in('n_id', notes);
+    }
+
+    if (brands.length) {
+      filteredData.in('b_id', brands);
+    }
+
+    const { data } = await filteredData.returns<FilteredPerfumeListResponseData[]>();
+
+    if (!data || !data.length) {
+      return [];
+    }
+
+    const set = new Set();
+
+    return data.reduce((acc: Perfume[], cur) => {
+      const {
+        p_id: id,
+        p_name: name,
+        imgurl: imgUrl,
+        brand_list: { b_name: brand },
+      } = cur.perfume_list;
+
+      if (set.has(id)) return acc;
+
+      set.add(id);
+      return [...acc, { id, name, imgUrl, brand }];
+    }, []);
+  } catch (error) {
+    console.error(error);
+    throw new Error('향수 필터 목록 조회 실패');
   }
 };
 
