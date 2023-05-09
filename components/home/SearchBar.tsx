@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-function SearchBar() {
+interface SearchBarProps {
+  setSearchKeyWord: Dispatch<SetStateAction<string>>;
+}
+
+function SearchBar({ setSearchKeyWord }: SearchBarProps) {
   return (
     <label className="relative">
-      <input className="flex text-sm text-stone-700 pl-3 pr-7 py-1.5 bg-stone-200 w-full rounded my-2" />
-      <button className="absolute top-1.5 right-2 bg-stone-200">
+      <input
+        className="flex text-sm text-stone-700 pl-3 pr-7 py-1.5 bg-stone-200 w-full rounded my-2"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearchKeyWord(event.target.value)}
+      />
+      <div className="absolute top-1.5 right-2 bg-stone-200">
         <AiOutlineSearch size={20} />
-      </button>
+      </div>
     </label>
   );
 }

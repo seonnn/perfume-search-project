@@ -52,14 +52,18 @@ function FilterList({ list, type }: FilterListProps) {
 
   return (
     <ul className="flex flex-col gap-2 py-1 text-sm">
-      {list.map((item) => (
-        <FilterItem
-          key={item.id}
-          item={item.name}
-          checked={queryParams[type]?.some((id) => id === item.id)}
-          onClick={() => handleFilterSelected(type, item.id)}
-        />
-      ))}
+      {list.length ? (
+        list.map((item) => (
+          <FilterItem
+            key={item.id}
+            item={item.name}
+            checked={queryParams[type]?.some((id) => id === item.id)}
+            onClick={() => handleFilterSelected(type, item.id)}
+          />
+        ))
+      ) : (
+        <div>검색 결과가 없습니다.</div>
+      )}
     </ul>
   );
 }
