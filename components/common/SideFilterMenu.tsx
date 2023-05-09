@@ -1,4 +1,4 @@
-import { fragranceList } from '@/utils/noteList';
+import { fragranceList } from '@/utils/fragranceList';
 import React from 'react';
 import DropDown from '../home/DropDown';
 import SearchBar from '../home/SearchBar';
