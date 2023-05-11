@@ -1,17 +1,15 @@
 'use client';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { getPerfumeDetail } from '@/apis/detail';
 import { PerfumeDetail } from '@/types';
 
-function PerfumeDetail() {
-  const pathname = usePathname();
+function PerfumeDetail({ params }: { params: { id: string } }) {
   const [perfume, setPerfume] = useState<PerfumeDetail | null>();
 
   useEffect(() => {
-    if (pathname) getPerfumeDetail(+pathname.slice(1)).then((res) => setPerfume(res));
+    getPerfumeDetail(+params.id).then((res) => setPerfume(res));
   }, []);
 
   if (!perfume) return <div>Loading...</div>;
