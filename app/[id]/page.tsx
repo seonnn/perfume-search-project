@@ -2,14 +2,18 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
-import { getPerfumeDetail } from '@/apis/detail';
 import { PerfumeDetail } from '@/types';
 
 function PerfumeDetail({ params }: { params: { id: string } }) {
   const [perfume, setPerfume] = useState<PerfumeDetail | null>();
 
+  const fetchPerfumeDetail = async () => {
+    const perfumeDetailData = await fetch(`/api/perfumeList/${+params.id}`).then((res) => res.json());
+    setPerfume(perfumeDetailData);
+  };
+
   useEffect(() => {
-    getPerfumeDetail(+params.id).then((res) => setPerfume(res));
+    fetchPerfumeDetail();
   }, []);
 
   if (!perfume) return <div>Loading...</div>;
