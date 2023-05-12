@@ -1,9 +1,11 @@
-import { PerfumeDetail, PerfumeNoteList } from '@/types';
-import { PerfumeDetailResponseData } from '@/types/response';
+import { PerfumeNoteList } from '@/types';
+import { PerfumeDetailResponseData, PerfumeListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const getPerfumeDetail = async (id: number): Promise<PerfumeDetail> => {
+export async function GET(request: NextRequest, { params }: { params: { id: number } }) {
   try {
+    const { id } = params;
     const { data } = await supabase
       .from('perfume_list')
       .select(
@@ -58,9 +60,9 @@ export const getPerfumeDetail = async (id: number): Promise<PerfumeDetail> => {
       }
     });
 
-    return { name, imgUrl, brandName, perfumeNoteList };
+    return NextResponse.json({ name, imgUrl, brandName, perfumeNoteList });
   } catch (error) {
     console.error(error);
     throw new Error('향수 상세 정보 조회 실패');
   }
-};
+}

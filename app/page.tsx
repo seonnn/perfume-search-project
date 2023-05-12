@@ -1,5 +1,4 @@
 'use client';
-import { getBrandList, getFilteredPerfumeList, getNoteList, getPerfumeList } from '@/apis/home';
 import SideFilterMenu from '@/components/common/SideFilterMenu';
 import PerfumeCard from '@/components/home/PerfumeCard';
 import { queryParamsAtom } from '@/recoil/atom';
@@ -17,14 +16,17 @@ function Home() {
   const fetchPerfumeList = async () => {
     const perfumeListData =
       queryParams.note.length || queryParams.brand.length
-        ? await getFilteredPerfumeList(queryParams.note, queryParams.brand)
-        : await getPerfumeList();
+        ? await fetch(`/api/filteredPerfumeList?notes=${queryParams.note}&brands=${queryParams.brand}`).then((res) =>
+            res.json()
+          )
+        : await fetch('/api/perfumeList').then((res) => res.json());
 
     setPerfumeListData(perfumeListData);
   };
 
   useEffect(() => {
-    Promise.all([getNoteList(), getBrandList()]).then(([notes, brands]) => {
+    Promise.all([fetch('/api/noteList'), fetch('/api/brandList')]).then(async ([noteResponse, brandResponse]) => {
+      const [notes, brands] = await Promise.all([noteResponse.json(), brandResponse.json()]);
       setNoteList(notes);
       setBrandList(brands);
     });
