@@ -38,12 +38,14 @@ function Home() {
 
   if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
-    <div className="flex justify-between my-44 w-full max-w-screen-xl">
+    <div className="flex gap-11 my-44 w-full max-w-screen-xl">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
-      <main>
+      <main className="w-full">
         <div className="flex flex-col items-center gap-4 mb-4">
           <h2 className="text-2xl text-stone-800 font-bold">향수</h2>
-          <div className="text-stone-700">{perfumeListData.length}개의 향수가 검색되었습니다.</div>
+          <div className="text-stone-700">
+            {perfumeListData.length ? `${perfumeListData.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
+          </div>
         </div>
         <div className="grid grid-cols-4 gap-5">
           {perfumeListData.map((perfume) => (

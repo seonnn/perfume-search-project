@@ -19,7 +19,7 @@ function SideFilterMenu({ noteList, brandList }: SideFilterMenuProps) {
     : brandList;
 
   return (
-    <aside className="w-69 mt-22.5">
+    <aside className="flex flex-col shrink-0 w-69 mt-22.5">
       <div className="border-y-1 py-3 px-4">
         <h3 className="text-xl text-stone-800 font-bold py-2">Note Filter</h3>
         {fragranceList.map((fragrance) => (
