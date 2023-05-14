@@ -16,16 +16,19 @@ function Home() {
   const fetchPerfumeList = async () => {
     const perfumeListData =
       queryParams.note.length || queryParams.brand.length
-        ? await fetch(`/api/filteredPerfumeList?notes=${queryParams.note}&brands=${queryParams.brand}`).then((res) =>
-            res.json()
-          )
-        : await fetch('/api/perfumeList').then((res) => res.json());
+        ? await fetch(`/api/filteredPerfumeList?notes=${queryParams.note}&brands=${queryParams.brand}`, {
+            cache: 'no-store',
+          }).then((res) => res.json())
+        : await fetch('/api/perfumeList', { next: { revalidate: 3600 } }).then((res) => res.json());
 
     setPerfumeListData(perfumeListData);
   };
 
   useEffect(() => {
-    Promise.all([fetch('/api/noteList'), fetch('/api/brandList')]).then(async ([noteResponse, brandResponse]) => {
+    Promise.all([
+      fetch('/api/noteList', { next: { revalidate: 3600 } }),
+      fetch('/api/brandList', { next: { revalidate: 3600 } }),
+    ]).then(async ([noteResponse, brandResponse]) => {
       const [notes, brands] = await Promise.all([noteResponse.json(), brandResponse.json()]);
       setNoteList(notes);
       setBrandList(brands);
