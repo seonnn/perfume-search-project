@@ -38,9 +38,9 @@ function Home() {
 
   if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
-    <div className="flex justify-between my-44 w-full max-w-screen-xl">
+    <div className="flex gap-11 my-44 w-full max-w-screen-xl">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
-      <main>
+      <main className="w-full">
         <div className="flex flex-col items-center gap-4 mb-4">
           <h2 className="text-2xl text-stone-800 font-bold">향수</h2>
           <div className="text-stone-700">
