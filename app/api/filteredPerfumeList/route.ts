@@ -3,6 +3,8 @@ import { FilteredPerfumeListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const filteredData = supabase.from('perfume_note_list').select(`
