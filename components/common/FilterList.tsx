@@ -62,7 +62,7 @@ function FilterList({ list, type }: FilterListProps) {
           />
         ))
       ) : (
-        <div>검색 결과가 없습니다.</div>
+        <div className="py-2">{type === 'note' ? '해당 카테고리는 항목이 없습니다.' : '검색 결과가 없습니다.'}</div>
       )}
     </ul>
   );
