@@ -34,14 +34,14 @@ export async function GET(request: NextRequest) {
     }
 
     const deduplicatedData = data.reduce<Record<string, Perfume>>((acc, cur) => {
+      if (acc[cur.perfume_list.p_id]) return acc;
+
       const {
         p_id: id,
         p_name: name,
         imgurl: imgUrl,
         brand_list: { b_name: brand },
       } = cur.perfume_list;
-
-      if (acc[id]) return acc;
 
       acc[id] = { id, name, imgUrl, brand };
       return acc;

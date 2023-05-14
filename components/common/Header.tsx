@@ -10,10 +10,10 @@ function Header() {
         <Link href="/">
           <Image src={Logo} alt="logo" width={208} height={34} />
         </Link>
-        <div className="flex gap-6 font-bold text-lg">
+        {/* <div className="flex gap-6 font-bold text-lg">
           <div>향수 검색</div>
-          <div>공통 향조 찾기</div>
-        </div>
+          <div>컬러 추천</div>
+        </div> */}
       </div>
     </nav>
   );
