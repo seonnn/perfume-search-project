@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@/public/logo.svg';
-import { FaBars } from 'react-icons/fa';
+// import { FaBars } from 'react-icons/fa';
 
 function Header() {
   return (
