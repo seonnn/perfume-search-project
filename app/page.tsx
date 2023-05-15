@@ -1,17 +1,21 @@
 'use client';
-import SideFilterMenu from '@/components/common/SideFilterMenu';
+import SideFilterMenu from '@/components/home/SideFilterMenu';
+import FilterButton from '@/components/home/FilterButton';
 import PerfumeCard from '@/components/home/PerfumeCard';
 import { queryParamsAtom } from '@/recoil/atom';
 import { BrandList, NoteList, Perfume } from '@/types';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import useModal from '@/hooks/useModal';
+import FilterMenuModal from '@/components/home/FilterMenuModal';
 
 function Home() {
   const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
   const [noteList, setNoteList] = useState<NoteList[]>([]);
   const [brandList, setBrandList] = useState<BrandList[]>([]);
   const queryParams = useRecoilValue(queryParamsAtom);
+  const filterModal = useModal('filterModal');
 
   const fetchPerfumeList = async () => {
     const perfumeListData =
@@ -43,14 +47,22 @@ function Home() {
   return (
     <div className="flex gap-11 my-44 w-full max-w-screen-xl">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
+      {filterModal.isModalOpened && (
+        <FilterMenuModal
+          noteList={noteList}
+          brandList={brandList}
+          handleIsModalOpened={filterModal.handleIsModalOpened}
+        />
+      )}
       <main className="w-full">
-        <div className="flex flex-col items-center gap-4 mb-4">
+        <div className="flex flex-col items-center gap-4 mb-4 relative">
           <h2 className="text-2xl text-stone-800 font-bold">향수</h2>
+          <FilterButton handleIsModalOpened={filterModal.handleIsModalOpened} />
           <div className="text-stone-700">
             {perfumeListData.length ? `${perfumeListData.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-4 gap-5 max-xl:px-5 max-lg:grid-cols-3 max-md:grid-cols-2 max">
           {perfumeListData.map((perfume) => (
             <Link key={perfume.id} href={`/${perfume.id}`}>
               <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />

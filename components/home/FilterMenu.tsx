@@ -1,17 +1,17 @@
 import { fragranceList } from '@/utils/fragranceList';
 import React, { useState } from 'react';
-import DropDown from '../home/DropDown';
-import SearchBar from '../home/SearchBar';
-import FilterList from './FilterList';
+import DropDown from './DropDown';
+import SearchBar from './SearchBar';
+import FilterList from '../common/FilterList';
 import { BrandList, NoteList } from '@/types';
 import useDebounce from '@/hooks/useDebounce';
 
-interface SideFilterMenuProps {
+export interface FilterMenuProps {
   noteList: NoteList[];
   brandList: BrandList[];
 }
 
-function SideFilterMenu({ noteList, brandList }: SideFilterMenuProps) {
+function FilterMenu({ noteList, brandList }: FilterMenuProps) {
   const [searchKeyWord, setSearchKeyWord] = useState('');
   const debouncedSearchKeyWord = useDebounce(searchKeyWord, 500);
   const filteredBrandList = debouncedSearchKeyWord
@@ -19,7 +19,7 @@ function SideFilterMenu({ noteList, brandList }: SideFilterMenuProps) {
     : brandList;
 
   return (
-    <aside className="flex flex-col shrink-0 w-69 mt-22.5">
+    <React.Fragment>
       <div className="border-y-1 py-3 px-4">
         <h3 className="text-xl text-stone-800 font-bold py-2">Note Filter</h3>
         {fragranceList.map((fragrance) => (
@@ -31,8 +31,8 @@ function SideFilterMenu({ noteList, brandList }: SideFilterMenuProps) {
         <SearchBar setSearchKeyWord={setSearchKeyWord} />
         <FilterList list={filteredBrandList} type={'brand'} />
       </div>
-    </aside>
+    </React.Fragment>
   );
 }
 
-export default SideFilterMenu;
+export default FilterMenu;
