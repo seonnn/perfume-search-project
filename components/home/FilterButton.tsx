@@ -9,7 +9,7 @@ function FilterButton({ handleIsModalOpened }: FilterButtonProps) {
   return (
     <button
       onClick={() => handleIsModalOpened()}
-      className="xl:hidden absolute right-10 flex items-center gap-2 text-stone-500 border border-stone-400 px-4 py-1 rounded-full"
+      className="xl:hidden absolute right-5 flex items-center gap-2 text-stone-500 border border-stone-400 px-4 py-1 rounded-full"
     >
       <FaFilter />
       <span>필터</span>
