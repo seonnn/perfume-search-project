@@ -32,9 +32,9 @@ const notePosition: NotePosition = {
 function NoteBadges({ list, position }: NoteListProps) {
   return (
     <div className="flex flex-col text-stone-600 gap-3">
-      <div className="text-xl font-bold">{notePosition[position].name}</div>
-      <div>{notePosition[position].description}</div>
-      <div className="flex gap-3 font-bold">
+      <div className="text-xl font-bold max-sm:text-lg">{notePosition[position].name}</div>
+      <div className="max-sm:text-sm">{notePosition[position].description}</div>
+      <div className="flex gap-3 font-bold max-sm:text-sm max-sm:gap-2">
         {list.map((note) => (
           <Badge key={note.id} text={note.name} mode="basic" />
         ))}
