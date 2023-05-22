@@ -12,8 +12,8 @@ const notoSansKr = Noto_Sans_KR({
 
 export const metadata = {
   title: {
-    default: 'PERFRAG',
-    template: 'PERFRAG | %s',
+    default: 'SURFRAG',
+    template: 'SURFRAG | %s',
   },
   description: '노트로 향수를 검색할 수 있는 서비스입니다.',
   icons: {
