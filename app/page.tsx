@@ -50,7 +50,7 @@ function Home({ searchParams }: HomePageProps) {
 
   useEffect(() => {
     fetchPerfumeList();
-  }, [searchParams]);
+  }, [searchParams.note, searchParams.brand]);
 
   if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
