@@ -1,6 +1,12 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-function useCustomSearchParams<T extends Partial<{ [key: string]: number[] }>>() {
+export interface SearchParamsKey {
+  [key: string]: string[] | undefined;
+  note: string[];
+  brand: string[];
+}
+
+function useCustomSearchParams<T extends Partial<{ [key: string]: string[] }>>() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
