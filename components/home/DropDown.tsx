@@ -1,9 +1,8 @@
 'use client';
-import { queryParamsAtom } from '@/recoil/atom';
 import React, { useMemo, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa';
-import { useRecoilValue } from 'recoil';
 import FilterList, { FilterListElement } from '../common/FilterList';
+import useCustomSearchParams from '@/hooks/useCustomSearchParams';
 
 interface DropDownProps {
   title: string;
@@ -11,11 +10,16 @@ interface DropDownProps {
 }
 
 function DropDown({ title, dropDownList }: DropDownProps) {
-  const queryParams = useRecoilValue(queryParamsAtom);
+  const { searchParams } = useCustomSearchParams();
   const dropDownIds = dropDownList.map((item) => item.id);
   const defaultDropDownOpenedState = useMemo(() => {
-    return dropDownIds.some((id) => queryParams.note.some((paramsId) => paramsId === id));
-  }, [dropDownIds, queryParams.note]);
+    return dropDownIds.some((id) =>
+      searchParams
+        .get('note')
+        ?.split('')
+        .some((paramsId) => paramsId === String(id))
+    );
+  }, [dropDownIds, searchParams.get('note')]);
   const [isOpened, setIsOpened] = useState(defaultDropDownOpenedState);
 
   return (
