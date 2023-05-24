@@ -1,8 +1,6 @@
 'use client';
-import useCustomSearchParams from '@/hooks/useCustomSearchParams';
-import { queryParamsAtom, SearchParamsKey } from '@/recoil/atom';
-import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import useCustomSearchParams, { SearchParamsKey } from '@/hooks/useCustomSearchParams';
+import React from 'react';
 import FilterItem from './FilterItem';
 
 export interface FilterListElement {
@@ -17,38 +15,19 @@ interface FilterListProps {
 
 function FilterList({ list, type }: FilterListProps) {
   const { searchParams, setSearchParams } = useCustomSearchParams<SearchParamsKey>();
-  const [queryParams, setQueryParams] = useRecoilState<SearchParamsKey>(queryParamsAtom);
 
-  const handleFilterSelected = (type: string, id: number) => {
-    setQueryParams((prev) => {
-      const currentFilterList = prev[type] || [];
-      const newFilterList = currentFilterList.includes(id)
-        ? currentFilterList.filter((itemId) => itemId !== id)
-        : [...currentFilterList, id];
-      return { ...prev, [type]: newFilterList };
+  const handleFilterSelected = (type: string, id: string) => {
+    const anotherType = type === 'note' ? 'brand' : 'note';
+    const prevFilterList = searchParams.get(type)?.split('|') || [];
+    const newFilterList = prevFilterList.includes(id)
+      ? prevFilterList.filter((itemId) => itemId !== id)
+      : [...prevFilterList, id];
+
+    setSearchParams({
+      [type]: newFilterList,
+      [anotherType]: searchParams.get(anotherType)?.split('|') || [],
     });
   };
-
-  useEffect(() => {
-    setQueryParams({
-      note: [
-        ...(searchParams
-          ?.get('note')
-          ?.split('|')
-          .map((string) => +string) || []),
-      ],
-      brand: [
-        ...(searchParams
-          ?.get('brand')
-          ?.split('|')
-          .map((string) => +string) || []),
-      ],
-    });
-  }, [searchParams]);
-
-  useEffect(() => {
-    setSearchParams(queryParams);
-  }, [queryParams]);
 
   return (
     <ul className="flex flex-col gap-2 py-1 text-sm">
@@ -57,8 +36,11 @@ function FilterList({ list, type }: FilterListProps) {
           <FilterItem
             key={item.id}
             item={item.name}
-            checked={queryParams[type]?.some((id) => id === item.id)}
-            onClick={() => handleFilterSelected(type, item.id)}
+            checked={searchParams
+              .get(type)
+              ?.split('|')
+              .some((id) => id === String(item.id))}
+            onClick={() => handleFilterSelected(type, String(item.id))}
           />
         ))
       ) : (

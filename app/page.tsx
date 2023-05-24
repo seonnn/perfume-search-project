@@ -2,27 +2,36 @@
 import SideFilterMenu from '@/components/home/SideFilterMenu';
 import FilterButton from '@/components/home/FilterButton';
 import PerfumeCard from '@/components/home/PerfumeCard';
-import { queryParamsAtom } from '@/recoil/atom';
 import { BrandList, NoteList, Perfume } from '@/types';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import useModal from '@/hooks/useModal';
 import FilterMenuModal from '@/components/home/FilterMenuModal';
 
-function Home() {
+interface HomePageProps {
+  searchParams: {
+    note: string;
+    brand: string;
+  };
+}
+
+function Home({ searchParams }: HomePageProps) {
   const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
   const [noteList, setNoteList] = useState<NoteList[]>([]);
   const [brandList, setBrandList] = useState<BrandList[]>([]);
-  const queryParams = useRecoilValue(queryParamsAtom);
   const filterModal = useModal('filterModal');
 
   const fetchPerfumeList = async () => {
     const perfumeListData =
-      queryParams.note.length || queryParams.brand.length
-        ? await fetch(`/api/filteredPerfumeList?notes=${queryParams.note}&brands=${queryParams.brand}`, {
-            cache: 'no-store',
-          }).then((res) => res.json())
+      searchParams.note || searchParams.brand
+        ? await fetch(
+            `/api/filteredPerfumeList?notes=${searchParams.note ? searchParams.note.split('|') : []}&brands=${
+              searchParams.brand ? searchParams.brand.split('|') : []
+            }`,
+            {
+              cache: 'no-store',
+            }
+          ).then((res) => res.json())
         : await fetch('/api/perfumeList', { next: { revalidate: 3600 } }).then((res) => res.json());
 
     setPerfumeListData(perfumeListData);
@@ -41,7 +50,7 @@ function Home() {
 
   useEffect(() => {
     fetchPerfumeList();
-  }, [queryParams.brand, queryParams.note]);
+  }, [searchParams]);
 
   if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
