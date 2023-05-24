@@ -7,27 +7,23 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import useModal from '@/hooks/useModal';
 import FilterMenuModal from '@/components/home/FilterMenuModal';
+import { useSearchParams } from 'next/navigation';
 
-interface HomePageProps {
-  searchParams: {
-    note: string;
-    brand: string;
-  };
-}
-
-function Home({ searchParams }: HomePageProps) {
+function Home() {
+  const searchParams = useSearchParams();
   const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
   const [noteList, setNoteList] = useState<NoteList[]>([]);
   const [brandList, setBrandList] = useState<BrandList[]>([]);
   const filterModal = useModal('filterModal');
 
   const fetchPerfumeList = async () => {
+    const note = searchParams.get('note');
+    const brand = searchParams.get('brand');
+
     const perfumeListData =
-      searchParams.note || searchParams.brand
+      note || brand
         ? await fetch(
-            `/api/filteredPerfumeList?notes=${searchParams.note ? searchParams.note.split('|') : []}&brands=${
-              searchParams.brand ? searchParams.brand.split('|') : []
-            }`,
+            `/api/filteredPerfumeList?notes=${note ? note.split('|') : []}&brands=${brand ? brand.split('|') : []}`,
             {
               cache: 'no-store',
             }
@@ -36,8 +32,6 @@ function Home({ searchParams }: HomePageProps) {
 
     setPerfumeListData(perfumeListData);
   };
-
-  console.log(searchParams);
 
   useEffect(() => {
     Promise.all([
@@ -52,7 +46,7 @@ function Home({ searchParams }: HomePageProps) {
 
   useEffect(() => {
     fetchPerfumeList();
-  }, [searchParams.note, searchParams.brand]);
+  }, [searchParams.get('note'), searchParams.get('brand')]);
 
   if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
   return (
