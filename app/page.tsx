@@ -37,6 +37,8 @@ function Home({ searchParams }: HomePageProps) {
     setPerfumeListData(perfumeListData);
   };
 
+  console.log(searchParams);
+
   useEffect(() => {
     Promise.all([
       fetch('/api/noteList', { next: { revalidate: 3600 } }),
