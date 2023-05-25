@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { PerfumeDetail } from '@/types';
 
+export const revalidate = false;
+
 function PerfumeDetail({ params }: { params: { id: string } }) {
   const [perfume, setPerfume] = useState<PerfumeDetail | null>();
 
