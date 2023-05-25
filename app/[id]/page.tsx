@@ -1,22 +1,16 @@
-'use client';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
-import { PerfumeDetail } from '@/types';
+import { Perfume } from '@/types';
+import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 
-export const revalidate = false;
+export async function generateStaticParams() {
+  const perfumeListData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/perfumeList`).then((res) => res.json());
+  return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
+}
 
-function PerfumeDetail({ params }: { params: { id: string } }) {
-  const [perfume, setPerfume] = useState<PerfumeDetail | null>();
-
-  const fetchPerfumeDetail = async () => {
-    const perfumeDetailData = await fetch(`/api/perfumeList/${+params.id}`).then((res) => res.json());
-    setPerfume(perfumeDetailData);
-  };
-
-  useEffect(() => {
-    fetchPerfumeDetail();
-  }, []);
+async function Page({ params }: { params: { id: string } }) {
+  const perfume = await getPerfumeDetail(params.id);
 
   if (!perfume) return <div>Loading...</div>;
   return (
@@ -51,4 +45,4 @@ function PerfumeDetail({ params }: { params: { id: string } }) {
   );
 }
 
-export default PerfumeDetail;
+export default Page;
