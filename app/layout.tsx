@@ -16,15 +16,14 @@ export const metadata = {
     template: 'SURFRAG | %s',
   },
   description: '노트로 향수를 검색할 수 있는 서비스입니다.',
-  icons: {
-    shortcut: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <head />
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`${notoSansKr.variable} font-sans flex justify-center items-center`}>
         <Recoil>
           <Header />
