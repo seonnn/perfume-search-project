@@ -1,8 +1,10 @@
 import { BrandListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export const revalidate = 3600;
+
+export async function GET() {
   try {
     const { data } = await supabase
       .from('brand_list')
