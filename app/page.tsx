@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import useModal from '@/hooks/useModal';
 import FilterMenuModal from '@/components/home/FilterMenuModal';
 import { useSearchParams } from 'next/navigation';
+import Loading from '@/components/common/Loading';
 
 function Home() {
   const searchParams = useSearchParams();
@@ -42,7 +43,7 @@ function Home() {
     fetchPerfumeList();
   }, [searchParams.get('note'), searchParams.get('brand')]);
 
-  if (!perfumeListData || !noteList.length || !brandList.length) return <div>Loading...</div>;
+  if (!perfumeListData || !noteList.length || !brandList.length) return <Loading />;
   return (
     <div className="flex gap-11 my-44 w-full max-w-screen-xl">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
