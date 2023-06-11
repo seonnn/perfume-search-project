@@ -1,3 +1,4 @@
+<br />
 <p align="center">
   <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/46a23f1b-3940-4e3e-8f83-2b3f16eaca09" style="padding: 0; margin:0;">
   <br />
