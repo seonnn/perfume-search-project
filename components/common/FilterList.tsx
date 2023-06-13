@@ -1,5 +1,5 @@
 'use client';
-import useCustomSearchParams, { SearchParamsKey } from '@/hooks/useCustomSearchParams';
+import useCustomSearchParams from '@/hooks/useCustomSearchParams';
 import React from 'react';
 import FilterItem from './FilterItem';
 
@@ -14,7 +14,7 @@ interface FilterListProps {
 }
 
 function FilterList({ list, type }: FilterListProps) {
-  const { searchParams, setSearchParams } = useCustomSearchParams<SearchParamsKey>();
+  const { searchParams, setSearchParams } = useCustomSearchParams();
 
   const handleFilterSelected = (type: string, id: string) => {
     const anotherType = type === 'note' ? 'brand' : 'note';
