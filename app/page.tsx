@@ -12,7 +12,7 @@ import Loading from '@/components/common/Loading';
 
 function Home() {
   const searchParams = useSearchParams();
-  const [perfumeListData, setPerfumeListData] = useState<Perfume[]>();
+  const [perfumeList, setPerfumeList] = useState<Perfume[]>();
   const [noteList, setNoteList] = useState<NoteList[]>([]);
   const [brandList, setBrandList] = useState<BrandList[]>([]);
   const filterModal = useModal('filterModal');
@@ -21,14 +21,14 @@ function Home() {
     const note = searchParams.get('note');
     const brand = searchParams.get('brand');
 
-    const perfumeListData =
+    const perfumeListResponse =
       note || brand
         ? await fetch(
             `/api/filteredPerfumeList?notes=${note ? note.split('|') : []}&brands=${brand ? brand.split('|') : []}`
           ).then((res) => res.json())
         : await fetch('/api/perfumeList').then((res) => res.json());
 
-    setPerfumeListData(perfumeListData);
+    setPerfumeList(perfumeListResponse);
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Home() {
     fetchPerfumeList();
   }, [searchParams.get('note'), searchParams.get('brand')]);
 
-  if (!perfumeListData || !noteList.length || !brandList.length) return <Loading />;
+  if (!perfumeList || !noteList.length || !brandList.length) return <Loading />;
   return (
     <div className="flex gap-11 my-44 w-full max-w-screen-xl">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
@@ -59,11 +59,11 @@ function Home() {
           <h2 className="text-2xl text-stone-800 font-bold">향수</h2>
           <FilterButton handleIsModalOpened={filterModal.handleIsModalOpened} />
           <div className="text-stone-700">
-            {perfumeListData.length ? `${perfumeListData.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
+            {perfumeList.length ? `${perfumeList.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>
         <div className="grid grid-cols-4 gap-5 max-xl:px-5 max-lg:grid-cols-3 max-md:grid-cols-2 max">
-          {perfumeListData.map((perfume) => (
+          {perfumeList.map((perfume) => (
             <Link key={perfume.id} href={`/${perfume.id}`}>
               <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
             </Link>
