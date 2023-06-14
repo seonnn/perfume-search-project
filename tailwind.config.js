@@ -27,6 +27,10 @@ module.exports = {
           400: '#C8BDBA',
           500: '#B0A6A4',
         },
+
+        green: {
+          naver: '#03C75A',
+        },
       },
     },
   },
