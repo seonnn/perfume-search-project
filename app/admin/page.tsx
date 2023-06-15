@@ -15,7 +15,7 @@ function Page() {
         <thead>
           <tr className="border-y-1">
             {tableHeader.map((headerName) => (
-              <th className="font-normal py-2" key={headerName}>
+              <th className="font-normal py-2 px-2" key={headerName}>
                 {headerName}
               </th>
             ))}
