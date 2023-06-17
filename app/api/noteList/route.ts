@@ -2,19 +2,15 @@ import { NoteListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
-export const revalidate = 3600;
-
 export async function GET() {
   try {
     const { data } = await supabase
-      .from('fragrance_list')
+      .from('note_list')
       .select(
         `
-      f_id,
-      note_list (
-        n_id,
-        n_name
-      )
+      n_id,
+      n_name,
+      f_id
     `
       )
       .returns<NoteListResponseData[]>();
@@ -25,11 +21,7 @@ export async function GET() {
 
     return NextResponse.json(
       data.map((note) => {
-        const noteList = note.note_list.map((item) => {
-          return { id: item.n_id, name: item.n_name };
-        });
-
-        return { fragranceId: note.f_id, noteList };
+        return { id: note.n_id, name: note.n_name, fragranceId: note.f_id };
       })
     );
   } catch (error) {
