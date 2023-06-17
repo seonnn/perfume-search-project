@@ -2,7 +2,7 @@
 import SideFilterMenu from '@/components/home/SideFilterMenu';
 import FilterButton from '@/components/home/FilterButton';
 import PerfumeCard from '@/components/home/PerfumeCard';
-import { BrandList, NoteList, Perfume } from '@/types';
+import { Brand, FragranceNoteList, Perfume } from '@/types';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import useModal from '@/hooks/useModal';
@@ -13,8 +13,8 @@ import Loading from '@/components/common/Loading';
 function Home() {
   const searchParams = useSearchParams();
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();
-  const [noteList, setNoteList] = useState<NoteList[]>([]);
-  const [brandList, setBrandList] = useState<BrandList[]>([]);
+  const [noteList, setNoteList] = useState<FragranceNoteList[]>([]);
+  const [brandList, setBrandList] = useState<Brand[]>([]);
   const filterModal = useModal('filterModal');
 
   const fetchPerfumeList = async () => {
@@ -32,11 +32,13 @@ function Home() {
   };
 
   useEffect(() => {
-    Promise.all([fetch('/api/noteList'), fetch('/api/brandList')]).then(async ([noteResponse, brandResponse]) => {
-      const [notes, brands] = await Promise.all([noteResponse.json(), brandResponse.json()]);
-      setNoteList(notes);
-      setBrandList(brands);
-    });
+    Promise.all([fetch('/api/fragranceNoteList'), fetch('/api/brandList')]).then(
+      async ([noteResponse, brandResponse]) => {
+        const [notes, brands] = await Promise.all([noteResponse.json(), brandResponse.json()]);
+        setNoteList(notes);
+        setBrandList(brands);
+      }
+    );
   }, []);
 
   useEffect(() => {
