@@ -21,9 +21,9 @@ export interface FragranceNoteList {
 }
 
 export interface PerfumeNoteList {
-  topNote: Note[];
-  middleNote: Note[];
-  baseNote: Note[];
+  topNote: Omit<Note, 'fragranceId'>[];
+  middleNote: Omit<Note, 'fragranceId'>[];
+  baseNote: Omit<Note, 'fragranceId'>[];
 }
 
 export interface Perfume {
