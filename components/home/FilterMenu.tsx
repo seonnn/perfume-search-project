@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import DropDown from './DropDown';
 import SearchBar from './SearchBar';
 import FilterList from '../common/FilterList';
-import { BrandList, NoteList } from '@/types';
+import { Brand, FragranceNoteList } from '@/types';
 import useDebounce from '@/hooks/useDebounce';
 
 export interface FilterMenuProps {
-  noteList: NoteList[];
-  brandList: BrandList[];
+  noteList: FragranceNoteList[];
+  brandList: Brand[];
 }
 
 function FilterMenu({ noteList, brandList }: FilterMenuProps) {

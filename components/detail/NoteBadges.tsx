@@ -3,7 +3,7 @@ import React from 'react';
 import Badge from '../common/Badge';
 
 interface NoteListProps {
-  list: Note[];
+  list: Omit<Note, 'fragranceId'>[];
   position: string;
 }
 
