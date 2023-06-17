@@ -6,12 +6,16 @@ export interface Fragrance {
 export interface Note {
   id: number;
   name: string;
-  fragranceId?: number;
+  fragranceId: number;
 }
 
-export interface BrandList extends Fragrance {}
+export interface AdminNote extends Fragrance {
+  fragranceName: string;
+}
 
-export interface NoteList {
+export interface Brand extends Fragrance {}
+
+export interface FragranceNoteList {
   fragranceId: number;
   noteList: Note[];
 }
@@ -20,11 +24,6 @@ export interface PerfumeNoteList {
   topNote: Note[];
   middleNote: Note[];
   baseNote: Note[];
-}
-
-export interface Brand {
-  b_id: number;
-  b_name: string;
 }
 
 export interface Perfume {
