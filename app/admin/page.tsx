@@ -1,11 +1,23 @@
 'use client';
-import React from 'react';
-import EnglishPearAndFreesia from '@/public/perfumeImg/조말론_잉글리쉬페어앤프리지아.png';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-
-const tableHeader = ['ID', '이미지', '브랜드', '향수명'];
+import { adminTableHeader } from '@/utils/admin';
+import { Perfume } from '@/types';
+import Loading from '@/components/common/Loading';
 
 function Page() {
+  const [perfumeList, setPerfumeList] = useState<Perfume[]>();
+
+  const getBrandList = async () => {
+    let brandResponse = await fetch('/api/perfumeList').then((res) => res.json());
+    setPerfumeList(brandResponse);
+  };
+
+  useEffect(() => {
+    getBrandList();
+  }, []);
+
+  if (!perfumeList) return <Loading />;
   return (
     <main className="w-full flex flex-col justify-start items-center gap-5">
       <h2 className="text-2xl text-stone-800 font-bold">향수 목록 관리</h2>
@@ -15,7 +27,7 @@ function Page() {
       <table className="w-full text-stone-800">
         <thead>
           <tr className="border-y-1">
-            {tableHeader.map((headerName) => (
+            {adminTableHeader['perfume'].map((headerName) => (
               <th className="font-normal py-2 px-2" key={headerName}>
                 {headerName}
               </th>
@@ -23,14 +35,16 @@ function Page() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b-1">
-            <td className="text-center">1</td>
-            <td className="flex justify-center py-2">
-              <Image src={EnglishPearAndFreesia} alt="향수 이미지" width={128} height={128} />
-            </td>
-            <td className="text-center">조말론</td>
-            <td className="text-center">잉글리쉬 페어 앤 프리지아 코롱</td>
-          </tr>
+          {perfumeList.map((perfume) => (
+            <tr className="border-b-1" key={perfume.id}>
+              <td className="text-center">{perfume.id}</td>
+              <td className="flex justify-center py-2">
+                <Image src={perfume.imgUrl} alt="향수 이미지" width={128} height={128} />
+              </td>
+              <td className="text-center">{perfume.brand}</td>
+              <td className="text-center">{perfume.name}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </main>
