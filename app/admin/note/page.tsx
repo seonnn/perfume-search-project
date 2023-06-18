@@ -47,7 +47,7 @@ function Page() {
               <td className="text-center py-2">{note.id}</td>
               <td className="text-center">{note.name}</td>
               <td className="text-center">{note.fragranceName}</td>
-              <td className="py-2 flex justify-center gap-8">
+              <td className="py-2 flex justify-around">
                 <BsPencilFill size={20} />
                 <BsTrash3Fill size={20} />
               </td>
