@@ -5,7 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
 
 const adminCategory = [
-  { segment: null, name: '향수 목록 관리' },
+  { segment: 'perfume', name: '향수 목록 관리' },
   { segment: 'note', name: '노트 목록 관리' },
   { segment: 'brand', name: '브랜드 목록 관리' },
 ];
@@ -19,7 +19,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         <h3 className="text-xl text-stone-800 font-bold">관리 카테고리</h3>
         <ul className="flex flex-col gap-4 font-bold text-stone-400">
           {adminCategory.map((item) => (
-            <Link href={item.segment === null ? '/admin' : `/admin/${item.segment}`} key={item.name}>
+            <Link href={`/admin/${item.segment}`} key={item.name}>
               <li className={`${segment === item.segment ? 'text-stone-600' : ''}`}>{item.name}</li>
             </Link>
           ))}
