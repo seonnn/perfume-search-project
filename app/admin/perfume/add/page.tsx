@@ -6,10 +6,10 @@ import { BsPlus } from 'react-icons/bs';
 
 function Page() {
   const [image, setImage] = useState();
-  const [isSelectBoxOpened, setIsSelectBoxOpened] = useState(false);
+  const [brand, setBrand] = useState('');
 
-  const handleSelectBoxOpen = () => {
-    setIsSelectBoxOpened(!isSelectBoxOpened);
+  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setBrand(event.target.value);
   };
 
   return (
@@ -29,12 +29,22 @@ function Page() {
           </div>
           <div className="flex items-center">
             <label className="flex w-24 shrink-0">브랜드명:</label>
-            <select className="flex grow border-1 border-stone-300 p-3 bg-white text-stone-400" defaultValue={''}>
-              <option className="text-stone-300" value={''}>
+            <select
+              className={`flex grow border-1 border-stone-300 p-3 bg-white ${
+                brand ? 'text-stone-600' : 'text-stone-400'
+              }`}
+              value={brand}
+              onChange={handleBrandChange}
+            >
+              <option value={0} className="text-stone-600" hidden>
                 브랜드를 선택해주세요.
               </option>
-              <option value={1}>조말론</option>
-              <option value={2}>클린</option>
+              <option value={1} className="text-stone-600">
+                조말론
+              </option>
+              <option value={2} className="text-stone-600">
+                클린
+              </option>
             </select>
           </div>
         </div>
