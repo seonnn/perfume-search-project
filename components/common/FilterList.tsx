@@ -16,12 +16,12 @@ interface FilterListProps {
 function FilterList({ list, type }: FilterListProps) {
   const { searchParams, setSearchParams } = useCustomSearchParams();
 
-  const handleFilterSelected = (type: string, id: string) => {
+  const handleFilterSelected = (type: string, id: number) => {
     const anotherType = type === 'note' ? 'brand' : 'note';
     const prevFilterList = searchParams.get(type)?.split('|') || [];
-    const newFilterList = prevFilterList.includes(id)
-      ? prevFilterList.filter((itemId) => itemId !== id)
-      : [...prevFilterList, id];
+    const newFilterList = prevFilterList.includes(String(id))
+      ? prevFilterList.filter((itemId) => itemId !== String(id))
+      : [...prevFilterList, String(id)];
 
     setSearchParams({
       [type]: newFilterList,
@@ -40,7 +40,8 @@ function FilterList({ list, type }: FilterListProps) {
               .get(type)
               ?.split('|')
               .some((id) => id === String(item.id))}
-            onClick={() => handleFilterSelected(type, String(item.id))}
+            onClick={() => handleFilterSelected(type, item.id)}
+            id={item.id}
           />
         ))
       ) : (
