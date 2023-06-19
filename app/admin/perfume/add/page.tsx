@@ -1,19 +1,72 @@
 'use client';
-import React, { useState } from 'react';
+import NoteFilterModal from '@/components/admin/NoteFilterModal';
+import NoteInput from '@/components/admin/NoteInput';
+import Loading from '@/components/common/Loading';
+import { Brand, Note } from '@/types';
+import React, { useEffect, useState } from 'react';
 import { BsPlus } from 'react-icons/bs';
-
 // BsPlus
+
+export interface SelectedNoteList {
+  [key: string]: number[];
+  t: number[];
+  m: number[];
+  b: number[];
+}
 
 function Page() {
   const [image, setImage] = useState();
   const [brand, setBrand] = useState('');
+  const [brandList, setBrandList] = useState<Brand[]>();
+  const [noteList, setNoteList] = useState();
+  const [noteType, setNoteType] = useState('');
+  const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
+  const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBrand(event.target.value);
   };
 
+  const handleSelectedNoteList = (type: string, id: number) => {
+    let prevNoteList = selectedNoteList[type];
+    let newNoteList = prevNoteList.includes(id)
+      ? prevNoteList.filter((noteId) => id !== noteId)
+      : [...prevNoteList, id];
+
+    setSelectedNoteList({ ...selectedNoteList, [type]: newNoteList });
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const [brandResponse, noteResponse] = await Promise.all([fetch('/api/brandList'), fetch('/api/noteList')]);
+        const brands = await brandResponse.json();
+        const notes = await noteResponse.json();
+
+        setBrandList(brands);
+        setNoteList(notes);
+      } catch (error) {
+        console.error('브랜드, 노트 목록 조회 실패', error);
+      }
+    };
+
+    getData();
+  }, []);
+
+  console.log(selectedNoteList, noteType);
+
+  if (!brandList || !noteList) return <Loading />;
   return (
     <div className="w-full flex flex-col justify-start items-center text-stone-800">
+      {isNoteModalOpen && (
+        <NoteFilterModal
+          noteList={noteList}
+          type={noteType}
+          selectedNoteList={selectedNoteList[noteType]}
+          handleSelectedNoteList={handleSelectedNoteList}
+          setIsNoteModalOpen={setIsNoteModalOpen}
+        />
+      )}
       <h2 className="text-2xl font-bold mb-16">향수 등록</h2>
       <form className="w-full flex flex-col items-center gap-4">
         <div className="w-48 h-48 flex justify-center items-center bg-stone-100 text-stone-600 mb-20">
@@ -39,27 +92,38 @@ function Page() {
               <option value={0} className="text-stone-600" hidden>
                 브랜드를 선택해주세요.
               </option>
-              <option value={1} className="text-stone-600">
-                조말론
-              </option>
-              <option value={2} className="text-stone-600">
-                클린
-              </option>
+              {brandList?.map((brand) => (
+                <option key={brand.id} value={brand.id} className="text-stone-600">
+                  {brand.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
-        <div className="w-full flex items-center">
-          <label className="flex w-24 shrink-0">탑노트:</label>
-          <input className="flex grow border-1 border-stone-300 p-3" />
-        </div>
-        <div className="w-full flex items-center">
-          <label className="flex w-24 shrink-0">미들노트:</label>
-          <input className="flex grow border-1 border-stone-300 p-3" />
-        </div>
-        <div className="w-full flex items-center">
-          <label className="flex w-24 shrink-0">베이스노트:</label>
-          <input className="flex grow border-1 border-stone-300 p-3" />
-        </div>
+        <NoteInput
+          type="t"
+          noteList={noteList}
+          selectedNoteList={selectedNoteList['t']}
+          setIsNoteModalOpen={setIsNoteModalOpen}
+          setNoteType={setNoteType}
+          handleSelectedNoteList={handleSelectedNoteList}
+        />
+        <NoteInput
+          type="m"
+          noteList={noteList}
+          selectedNoteList={selectedNoteList['m']}
+          setIsNoteModalOpen={setIsNoteModalOpen}
+          setNoteType={setNoteType}
+          handleSelectedNoteList={handleSelectedNoteList}
+        />
+        <NoteInput
+          type="b"
+          noteList={noteList}
+          selectedNoteList={selectedNoteList['b']}
+          setIsNoteModalOpen={setIsNoteModalOpen}
+          setNoteType={setNoteType}
+          handleSelectedNoteList={handleSelectedNoteList}
+        />
         <button className="text-white px-8 py-3 bg-beige-400 font-bold text-xl rounded mt-8">향수 등록</button>
       </form>
     </div>
