@@ -32,13 +32,23 @@ function Home() {
   };
 
   useEffect(() => {
-    Promise.all([fetch('/api/fragranceNoteList'), fetch('/api/brandList')]).then(
-      async ([noteResponse, brandResponse]) => {
-        const [notes, brands] = await Promise.all([noteResponse.json(), brandResponse.json()]);
-        setNoteList(notes);
+    const getData = async () => {
+      try {
+        const [fragranceNoteResponse, brandResponse] = await Promise.all([
+          fetch('/api/fragranceNoteList'),
+          fetch('/api/brandList'),
+        ]);
+        const fragranceNotes = await fragranceNoteResponse.json();
+        const brands = await brandResponse.json();
+
+        setNoteList(fragranceNotes);
         setBrandList(brands);
+      } catch (error) {
+        console.error('노트, 브랜드 목록 조회 실패', error);
       }
-    );
+    };
+
+    getData();
   }, []);
 
   useEffect(() => {
