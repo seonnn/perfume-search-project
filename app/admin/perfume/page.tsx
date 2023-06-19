@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { adminTableHeader } from '@/utils/admin';
 import { Perfume } from '@/types';
 import Loading from '@/components/common/Loading';
+import Link from 'next/link';
 
 function Page() {
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();
@@ -22,7 +23,9 @@ function Page() {
     <main className="w-full flex flex-col justify-start items-center gap-5">
       <h2 className="text-2xl text-stone-800 font-bold">향수 목록 관리</h2>
       <div className="flex w-full justify-end">
-        <button className="text-white px-8 py-2 bg-beige-400 font-bold rounded">향수 등록</button>
+        <Link href={'/admin/perfume/add'}>
+          <button className="text-white px-8 py-2 bg-beige-400 font-bold rounded">향수 등록</button>
+        </Link>
       </div>
       <table className="w-full text-stone-800">
         <thead>
