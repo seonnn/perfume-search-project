@@ -1,5 +1,5 @@
 import { Note } from '@/types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface NoteInputProps {
@@ -25,10 +25,6 @@ function NoteInput({
   setNoteType,
   handleSelectedNoteList,
 }: NoteInputProps) {
-  useEffect(() => {
-    setNoteType(type);
-  }, []);
-
   return (
     <div className="w-full flex items-center">
       <label className="flex w-24 shrink-0">{noteType[type]}:</label>
