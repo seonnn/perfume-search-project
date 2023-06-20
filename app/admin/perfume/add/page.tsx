@@ -53,8 +53,6 @@ function Page() {
     getData();
   }, []);
 
-  console.log(selectedNoteList, noteType);
-
   if (!brandList || !noteList) return <Loading />;
   return (
     <div className="w-full flex flex-col justify-start items-center text-stone-800">
