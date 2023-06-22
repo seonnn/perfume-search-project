@@ -24,7 +24,7 @@ async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="relative flex justify-center bg-stone-50 max-xl:w-full">
           <Image
-            src={perfume.imgUrl}
+            src={process.env.NEXT_PUBLIC_SUPABASE_URL + perfume.imgUrl}
             alt={perfume.name}
             width={500}
             height={500}
