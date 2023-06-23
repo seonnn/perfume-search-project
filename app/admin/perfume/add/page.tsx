@@ -15,8 +15,18 @@ export interface SelectedNoteList {
   b: number[];
 }
 
+interface ImageState {
+  imageFile: File | null;
+  imageSrc: string;
+  imageUrl: string;
+}
+
 function Page() {
-  const [imageState, setImageState] = useState<{ imageFile: File; imageUrl: string }>();
+  const [imageState, setImageState] = useState<ImageState>({
+    imageFile: null,
+    imageSrc: '',
+    imageUrl: '',
+  });
   const [brand, setBrand] = useState('');
   const [brandList, setBrandList] = useState<Brand[]>();
   const [noteList, setNoteList] = useState();
@@ -45,27 +55,35 @@ function Page() {
     if (!imageFile.type.includes('image/')) return window.alert('이미지 파일만 업로드 가능합니다.');
     if (imageFile.size > 512000) return window.alert('500kb 미만의 파일만 업로드 가능합니다.');
 
-    const imageUrl = URL.createObjectURL(imageFile);
+    const imageSrc = URL.createObjectURL(imageFile);
 
-    setImageState({ imageFile: imageFile, imageUrl: imageUrl });
+    setImageState({ ...imageState, imageFile: imageFile, imageSrc: imageSrc });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!imageState) return window.alert('향수 이미지를 입력해주세요!');
+  const handleImageRegisterButtonClick = async () => {
+    if (!imageState || !imageState.imageFile) return window.alert('향수 이미지를 입력해주세요!');
 
     const formData = new FormData();
 
-    formData.append('image', imageState.imageFile);
-    formData.append('imagename', JSON.stringify({ imagename: imageState.imageFile.name }));
+    formData.append('file', imageState.imageFile);
+    formData.append('name', imageState.imageFile.name);
 
-    const response = await fetch('/api/perfume', {
+    const response = await fetch('/api/perfume/image', {
       method: 'POST',
       body: formData,
     }).then((res) => res.json());
 
-    console.log('response:' + JSON.parse(response));
+    if (response.status === 409) {
+      setImageState({ ...imageState, imageUrl: response.imageUrl });
+      return window.alert('이미 등록된 향수 이미지입니다.');
+    }
+
+    setImageState({ ...imageState, imageUrl: response.imageUrl });
+    return window.alert('향수 이미지가 등록되었습니다.');
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
 
   useEffect(() => {
@@ -99,16 +117,22 @@ function Page() {
       )}
       <h2 className="text-2xl font-bold mb-16">향수 등록</h2>
       <form className="w-full flex flex-col items-center gap-4" onSubmit={handleSubmit}>
-        <div className="w-48 h-48 flex justify-center items-center bg-stone-100 text-stone-600 mb-20 cursor-pointer">
+        <div className="w-48 h-48 flex justify-center items-center bg-stone-100 text-stone-600">
           <label htmlFor="image">
-            {imageState ? (
-              <Image src={imageState.imageUrl} alt="perfumeImage" width={192} height={192} />
+            {imageState.imageSrc ? (
+              <Image src={imageState.imageSrc} alt="perfumeImage" width={176} height={176} />
             ) : (
-              <BsPlus size={48} />
+              <BsPlus size={48} className="cursor-pointer" />
             )}
           </label>
           <input className="hidden" onChange={setImagePreview} type="file" accept="image/*" id="image" name="imgae" />
         </div>
+        <button
+          className="text-white px-8 py-2 bg-beige-400 font-bold rounded mb-6"
+          onClick={handleImageRegisterButtonClick}
+        >
+          향수 이미지 등록
+        </button>
         <div className="w-full grid grid-cols-2 gap-8">
           <div className="flex items-center">
             <label className="flex w-24 shrink-0">향수명:</label>
