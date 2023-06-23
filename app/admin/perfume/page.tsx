@@ -42,7 +42,12 @@ function Page() {
             <tr className="border-b-1" key={perfume.id}>
               <td className="text-center">{perfume.id}</td>
               <td className="flex justify-center py-2">
-                <Image src={perfume.imgUrl} alt="향수 이미지" width={128} height={128} />
+                <Image
+                  src={process.env.NEXT_PUBLIC_SUPABASE_URL + perfume.imgUrl}
+                  alt="향수 이미지"
+                  width={128}
+                  height={128}
+                />
               </td>
               <td className="text-center">{perfume.brand}</td>
               <td className="text-center">{perfume.name}</td>
