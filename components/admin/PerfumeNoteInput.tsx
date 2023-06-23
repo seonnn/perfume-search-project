@@ -2,7 +2,7 @@ import { Note } from '@/types';
 import React from 'react';
 import { IoClose } from 'react-icons/io5';
 
-interface NoteInputProps {
+interface PerfumeNoteInputProps {
   type: 't' | 'm' | 'b';
   noteList: Omit<Note, 'fragranceId'>[];
   selectedNoteList: number[];
@@ -17,14 +17,14 @@ const noteType = {
   b: '베이스노트',
 };
 
-function NoteInput({
+function PerfumeNoteInput({
   type,
   noteList,
   selectedNoteList,
   setIsNoteModalOpen,
   setNoteType,
   handleSelectedNoteList,
-}: NoteInputProps) {
+}: PerfumeNoteInputProps) {
   return (
     <div className="w-full flex items-center">
       <label className="flex w-24 shrink-0">{noteType[type]}:</label>
@@ -59,4 +59,4 @@ function NoteInput({
   );
 }
 
-export default NoteInput;
+export default PerfumeNoteInput;
