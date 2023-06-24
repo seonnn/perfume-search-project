@@ -9,7 +9,7 @@ export interface Note {
   fragranceId: number;
 }
 
-export interface AdminNote extends Fragrance {
+export interface AdminNote extends Note {
   fragranceName: string;
 }
 
