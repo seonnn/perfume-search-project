@@ -1,12 +1,11 @@
 'use client';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
-import NoteInput from '@/components/admin/NoteInput';
+import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { BsPlus } from 'react-icons/bs';
-// BsPlus
 
 export interface SelectedNoteList {
   [key: string]: number[];
@@ -84,6 +83,13 @@ function Page() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    formData.get('p_name');
+    formData.get('b_name');
+    formData.append('imgurl', imageState.imageUrl);
+
+    const { b_id, p_name, imgUrl } = Object.fromEntries(formData);
   };
 
   useEffect(() => {
@@ -146,7 +152,7 @@ function Page() {
               }`}
               value={brand}
               onChange={handleBrandChange}
-              name="b_name"
+              name="b_id"
             >
               <option value={0} className="text-stone-600" hidden>
                 브랜드를 선택해주세요.
@@ -159,7 +165,7 @@ function Page() {
             </select>
           </div>
         </div>
-        <NoteInput
+        <PerfumeNoteInput
           type="t"
           noteList={noteList}
           selectedNoteList={selectedNoteList['t']}
@@ -167,7 +173,7 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <NoteInput
+        <PerfumeNoteInput
           type="m"
           noteList={noteList}
           selectedNoteList={selectedNoteList['m']}
@@ -175,7 +181,7 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <NoteInput
+        <PerfumeNoteInput
           type="b"
           noteList={noteList}
           selectedNoteList={selectedNoteList['b']}
