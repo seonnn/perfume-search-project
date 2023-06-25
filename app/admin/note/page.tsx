@@ -50,7 +50,11 @@ function Page() {
               fragranceName={note.fragranceName}
             />
           ))}
-          <NoteTableRowAdd isNoteAddMode={isNoteAddMode} setIsNoteAddMode={setIsNoteAddMode} />
+          <NoteTableRowAdd
+            isNoteAddMode={isNoteAddMode}
+            setIsNoteAddMode={setIsNoteAddMode}
+            getNoteList={getNoteList}
+          />
         </tbody>
       </table>
     </main>
