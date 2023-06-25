@@ -29,3 +29,17 @@ export async function GET() {
     throw new Error('노트 조회 실패');
   }
 }
+
+export async function POST(request: Request) {
+  const { n_name, f_id } = await request.json();
+
+  const { data, error } = await supabase.from('note_list').insert({ n_name, f_id }).select();
+
+  if (error) {
+    if (error.message.includes('duplicate')) return NextResponse.json({ status: 409, message: error.message });
+
+    throw new Error('노트 등록 실패!');
+  }
+
+  return NextResponse.json({ status: 201, data });
+}
