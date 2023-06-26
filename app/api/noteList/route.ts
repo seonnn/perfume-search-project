@@ -61,5 +61,18 @@ export async function PUT(request: Request) {
     throw new Error('노트 수정 실패!');
   }
 
-  return NextResponse.json({ status: 204, data });
+  return NextResponse.json({ status: 201, data });
+}
+
+export async function DELETE(request: Request) {
+  const { n_id } = await request.json();
+
+  const { error } = await supabase.from('note_list').delete().eq('n_id', n_id);
+
+  if (error) {
+    console.error(error);
+    throw new Error('노트 삭제 실패!');
+  }
+
+  return NextResponse.json({ status: 204 });
 }
