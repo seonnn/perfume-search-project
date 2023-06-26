@@ -14,6 +14,7 @@ export async function GET() {
       f_id
     `
       )
+      .order('n_id', { ascending: true })
       .returns<NoteListResponseData[]>();
 
     if (!data || !data.length) {
