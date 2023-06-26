@@ -1,4 +1,5 @@
 import { NoteListResponseData } from '@/types/response';
+import { getNote } from '@/utils/supabase/getNote';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
@@ -42,4 +43,22 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ status: 201, data });
+}
+
+export async function PUT(request: Request) {
+  const { n_id, n_name, f_id } = await request.json();
+
+  const prevNote = await getNote(n_id);
+
+  if (prevNote.n_name === n_name && prevNote.f_id === f_id) return NextResponse.json({ status: 409 });
+
+  const { data, error } = await supabase.from('note_list').update({ n_name, f_id }).eq('n_id', n_id).select();
+
+  if (error) {
+    console.error(JSON.stringify(error));
+
+    throw new Error('노트 수정 실패!');
+  }
+
+  return NextResponse.json({ status: 204, data });
 }
