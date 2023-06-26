@@ -24,14 +24,14 @@ function AdminTableRow({ id, name, fragranceId, fragranceName, getData, isBrand 
             method: 'PUT',
             body: JSON.stringify({
               b_id: id,
-              b_name: name,
+              b_name: inputValue,
             }),
           }).then((res) => res.json())
         : await fetch('/api/noteList', {
             method: 'PUT',
             body: JSON.stringify({
               n_id: id,
-              n_name: name,
+              n_name: inputValue,
               f_id: +selectValue,
             }),
           }).then((res) => res.json());
@@ -47,6 +47,29 @@ function AdminTableRow({ id, name, fragranceId, fragranceName, getData, isBrand 
       setIsEditMode(false);
 
       return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm(`${isBrand ? '브랜드' : '노트'} 정보를 삭제하시겠습니까?`)) return;
+
+    try {
+      const response = isBrand
+        ? await fetch('/api/brandList', {
+            method: 'DELETE',
+            body: JSON.stringify({ b_id: id }),
+          }).then((res) => res.json())
+        : await fetch('/api/noteList', {
+            method: 'DELETE',
+            body: JSON.stringify({ n_id: id }),
+          }).then((res) => res.json());
+
+      window.alert(`${isBrand ? '브랜드' : '노트'} 삭제가 완료되었습니다.`);
+      await getData();
+
+      return response.status;
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +92,15 @@ function AdminTableRow({ id, name, fragranceId, fragranceName, getData, isBrand 
       )}
       <td className="py-2.5 flex justify-around items-center">
         <BsCheckSquare size={20} className="cursor-pointer" onClick={handleSubmit} />
-        <BsXSquare size={20} className="cursor-pointer" onClick={() => setIsEditMode(!isEditMode)} />
+        <BsXSquare
+          size={20}
+          className="cursor-pointer"
+          onClick={() => {
+            setInputValue(name);
+            if (fragranceId) setSelectValue(String(fragranceId));
+            setIsEditMode(!isEditMode);
+          }}
+        />
       </td>
     </tr>
   ) : (
@@ -79,7 +110,7 @@ function AdminTableRow({ id, name, fragranceId, fragranceName, getData, isBrand 
       {isBrand ? null : <td className="text-center">{fragranceName}</td>}
       <td className="py-2 flex justify-around">
         <FaRegEdit size={20} className="cursor-pointer" onClick={() => setIsEditMode(!isEditMode)} />
-        <FaRegTrashAlt size={20} className="cursor-pointer" />
+        <FaRegTrashAlt size={20} className="cursor-pointer" onClick={handleDelete} />
       </td>
     </tr>
   );
