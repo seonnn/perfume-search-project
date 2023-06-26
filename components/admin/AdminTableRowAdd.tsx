@@ -10,7 +10,7 @@ interface AdminTableRowAddProps {
 }
 
 function AdminTableRowAdd({ isAddMode, setIsAddMode, getData, isBrand }: AdminTableRowAddProps) {
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState(isBrand ? '' : '1');
   const [inputValue, setInputValue] = useState('');
 
   const handleSubmit = async () => {
@@ -30,10 +30,15 @@ function AdminTableRowAdd({ isAddMode, setIsAddMode, getData, isBrand }: AdminTa
             }),
           }).then((res) => res.json());
 
-      if (response.status === 409) return window.alert(`이미 등록된 ${isBrand ? '브랜드' : '노트'}입니다.`);
+      if (response.status === 409) {
+        setInputValue('');
+        return window.alert(`이미 등록된 ${isBrand ? '브랜드' : '노트'}입니다.`);
+      }
 
-      window.alert('노트 등록이 완료되었습니다.');
+      window.alert(`${isBrand ? '브랜드' : '노트'} 등록이 완료되었습니다.`);
       await getData();
+      setInputValue('');
+      setSelectValue(isBrand ? '' : '1');
       setIsAddMode(false);
       return;
     } catch (error) {
@@ -52,12 +57,22 @@ function AdminTableRowAdd({ isAddMode, setIsAddMode, getData, isBrand }: AdminTa
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value)}
             />
           </td>
-          <td className="text-center">
-            <FragranceSelect defaultValue={selectValue} setDefaultValue={setSelectValue} />
-          </td>
+          {isBrand ? null : (
+            <td className="text-center">
+              <FragranceSelect defaultValue={selectValue} setDefaultValue={setSelectValue} />
+            </td>
+          )}
           <td className="py-2.5 flex justify-around items-center">
             <BsCheckSquare size={20} className="cursor-pointer" onClick={handleSubmit} />
-            <BsXSquare size={20} className="cursor-pointer" onClick={() => setIsAddMode(!isAddMode)} />
+            <BsXSquare
+              size={20}
+              className="cursor-pointer"
+              onClick={() => {
+                setInputValue('');
+                setSelectValue(isBrand ? '' : '1');
+                setIsAddMode(!isAddMode);
+              }}
+            />
           </td>
         </React.Fragment>
       ) : (
