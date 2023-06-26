@@ -48,6 +48,7 @@ function Page() {
               name={note.name}
               fragranceId={note.fragranceId}
               fragranceName={note.fragranceName}
+              getNoteList={getNoteList}
             />
           ))}
           <NoteTableRowAdd
