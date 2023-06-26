@@ -5,8 +5,8 @@ import { AdminNote, Note } from '@/types';
 import { adminTableHeader } from '@/utils/admin';
 import { fragranceList } from '@/utils/fragranceList';
 import React, { useEffect, useState } from 'react';
-import NoteTableRowAdd from '@/components/admin/NoteTableRowAdd';
-import NoteTableRow from '@/components/admin/NoteTableRow';
+import AdminTableRow from '@/components/admin/AdminTableRow';
+import AdminTableRowAdd from '@/components/admin/AdminTableRowAdd';
 
 function Page() {
   const [noteList, setNoteList] = useState<AdminNote[]>();
@@ -42,19 +42,21 @@ function Page() {
         </thead>
         <tbody>
           {noteList.map((note) => (
-            <NoteTableRow
+            <AdminTableRow
               key={note.id}
               id={note.id}
               name={note.name}
               fragranceId={note.fragranceId}
               fragranceName={note.fragranceName}
-              getNoteList={getNoteList}
+              getData={getNoteList}
+              isBrand={false}
             />
           ))}
-          <NoteTableRowAdd
-            isNoteAddMode={isNoteAddMode}
-            setIsNoteAddMode={setIsNoteAddMode}
-            getNoteList={getNoteList}
+          <AdminTableRowAdd
+            isAddMode={isNoteAddMode}
+            setIsAddMode={setIsNoteAddMode}
+            getData={getNoteList}
+            isBrand={false}
           />
         </tbody>
       </table>
