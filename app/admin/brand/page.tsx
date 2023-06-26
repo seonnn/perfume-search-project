@@ -1,14 +1,14 @@
 'use client';
+import AdminTableRow from '@/components/admin/AdminTableRow';
+import AdminTableRowAdd from '@/components/admin/AdminTableRowAdd';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
 import { adminTableHeader } from '@/utils/admin';
 import React, { useEffect, useState } from 'react';
-import { BsPencilFill, BsTrash3Fill, BsPlusCircle } from 'react-icons/bs';
-// BsCheckCircleFill
-// BsXSquareFill
 
 function Page() {
   const [brandList, setBrandList] = useState<Brand[]>();
+  const [isBrandAddMode, setIsBrandAddMode] = useState(false);
 
   const getBrandList = async () => {
     let brandResponse = await fetch('/api/brandList').then((res) => res.json());
@@ -35,23 +35,14 @@ function Page() {
         </thead>
         <tbody>
           {brandList.map((brand) => (
-            <tr className="border-b-1" key={brand.id}>
-              <td className="text-center py-2">{brand.id}</td>
-              <td className="text-center">{brand.name}</td>
-              <td className="py-2 flex justify-around">
-                <BsPencilFill size={20} />
-                <BsTrash3Fill size={20} />
-              </td>
-            </tr>
+            <AdminTableRow key={brand.id} id={brand.id} name={brand.name} getData={getBrandList} isBrand={true} />
           ))}
-          <tr className="border-b-1">
-            <td className="py-2" colSpan={3}>
-              <button className="flex justify-center items-center gap-4 w-full">
-                <BsPlusCircle size={20} />
-                브랜드 추가
-              </button>
-            </td>
-          </tr>
+          <AdminTableRowAdd
+            isAddMode={isBrandAddMode}
+            setIsAddMode={setIsBrandAddMode}
+            getData={getBrandList}
+            isBrand={true}
+          />
         </tbody>
       </table>
     </main>
