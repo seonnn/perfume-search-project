@@ -1,4 +1,4 @@
-import { SelectedNoteList } from '@/app/admin/perfume/add/page';
+import { SelectedNoteList } from '@/types/admin';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
