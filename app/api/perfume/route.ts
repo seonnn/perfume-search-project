@@ -1,24 +1,44 @@
+import { SelectedNoteList } from '@/app/admin/perfume/add/page';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
+interface PerfumeRequestData {
+  p_name: string;
+  b_id: number;
+  imgurl: string;
+  selectedNoteList: SelectedNoteList;
+}
+
 export async function POST(request: Request) {
-  try {
-    const formData = await request.formData();
-    const file = formData.get('image') as File;
-    const filename = JSON.parse(formData.get('imagename') as string);
+  const { p_name, b_id, imgurl, selectedNoteList }: PerfumeRequestData = await request.json();
 
-    const { data, error } = await supabase.storage.from('perfume_image').upload(filename.imagename, file);
-    if (error) {
-      console.error('error:' + JSON.stringify(error));
-      return NextResponse.json({ status: 500, error: error });
-    }
+  const { data: perfume_data, error: perfume_error } = await supabase
+    .from('perfume_list')
+    .insert({ p_name, b_id, imgurl })
+    .select();
 
-    const imageUrl = data.path;
-    console.log('imageUrl:', imageUrl);
-
-    return NextResponse.json({ status: 201, res: file });
-  } catch (error) {
-    console.error('post catch error:' + error);
+  if (perfume_error) {
+    console.error(perfume_error);
     throw new Error('향수 등록 실패');
   }
+
+  const perfumeNoteList = Object.entries(selectedNoteList).flatMap(([n_type, notes]) => {
+    return notes.map((note: number) => {
+      return {
+        p_id: perfume_data[0].p_id,
+        n_id: note,
+        n_type,
+        b_id,
+      };
+    });
+  });
+
+  const { data, error } = await supabase.from('perfume_note_list').insert(perfumeNoteList).select();
+
+  if (error) {
+    console.error(error);
+    throw new Error('향수 노트 정보 등록 실패');
+  }
+
+  return NextResponse.json({ status: 204, data: [...perfume_data, ...data] });
 }
