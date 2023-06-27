@@ -3,11 +3,10 @@ import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { Perfume } from '@/types';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
-
-export const revalidate = 'force-cache';
+import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 
 export async function generateStaticParams() {
-  const perfumeListData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/perfumeList`).then((res) => res.json());
+  const perfumeListData = await getPerfumeList();
   return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
 }
 
