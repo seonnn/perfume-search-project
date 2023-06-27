@@ -38,3 +38,12 @@ export interface BrandListResponseData {
   b_id: number;
   b_name: string;
 }
+
+export interface AdminPerfumeDetailResponseData extends Omit<PerfumeListResponseData, 'brand_list'> {
+  b_id: number;
+  perfume_note_list: {
+    p_n_id: number;
+    n_id: number;
+    n_type: string;
+  }[];
+}
