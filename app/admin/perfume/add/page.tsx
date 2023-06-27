@@ -26,16 +26,13 @@ function Page() {
     imageSrc: '',
     imageUrl: '',
   });
+  const [perfumeName, setPerfumeName] = useState('');
   const [brand, setBrand] = useState('');
   const [brandList, setBrandList] = useState<Brand[]>();
   const [noteList, setNoteList] = useState();
   const [noteType, setNoteType] = useState('');
   const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
-
-  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setBrand(event.target.value);
-  };
 
   const handleSelectedNoteList = (type: string, id: number) => {
     let prevNoteList = selectedNoteList[type];
@@ -84,12 +81,17 @@ function Page() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    formData.get('p_name');
-    formData.get('b_name');
-    formData.append('imgurl', imageState.imageUrl);
+    const response = await fetch('/api/perfume', {
+      method: 'POST',
+      body: JSON.stringify({
+        p_name: perfumeName,
+        b_id: +brand,
+        imgurl: imageState.imageUrl,
+        selectedNoteList,
+      }),
+    });
 
-    const { b_id, p_name, imgUrl } = Object.fromEntries(formData);
+    console.log(response);
   };
 
   useEffect(() => {
@@ -142,7 +144,10 @@ function Page() {
         <div className="w-full grid grid-cols-2 gap-8">
           <div className="flex items-center">
             <label className="flex w-24 shrink-0">향수명:</label>
-            <input className="flex grow border-1 border-stone-300 p-3" name="p_name" />
+            <input
+              className="flex grow border-1 border-stone-300 p-3"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPerfumeName(event.target.value)}
+            />
           </div>
           <div className="flex items-center">
             <label className="flex w-24 shrink-0">브랜드명:</label>
@@ -151,8 +156,7 @@ function Page() {
                 brand ? 'text-stone-600' : 'text-stone-400'
               }`}
               value={brand}
-              onChange={handleBrandChange}
-              name="b_id"
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setBrand(event.target.value)}
             >
               <option value={0} className="text-stone-600" hidden>
                 브랜드를 선택해주세요.
@@ -189,7 +193,9 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <button className="text-white px-8 py-3 bg-beige-400 font-bold text-xl rounded mt-8">향수 등록</button>
+        <button type="submit" className="text-white px-8 p-3 bg-beige-400 font-bold text-xl rounded mt-8">
+          향수 등록
+        </button>
       </form>
     </div>
   );
