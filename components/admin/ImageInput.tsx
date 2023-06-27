@@ -1,4 +1,4 @@
-import { ImageState } from '@/app/admin/perfume/add/page';
+import { ImageState } from '@/types/admin';
 import Image from 'next/image';
 import React from 'react';
 import { BsPlus } from 'react-icons/bs';
