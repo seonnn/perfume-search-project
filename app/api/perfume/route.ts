@@ -18,6 +18,9 @@ export async function POST(request: Request) {
     .select();
 
   if (perfume_error) {
+    if (perfume_error.message.includes('duplicate'))
+      return NextResponse.json({ status: 409, message: perfume_error.message });
+
     console.error(perfume_error);
     throw new Error('향수 등록 실패');
   }
@@ -40,5 +43,14 @@ export async function POST(request: Request) {
     throw new Error('향수 노트 정보 등록 실패');
   }
 
-  return NextResponse.json({ status: 204, data: [...perfume_data, ...data] });
+  return NextResponse.json({
+    status: 204,
+    data: {
+      id: perfume_data[0].p_id,
+      name: perfume_data[0].p_name,
+      imgUrl: perfume_data[0].imgurl,
+      brandId: perfume_data[0].b_id,
+      perfumeNoteData: data,
+    },
+  });
 }
