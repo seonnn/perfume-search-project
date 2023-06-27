@@ -6,6 +6,7 @@ import NoteFilterModal from '@/components/admin/NoteFilterModal';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 export interface SelectedNoteList {
@@ -22,6 +23,7 @@ export interface ImageState {
 }
 
 function Page() {
+  const router = useRouter();
   const [imageState, setImageState] = useState<ImageState>({
     imageFile: null,
     imageSrc: '',
@@ -69,17 +71,25 @@ function Page() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch('/api/perfume', {
-      method: 'POST',
-      body: JSON.stringify({
-        p_name: perfumeName,
-        b_id: +brand,
-        imgurl: imageState.imageUrl,
-        selectedNoteList,
-      }),
-    });
+    try {
+      const response = await fetch('/api/perfume', {
+        method: 'POST',
+        body: JSON.stringify({
+          p_name: perfumeName,
+          b_id: +brand,
+          imgurl: imageState.imageUrl,
+          selectedNoteList,
+        }),
+      }).then((res) => res.json());
 
-    console.log(response);
+      if (response.status === 409) return window.alert(`이미 등록된 향수입니다.`);
+
+      router.push('/admin/perfume');
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('향수 등록 실패!');
+    }
   };
 
   useEffect(() => {
@@ -117,6 +127,7 @@ function Page() {
         <button
           className="text-white px-8 py-2 bg-beige-400 font-bold rounded mb-6"
           onClick={handleImageRegisterButtonClick}
+          type="button"
         >
           향수 이미지 등록
         </button>
