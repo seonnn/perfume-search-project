@@ -6,21 +6,9 @@ import NoteFilterModal from '@/components/admin/NoteFilterModal';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
+import { ImageState, SelectedNoteList } from '@/types/admin';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-
-export interface SelectedNoteList {
-  [key: string]: number[];
-  t: number[];
-  m: number[];
-  b: number[];
-}
-
-export interface ImageState {
-  imageFile: File | null;
-  imageSrc: string;
-  imageUrl: string;
-}
 
 function Page() {
   const router = useRouter();
