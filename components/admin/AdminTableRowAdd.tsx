@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import FragranceSelect from './FragranceSelect';
 import { BsPlusSquare, BsCheckSquare, BsXSquare } from 'react-icons/bs';
+import LabelSelect from './LabelSelect';
+import { fragranceList } from '@/utils/fragranceList';
 
 interface AdminTableRowAddProps {
   isAddMode: boolean;
@@ -59,7 +60,7 @@ function AdminTableRowAdd({ isAddMode, setIsAddMode, getData, isBrand }: AdminTa
           </td>
           {isBrand ? null : (
             <td className="text-center">
-              <FragranceSelect defaultValue={selectValue} setDefaultValue={setSelectValue} />
+              <LabelSelect optionList={fragranceList} defaultValue={selectValue} setDefaultValue={setSelectValue} />
             </td>
           )}
           <td className="py-2.5 flex justify-around items-center">

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 import { BsCheckSquare, BsXSquare } from 'react-icons/bs';
-import FragranceSelect from './FragranceSelect';
+import LabelSelect from './LabelSelect';
+import { fragranceList } from '@/utils/fragranceList';
 
 interface TableRowProps {
   id: number;
@@ -87,7 +88,7 @@ function AdminTableRow({ id, name, fragranceId, fragranceName, getData, isBrand 
       </td>
       {isBrand ? null : (
         <td className="text-center">
-          <FragranceSelect defaultValue={selectValue} setDefaultValue={setSelectValue} />
+          <LabelSelect optionList={fragranceList} defaultValue={selectValue} setDefaultValue={setSelectValue} />
         </td>
       )}
       <td className="py-2.5 flex justify-around items-center">
