@@ -22,6 +22,7 @@ function LabelSelect({ optionList, defaultValue, setDefaultValue, label, size = 
         }`}
         defaultValue={defaultValue}
         onChange={handleChangeValue}
+        required
       >
         {optionList.map((option) => (
           <option key={option.id} value={option.id}>

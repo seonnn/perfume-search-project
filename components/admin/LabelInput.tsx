@@ -14,6 +14,7 @@ function LabelInput({ label, perfumeName, setPerfumeName }: LabelInputProps) {
         className="flex grow border-1 border-stone-300 p-3"
         value={perfumeName}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPerfumeName(event.target.value)}
+        required
       />
     </React.Fragment>
   );
