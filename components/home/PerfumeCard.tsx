@@ -13,7 +13,7 @@ function PerfumeCard({ brand, name, imgUrl, id }: PerfumeCardProps) {
     <div className="flex flex-col gap-3 cursor-pointer">
       <div className="flex justify-center items-center relative bg-stone-50 pt-[100%]">
         <Image
-          src={imgUrl}
+          src={process.env.NEXT_PUBLIC_SUPABASE_URL + imgUrl}
           alt={name}
           fill
           className="object-cover"

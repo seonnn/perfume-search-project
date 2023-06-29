@@ -3,13 +3,19 @@ import { FaCheckSquare, FaRegCheckSquare } from 'react-icons/fa';
 
 interface FilterItemProps {
   item: string;
-  onClick: (item: string) => void;
+  onClick: ((item: string, id: number) => void) | ((type: string, id: number) => void);
   checked?: boolean;
+  type?: string;
+  id: number;
 }
 
-function FilterItem({ item, onClick, checked }: FilterItemProps) {
+function FilterItem({ item, onClick, checked, type, id }: FilterItemProps) {
   return (
-    <li className="flex items-center gap-2 pl-2 py-1 text-stone-600" key={item} onClick={() => onClick(item)}>
+    <li
+      className="flex items-center gap-2 pl-2 py-1 text-stone-600"
+      key={item}
+      onClick={id && type ? () => onClick(type, id) : () => onClick(item, id)}
+    >
       {checked ? (
         <FaCheckSquare className="text-stone-600" size={16} />
       ) : (
