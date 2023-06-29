@@ -1,11 +1,12 @@
 import { Note } from '@/types';
+import { PerfumeNote } from '@/types/admin';
 import React from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface PerfumeNoteInputProps {
   type: 't' | 'm' | 'b';
   noteList: Omit<Note, 'fragranceId'>[];
-  selectedNoteList: number[];
+  selectedNoteList: PerfumeNote[];
   setIsNoteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setNoteType: React.Dispatch<React.SetStateAction<string>>;
   handleSelectedNoteList: (type: string, id: number) => void;
@@ -39,8 +40,8 @@ function PerfumeNoteInput({
         />
         <div className="absolute top-[7px] left-3 flex gap-1">
           {selectedNoteList.length ? (
-            noteList
-              .filter((note) => selectedNoteList.includes(note.id))
+            selectedNoteList
+              .map((selectedNote) => noteList.filter((note) => note.id === selectedNote.noteId)[0])
               .map((note) => (
                 <span
                   key={note.id}
