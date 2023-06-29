@@ -1,31 +1,29 @@
 'use client';
+import ImageInput from '@/components/admin/ImageInput';
+import LabelInput from '@/components/admin/LabelInput';
+import LabelSelect from '@/components/admin/LabelSelect';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
-import NoteInput from '@/components/admin/NoteInput';
+import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
-import { Brand, Note } from '@/types';
+import { Brand } from '@/types';
+import { ImageState, SelectedNoteList } from '@/types/admin';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { BsPlus } from 'react-icons/bs';
-// BsPlus
-
-export interface SelectedNoteList {
-  [key: string]: number[];
-  t: number[];
-  m: number[];
-  b: number[];
-}
 
 function Page() {
-  const [image, setImage] = useState();
-  const [brand, setBrand] = useState('');
+  const router = useRouter();
+  const [imageState, setImageState] = useState<ImageState>({
+    imageFile: null,
+    imageSrc: '',
+    imageUrl: '',
+  });
+  const [perfumeName, setPerfumeName] = useState('');
+  const [brand, setBrand] = useState('1');
   const [brandList, setBrandList] = useState<Brand[]>();
   const [noteList, setNoteList] = useState();
   const [noteType, setNoteType] = useState('');
   const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
-
-  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setBrand(event.target.value);
-  };
 
   const handleSelectedNoteList = (type: string, id: number) => {
     let prevNoteList = selectedNoteList[type];
@@ -34,6 +32,52 @@ function Page() {
       : [...prevNoteList, id];
 
     setSelectedNoteList({ ...selectedNoteList, [type]: newNoteList });
+  };
+
+  const handleImageRegisterButtonClick = async () => {
+    if (!imageState || !imageState.imageFile) return window.alert('향수 이미지를 입력해주세요!');
+
+    const formData = new FormData();
+
+    formData.append('file', imageState.imageFile);
+    formData.append('name', imageState.imageFile.name);
+
+    const response = await fetch('/api/perfume/image', {
+      method: 'POST',
+      body: formData,
+    }).then((res) => res.json());
+
+    if (response.status === 409) {
+      setImageState({ ...imageState, imageUrl: response.imageUrl });
+      return window.alert('이미 등록된 향수 이미지입니다.');
+    }
+
+    setImageState({ ...imageState, imageUrl: response.imageUrl });
+    return window.alert('향수 이미지가 등록되었습니다.');
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/api/perfume', {
+        method: 'POST',
+        body: JSON.stringify({
+          p_name: perfumeName,
+          b_id: +brand,
+          imgurl: imageState.imageUrl,
+          selectedNoteList,
+        }),
+      }).then((res) => res.json());
+
+      if (response.status === 409) return window.alert(`이미 등록된 향수입니다.`);
+
+      router.push('/admin/perfume');
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('향수 등록 실패!');
+    }
   };
 
   useEffect(() => {
@@ -53,8 +97,6 @@ function Page() {
     getData();
   }, []);
 
-  console.log(selectedNoteList, noteType);
-
   if (!brandList || !noteList) return <Loading />;
   return (
     <div className="w-full flex flex-col justify-start items-center text-stone-800">
@@ -68,39 +110,30 @@ function Page() {
         />
       )}
       <h2 className="text-2xl font-bold mb-16">향수 등록</h2>
-      <form className="w-full flex flex-col items-center gap-4">
-        <div className="w-48 h-48 flex justify-center items-center bg-stone-100 text-stone-600 mb-20">
-          <label htmlFor="image">
-            <BsPlus size={48} />
-          </label>
-          <input className="hidden" type="file" accept="image/*" id="image" />
-        </div>
+      <form className="w-full flex flex-col items-center gap-4" onSubmit={handleSubmit}>
+        <ImageInput imageState={imageState} setImageState={setImageState} />
+        <button
+          className="text-white px-8 py-2 bg-beige-400 font-bold rounded mb-6"
+          onClick={handleImageRegisterButtonClick}
+          type="button"
+        >
+          향수 이미지 등록
+        </button>
         <div className="w-full grid grid-cols-2 gap-8">
           <div className="flex items-center">
-            <label className="flex w-24 shrink-0">향수명:</label>
-            <input className="flex grow border-1 border-stone-300 p-3" />
+            <LabelInput label="향수명" perfumeName={perfumeName} setPerfumeName={setPerfumeName} />
           </div>
           <div className="flex items-center">
-            <label className="flex w-24 shrink-0">브랜드명:</label>
-            <select
-              className={`flex grow border-1 border-stone-300 p-3 bg-white ${
-                brand ? 'text-stone-600' : 'text-stone-400'
-              }`}
-              value={brand}
-              onChange={handleBrandChange}
-            >
-              <option value={0} className="text-stone-600" hidden>
-                브랜드를 선택해주세요.
-              </option>
-              {brandList?.map((brand) => (
-                <option key={brand.id} value={brand.id} className="text-stone-600">
-                  {brand.name}
-                </option>
-              ))}
-            </select>
+            <LabelSelect
+              optionList={brandList}
+              defaultValue={brand}
+              setDefaultValue={setBrand}
+              label="브랜드명"
+              size="large"
+            />
           </div>
         </div>
-        <NoteInput
+        <PerfumeNoteInput
           type="t"
           noteList={noteList}
           selectedNoteList={selectedNoteList['t']}
@@ -108,7 +141,7 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <NoteInput
+        <PerfumeNoteInput
           type="m"
           noteList={noteList}
           selectedNoteList={selectedNoteList['m']}
@@ -116,7 +149,7 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <NoteInput
+        <PerfumeNoteInput
           type="b"
           noteList={noteList}
           selectedNoteList={selectedNoteList['b']}
@@ -124,7 +157,9 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <button className="text-white px-8 py-3 bg-beige-400 font-bold text-xl rounded mt-8">향수 등록</button>
+        <button type="submit" className="text-white px-8 p-3 bg-beige-400 font-bold text-xl rounded mt-8">
+          향수 등록
+        </button>
       </form>
     </div>
   );

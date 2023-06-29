@@ -3,11 +3,10 @@ import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { Perfume } from '@/types';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
-
-export const revalidate = 'force-cache';
+import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 
 export async function generateStaticParams() {
-  const perfumeListData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/perfumeList`).then((res) => res.json());
+  const perfumeListData = await getPerfumeList();
   return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
 }
 
@@ -24,7 +23,7 @@ async function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="relative flex justify-center bg-stone-50 max-xl:w-full">
           <Image
-            src={perfume.imgUrl}
+            src={process.env.NEXT_PUBLIC_SUPABASE_URL + perfume.imgUrl}
             alt={perfume.name}
             width={500}
             height={500}

@@ -5,20 +5,19 @@ import { AdminNote, Note } from '@/types';
 import { adminTableHeader } from '@/utils/admin';
 import { fragranceList } from '@/utils/fragranceList';
 import React, { useEffect, useState } from 'react';
-import { BsPencilFill, BsTrash3Fill, BsPlusCircle } from 'react-icons/bs';
-// BsCheckCircleFill
-// BsXSquareFill
+import AdminTableRow from '@/components/admin/AdminTableRow';
+import AdminTableRowAdd from '@/components/admin/AdminTableRowAdd';
 
 function Page() {
   const [noteList, setNoteList] = useState<AdminNote[]>();
+  const [isNoteAddMode, setIsNoteAddMode] = useState(false);
 
   const getNoteList = async () => {
     let noteResponse = await fetch('/api/noteList').then((res) => res.json());
     setNoteList(
       noteResponse.map((note: Note) => {
-        let { id, name } = note;
-
-        return { id, name, fragranceName: fragranceList[note.fragranceId - 1].name };
+        let { id, name, fragranceId } = note;
+        return { id, name, fragranceId, fragranceName: fragranceList[note.fragranceId - 1].name };
       })
     );
   };
@@ -31,7 +30,7 @@ function Page() {
   return (
     <main className="w-full flex flex-col justify-start items-center gap-20">
       <h2 className="text-2xl text-stone-800 font-bold">노트 목록 관리</h2>
-      <table className="w-full text-stone-800">
+      <table className="w-full">
         <thead>
           <tr className="border-y-1">
             {adminTableHeader['note'].map((headerName) => (
@@ -43,24 +42,22 @@ function Page() {
         </thead>
         <tbody>
           {noteList.map((note) => (
-            <tr className="border-b-1" key={note.id}>
-              <td className="text-center py-2">{note.id}</td>
-              <td className="text-center">{note.name}</td>
-              <td className="text-center">{note.fragranceName}</td>
-              <td className="py-2 flex justify-around">
-                <BsPencilFill size={20} />
-                <BsTrash3Fill size={20} />
-              </td>
-            </tr>
+            <AdminTableRow
+              key={note.id}
+              id={note.id}
+              name={note.name}
+              fragranceId={note.fragranceId}
+              fragranceName={note.fragranceName}
+              getData={getNoteList}
+              isBrand={false}
+            />
           ))}
-          <tr className="border-b-1">
-            <td className="py-2" colSpan={4}>
-              <button className="flex justify-center items-center gap-4 w-full">
-                <BsPlusCircle size={20} />
-                노트 추가
-              </button>
-            </td>
-          </tr>
+          <AdminTableRowAdd
+            isAddMode={isNoteAddMode}
+            setIsAddMode={setIsNoteAddMode}
+            getData={getNoteList}
+            isBrand={false}
+          />
         </tbody>
       </table>
     </main>
