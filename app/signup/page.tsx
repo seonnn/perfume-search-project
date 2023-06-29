@@ -4,7 +4,6 @@ import Logo from '@/public/logo.svg';
 import Image from 'next/image';
 import LabelInput from '@/components/common/LabelInput';
 import Button from '@/components/common/Button';
-// import SocialLoginButton from '@/components/login/SocialLoginButton';
 
 function Page() {
   const [email, setEmail] = useState('');
@@ -14,24 +13,21 @@ function Page() {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       }).then((res) => res.json());
-
-      console.log(response.data.session);
 
       return response.data;
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <div className="flex flex-col items-center border-1 border-stone-300 rounded w-[458px] px-7 py-10 gap-8">
         <Image src={Logo} alt="logo" width={208} height={34} />
-        <form className="w-full flex flex-col gap-4 mt-2" onSubmit={handleSubmit}>
+        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex items-center">
             <LabelInput
               label="아이디"
@@ -50,11 +46,7 @@ function Page() {
               type="password"
             />
           </div>
-          <Button text="로그인" />
-          {/* <div className="flex flex-col gap-4 w-full">
-          <SocialLoginButton type="google" />
-          <SocialLoginButton type="naver" />
-        </div> */}
+          <Button text="회원가입" />
         </form>
       </div>
     </div>

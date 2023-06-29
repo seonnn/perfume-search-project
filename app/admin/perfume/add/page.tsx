@@ -1,6 +1,6 @@
 'use client';
 import ImageInput from '@/components/admin/ImageInput';
-import LabelInput from '@/components/admin/LabelInput';
+import LabelInput from '@/components/common/LabelInput';
 import LabelSelect from '@/components/admin/LabelSelect';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
@@ -116,7 +116,7 @@ function Page() {
         <Button text="향수 이미지 등록" onClick={handleImageRegisterButtonClick} type="button" />
         <div className="w-full grid grid-cols-2 gap-8 mt-6">
           <div className="flex items-center">
-            <LabelInput label="향수명" perfumeName={perfumeName} setPerfumeName={setPerfumeName} />
+            <LabelInput label="향수명" state={perfumeName} setState={setPerfumeName} />
           </div>
           <div className="flex items-center">
             <LabelSelect
