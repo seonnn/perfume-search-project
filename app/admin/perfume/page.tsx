@@ -40,15 +40,17 @@ function Page() {
         </thead>
         <tbody>
           {perfumeList.map((perfume) => (
-            <tr className="border-b-1" key={perfume.id}>
+            <tr key={perfume.id} className="border-b-1">
               <td className="text-center">{perfume.id}</td>
               <td className="flex justify-center py-2">
-                <Image
-                  src={process.env.NEXT_PUBLIC_SUPABASE_URL + perfume.imgUrl}
-                  alt="향수 이미지"
-                  width={128}
-                  height={128}
-                />
+                <Link href={`/admin/perfume/edit/${perfume.id}`}>
+                  <Image
+                    src={process.env.NEXT_PUBLIC_SUPABASE_URL + perfume.imgUrl}
+                    alt="향수 이미지"
+                    width={128}
+                    height={128}
+                  />
+                </Link>
               </td>
               <td className="text-center">{perfume.brand}</td>
               <td className="text-center">{perfume.name}</td>
