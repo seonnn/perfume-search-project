@@ -1,13 +1,13 @@
-interface PerfumeNote {
-  perfumeNoteId: number | null;
+export interface PerfumeNote {
+  perfumeNoteId?: number;
   noteId: number;
 }
 
 export interface SelectedNoteList {
-  [key: string]: number[];
-  t: number[];
-  m: number[];
-  b: number[];
+  [key: string]: PerfumeNote[];
+  t: PerfumeNote[];
+  m: PerfumeNote[];
+  b: PerfumeNote[];
 }
 
 export interface ImageState {

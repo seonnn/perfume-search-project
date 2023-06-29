@@ -2,6 +2,8 @@ import { Note } from '@/types';
 import React, { useEffect, useRef } from 'react';
 import { IoClose } from 'react-icons/io5';
 import FilterItem from '../common/FilterItem';
+import { PerfumeNote } from '@/types/admin';
+import Button from '../common/Button';
 
 interface FilterModalNoteList extends Omit<Note, 'fragranceId'> {
   checked: boolean;
@@ -10,7 +12,7 @@ interface FilterModalNoteList extends Omit<Note, 'fragranceId'> {
 interface NoteFilterModalProps {
   noteList: FilterModalNoteList[];
   type: string;
-  selectedNoteList: number[];
+  selectedNoteList: PerfumeNote[];
   handleSelectedNoteList: (type: string, id: number) => void;
   setIsNoteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -63,17 +65,12 @@ function NoteFilterModal({
               onClick={() => handleSelectedNoteList(type, note.id)}
               id={note.id}
               type={type}
-              checked={selectedNoteList.some((id) => id === note.id)}
+              checked={selectedNoteList.some((selectedNote) => selectedNote.noteId === note.id)}
             />
           ))}
         </div>
         <div className="w-full flex justify-center mt-5">
-          <button
-            className="text-white px-8 py-2 bg-beige-400 font-bold rounded"
-            onClick={() => setIsNoteModalOpen(false)}
-          >
-            노트 입력
-          </button>
+          <Button text="노트 입력" onClick={() => setIsNoteModalOpen(false)} />
         </div>
       </div>
     </div>
