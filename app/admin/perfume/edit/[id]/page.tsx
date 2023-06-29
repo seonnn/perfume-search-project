@@ -5,7 +5,7 @@ import { Brand } from '@/types';
 import { ImageState, SelectedNoteList } from '@/types/admin';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
 import ImageInput from '@/components/admin/ImageInput';
-import LabelInput from '@/components/admin/LabelInput';
+import LabelInput from '@/components/common/LabelInput';
 import LabelSelect from '@/components/admin/LabelSelect';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
@@ -45,7 +45,8 @@ function Page({ params }: { params: { id: string } }) {
   };
 
   const handleImageEditButtonClick = async () => {
-    if (!imageState || !imageState.imageFile) return window.alert('향수 이미지를 입력해주세요!');
+    if (imageState.imageSrc === imageState.imageUrl || !imageState.imageFile)
+      return window.alert('향수 이미지를 변경하시려면 새로운 향수 이미지를 등록해주세요!');
 
     const formData = new FormData();
 
@@ -63,7 +64,7 @@ function Page({ params }: { params: { id: string } }) {
     }
 
     setImageState({ ...imageState, imageUrl: response.imageUrl });
-    return window.alert('향수 이미지가 등록되었습니다.');
+    return window.alert('향수 이미지가 수정되었습니다.');
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +92,29 @@ function Page({ params }: { params: { id: string } }) {
       window.alert('향수 정보 수정이 완료되었습니다.');
       router.push('/admin/perfume');
       return response.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('향수 등록 실패!');
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      if (window.confirm('향수 정보를 정말로 삭제하시겠습니까?')) {
+        const response = await fetch(`/api/perfume/${params.id}`, {
+          method: 'DELETE',
+          body: JSON.stringify({
+            selectedNoteList,
+            imageUrl: imageState.imageUrl,
+          }),
+        }).then((res) => res.json());
+
+        window.alert('향수 정보가 삭제되었습니다.');
+        router.push('/admin/perfume');
+        return response.data;
+      }
+
+      return;
     } catch (error) {
       console.error(error);
       throw new Error('향수 등록 실패!');
@@ -142,7 +166,7 @@ function Page({ params }: { params: { id: string } }) {
         <Button text="향수 이미지 수정" onClick={handleImageEditButtonClick} type="button" />
         <div className="w-full grid grid-cols-2 gap-8 mt-6">
           <div className="flex items-center">
-            <LabelInput label="향수명" perfumeName={perfumeName} setPerfumeName={setPerfumeName} />
+            <LabelInput label="향수명" state={perfumeName} setState={setPerfumeName} />
           </div>
           <div className="flex items-center">
             <LabelSelect
@@ -180,7 +204,7 @@ function Page({ params }: { params: { id: string } }) {
         />
         <div className="flex mt-8 gap-4">
           <Button text="수정" type="submit" size="large" />
-          <Button text="삭제" type="button" size="large" design="white" />
+          <Button text="삭제" type="button" size="large" design="white" onClick={handleDelete} />
         </div>
       </form>
     </div>

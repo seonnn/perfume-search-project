@@ -142,5 +142,29 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const { selectedNoteList, imageUrl } = await request.json();
+
+  const perfumeNoteToDelete = [...selectedNoteList['t'], ...selectedNoteList['m'], ...selectedNoteList['b']]
+    .filter((note) => note.perfumeNoteId)
+    .map((note) => note.perfumeNoteId);
+
+  const { error: note_delete_error } = await supabase
+    .from('perfume_note_list')
+    .delete()
+    .in('p_n_id', [perfumeNoteToDelete]);
+
+  if (note_delete_error) {
+    console.error(note_delete_error);
+    throw new Error('향수 데이터 삭제 실패');
+  }
+
+  const { error } = await supabase.from('perfume_list').delete().eq('p_id', +params.id);
+  const { data, error: image_delete_error } = await supabase.storage.from('perfume_image').remove([imageUrl]);
+
+  if (error || image_delete_error) {
+    console.error(error, image_delete_error);
+    throw new Error('향수 데이터 삭제 실패');
+  }
+
   return NextResponse.json({ status: 204 });
 }
