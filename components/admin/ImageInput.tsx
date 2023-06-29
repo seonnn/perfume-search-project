@@ -26,7 +26,14 @@ function ImageInput({ imageState, setImageState }: ImageInputProps) {
     <div className="w-48 h-48 flex justify-center items-center bg-stone-100 text-stone-600">
       <label htmlFor="image">
         {imageState.imageSrc ? (
-          <Image src={imageState.imageSrc} alt="perfumeImage" width={176} height={176} />
+          <Image
+            src={
+              imageState.imageFile ? imageState.imageSrc : process.env.NEXT_PUBLIC_SUPABASE_URL + imageState.imageSrc
+            }
+            alt="perfumeImage"
+            width={176}
+            height={176}
+          />
         ) : (
           <BsPlus size={48} className="cursor-pointer" />
         )}

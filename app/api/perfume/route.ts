@@ -1,4 +1,4 @@
-import { SelectedNoteList } from '@/types/admin';
+import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
@@ -26,10 +26,10 @@ export async function POST(request: Request) {
   }
 
   const perfumeNoteList = Object.entries(selectedNoteList).flatMap(([n_type, notes]) => {
-    return notes.map((note: number) => {
+    return notes.map((note: PerfumeNote) => {
       return {
         p_id: perfume_data[0].p_id,
-        n_id: note,
+        n_id: note.noteId,
         n_type,
         b_id,
       };
