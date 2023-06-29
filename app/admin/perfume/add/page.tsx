@@ -4,6 +4,7 @@ import LabelInput from '@/components/admin/LabelInput';
 import LabelSelect from '@/components/admin/LabelSelect';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
+import Button from '@/components/common/Button';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
 import { ImageState, SelectedNoteList } from '@/types/admin';
@@ -26,10 +27,10 @@ function Page() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   const handleSelectedNoteList = (type: string, id: number) => {
-    let prevNoteList = selectedNoteList[type];
-    let newNoteList = prevNoteList.includes(id)
-      ? prevNoteList.filter((noteId) => id !== noteId)
-      : [...prevNoteList, id];
+    const prevNoteList = selectedNoteList[type];
+    const noteIdx = prevNoteList.map((note) => note.noteId).findIndex((noteId) => noteId === id);
+    let newNoteList =
+      noteIdx > -1 ? prevNoteList.filter((noteId, idx) => idx !== noteIdx) : [...prevNoteList, { noteId: id }];
 
     setSelectedNoteList({ ...selectedNoteList, [type]: newNoteList });
   };
@@ -112,14 +113,8 @@ function Page() {
       <h2 className="text-2xl font-bold mb-16">향수 등록</h2>
       <form className="w-full flex flex-col items-center gap-4" onSubmit={handleSubmit}>
         <ImageInput imageState={imageState} setImageState={setImageState} />
-        <button
-          className="text-white px-8 py-2 bg-beige-400 font-bold rounded mb-6"
-          onClick={handleImageRegisterButtonClick}
-          type="button"
-        >
-          향수 이미지 등록
-        </button>
-        <div className="w-full grid grid-cols-2 gap-8">
+        <Button text="향수 이미지 등록" onClick={handleImageRegisterButtonClick} type="button" />
+        <div className="w-full grid grid-cols-2 gap-8 mt-6">
           <div className="flex items-center">
             <LabelInput label="향수명" perfumeName={perfumeName} setPerfumeName={setPerfumeName} />
           </div>
@@ -157,9 +152,9 @@ function Page() {
           setNoteType={setNoteType}
           handleSelectedNoteList={handleSelectedNoteList}
         />
-        <button type="submit" className="text-white px-8 p-3 bg-beige-400 font-bold text-xl rounded mt-8">
-          향수 등록
-        </button>
+        <div className="mt-8">
+          <Button text="등록" size="large" />
+        </div>
       </form>
     </div>
   );
