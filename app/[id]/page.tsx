@@ -10,6 +10,8 @@ export async function generateStaticParams() {
   return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
 }
 
+export const dynamicParams = true;
+
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
 
