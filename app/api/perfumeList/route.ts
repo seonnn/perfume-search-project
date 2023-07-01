@@ -3,6 +3,7 @@ import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
 // export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
