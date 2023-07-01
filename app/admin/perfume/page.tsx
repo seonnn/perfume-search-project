@@ -11,8 +11,8 @@ function Page() {
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();
 
   const getBrandList = async () => {
-    let brandResponse = await fetch('/api/perfumeList').then((res) => res.json());
-    setPerfumeList(brandResponse);
+    let perfumeResponse = await fetch('/api/perfumeList', { cache: 'no-store' }).then((res) => res.json());
+    setPerfumeList(perfumeResponse);
   };
 
   useEffect(() => {
