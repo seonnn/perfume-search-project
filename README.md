@@ -33,9 +33,41 @@ npm run dev
 #### 노트, 브랜드 정보로 향수 필터
 <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/305d19c0-7c67-4f5a-bd54-4b6a6947671c" width="50%" height="50%" />
 <br />
+<br />
 
 #### 향수 상세 정보 조회
 <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/9457f505-6171-499b-bcec-a53a39ac3ec5" width="50%" height="50%" />
+<br />
+<br />
+
+#### 로그인, 로그아웃
+<table>
+  <tr>
+    <td><img src="https://github.com/seonnn/perfume-search-project/assets/90498108/74c5f2f5-635e-442f-8c02-27eef1474376" /></td>
+    <td><img src="https://github.com/seonnn/perfume-search-project/assets/90498108/eda738b3-3983-47b7-a314-4e5d10052ddf" /></td>
+  </tr>
+</table>
+<br />
+<br />
+
+#### 향수 목록 관리(추가, 수정, 삭제)
+<table>
+  <tr>
+    <td><img src="https://github.com/seonnn/perfume-search-project/assets/90498108/edf3d044-fa2d-483b-a2f5-ec189f059a52" /></td>
+    <td><img src="https://github.com/seonnn/perfume-search-project/assets/90498108/308e41c8-0fb2-4dc9-845d-42aef30c9ae8" /></td>
+  </tr>
+</table>
+<br />
+<br />
+
+#### 노트 목록 관리(추가, 수정, 삭제)
+<img src="https://github.com/seonnn/perfume-search-project/assets/90498108/28bca17d-baec-412f-8b79-f1da72c34c29" width="50%" height="50%" />
+<br />
+<br />
+
+#### 브랜드 목록 관리(추가, 수정, 삭제)
+<img src="https://github.com/seonnn/perfume-search-project/assets/90498108/4501fec9-29f9-4436-a90e-29421379b3d0" width="50%" height="50%" />
+<br />
 <br />
 
 #### 반응형 디자인
@@ -57,4 +89,5 @@ npm run dev
     <td colspan="3" align="center"><b>모바일</b></td>
   </tr>
 </table>
-
+<br />
+<br />
