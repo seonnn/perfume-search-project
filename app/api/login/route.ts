@@ -14,5 +14,17 @@ export async function POST(request: Request) {
     throw new Error('로그인 실패');
   }
 
-  return NextResponse.json({ status: 201, data });
+  const response = NextResponse.json({ status: 201, data: data.session?.user });
+  const accessToken = data.session?.access_token;
+
+  if (accessToken) {
+    response.cookies.set({
+      name: 'access_token',
+      value: accessToken,
+      maxAge: 3600,
+      httpOnly: true,
+    });
+  }
+
+  return response;
 }

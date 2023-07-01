@@ -3,7 +3,7 @@ import { getBrand } from '@/utils/supabase/getBrand';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
-export const revalidate = 3600;
+// export const revalidate = 3600;
 
 export async function GET() {
   try {
