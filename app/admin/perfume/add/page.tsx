@@ -73,6 +73,7 @@ function Page() {
 
       if (response.status === 409) return window.alert(`이미 등록된 향수입니다.`);
 
+      window.alert('향수 등록이 완료되었습니다.');
       router.push('/admin/perfume');
       return response.data;
     } catch (error) {
