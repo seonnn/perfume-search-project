@@ -1,6 +1,8 @@
 'use client';
+import { userAtom } from '@/recoil/atom';
 import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 
 function ProfileModal({ handleIsModalOpened }: { handleIsModalOpened: () => void }) {
   const profileMenu =
@@ -15,6 +17,8 @@ function ProfileModal({ handleIsModalOpened }: { handleIsModalOpened: () => void
 
   const router = useRouter();
   const modalRef = useRef(null);
+  const resetUser = useResetRecoilState(userAtom);
+
   const handleLinkChange = (url: string) => {
     router.push(url);
     return handleIsModalOpened();
@@ -27,10 +31,12 @@ function ProfileModal({ handleIsModalOpened }: { handleIsModalOpened: () => void
       }).then((res) => res.json());
 
       localStorage.removeItem('user');
+      resetUser();
       handleIsModalOpened();
 
-      router.refresh();
-      return router.push('/');
+      window.alert('로그아웃 되었습니다.');
+      router.push('/');
+      return router.refresh();
     } catch (error) {
       console.error(error);
       throw new Error('로그아웃 실패');
