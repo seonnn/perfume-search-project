@@ -6,12 +6,12 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const perfumeListData = await getPerfumeList();
-  console.log('generateStaticParams');
+
   return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
+function PerfumeLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   return <React.Fragment>{children}</React.Fragment>;
 }
 
-export default Layout;
+export default PerfumeLayout;
