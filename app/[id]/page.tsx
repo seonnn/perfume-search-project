@@ -1,16 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
-import { Perfume } from '@/types';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
-import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
-
-export async function generateStaticParams() {
-  const perfumeListData = await getPerfumeList();
-  return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
-}
-
-export const dynamicParams = true;
 
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
