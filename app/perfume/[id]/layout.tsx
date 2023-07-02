@@ -6,6 +6,7 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const perfumeListData = await getPerfumeList();
+  console.log('generateStaticParams');
   return perfumeListData.map((perfume: Perfume) => ({ id: String(perfume.id) }));
 }
 
