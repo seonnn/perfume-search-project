@@ -76,7 +76,7 @@ function Home() {
         </div>
         <div className="grid grid-cols-4 gap-5 max-xl:px-5 max-lg:grid-cols-3 max-md:grid-cols-2 max">
           {perfumeList.map((perfume) => (
-            <Link key={perfume.id} href={`/${perfume.id}`}>
+            <Link key={perfume.id} href={`/perfume/${perfume.id}`}>
               <PerfumeCard brand={perfume.brand} name={perfume.name} imgUrl={perfume.imgUrl} id={perfume.id} />
             </Link>
           ))}
