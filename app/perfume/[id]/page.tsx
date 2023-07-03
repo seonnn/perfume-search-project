@@ -3,8 +3,7 @@ import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 
-// export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-cache';
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 async function Page({ params }: { params: { id: string } }) {
