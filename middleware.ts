@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import type { Database } from './utils/supabase/schema';
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const url = new URL(req.url);
-  const supabase = createMiddlewareClient<Database>({ req, res });
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+  const url = new URL(request.url);
+  const supabase = createMiddlewareClient<Database>({ req: request, res: response });
 
   if (url.pathname === '/api/auth') {
     const code = url.searchParams.get('code');
@@ -17,5 +17,5 @@ export async function middleware(req: NextRequest) {
     await supabase.auth.getSession();
   }
 
-  return res;
+  return response;
 }
