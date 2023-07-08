@@ -28,7 +28,7 @@ function Page() {
       window.alert(
         '회원 가입에 성공했습니다. 가입하신 이메일 주소로 가입 확인을 위한 메일이 발송되었으니 이메일을 확인해주세요.'
       );
-      return router.push('/');
+      return router.refresh();
     } catch (error) {
       console.error(error);
       throw new Error('회원가입 실패!');
