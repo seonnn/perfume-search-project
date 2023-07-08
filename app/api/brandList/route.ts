@@ -2,6 +2,8 @@ import { BrandListResponseData } from '@/types/response';
 import { getBrand } from '@/utils/supabase/getBrand';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 // export const revalidate = 3600;
 
@@ -36,7 +38,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const { b_name } = await request.json();
 
-  const { data, error } = await supabase.from('brand_list').insert({ b_name }).select();
+  const { data, error } = await createServerComponentClient({ cookies }).from('brand_list').insert({ b_name }).select();
 
   if (error) {
     if (error.message.includes('duplicate')) return NextResponse.json({ status: 409, message: error.message });
@@ -54,7 +56,11 @@ export async function PUT(request: Request) {
 
   if (prevBrand.b_name === b_name) return NextResponse.json({ status: 409 });
 
-  const { data, error } = await supabase.from('brand_list').update({ b_name }).eq('b_id', b_id).select();
+  const { data, error } = await createServerComponentClient({ cookies })
+    .from('brand_list')
+    .update({ b_name })
+    .eq('b_id', b_id)
+    .select();
 
   if (error) {
     console.error(JSON.stringify(error));
@@ -68,7 +74,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const { b_id } = await request.json();
 
-  const { error } = await supabase.from('brand_list').delete().eq('b_id', b_id);
+  const { error } = await createServerComponentClient({ cookies }).from('brand_list').delete().eq('b_id', b_id);
 
   if (error) {
     console.error(error);

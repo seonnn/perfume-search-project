@@ -2,6 +2,8 @@ import { NoteListResponseData } from '@/types/response';
 import { getNote } from '@/utils/supabase/getNote';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export async function GET() {
   try {
@@ -35,7 +37,10 @@ export async function GET() {
 export async function POST(request: Request) {
   const { n_name, f_id } = await request.json();
 
-  const { data, error } = await supabase.from('note_list').insert({ n_name, f_id }).select();
+  const { data, error } = await createServerComponentClient({ cookies })
+    .from('note_list')
+    .insert({ n_name, f_id })
+    .select();
 
   if (error) {
     if (error.message.includes('duplicate')) return NextResponse.json({ status: 409, message: error.message });
@@ -53,7 +58,11 @@ export async function PUT(request: Request) {
 
   if (prevNote.n_name === n_name && prevNote.f_id === f_id) return NextResponse.json({ status: 409 });
 
-  const { data, error } = await supabase.from('note_list').update({ n_name, f_id }).eq('n_id', n_id).select();
+  const { data, error } = await createServerComponentClient({ cookies })
+    .from('note_list')
+    .update({ n_name, f_id })
+    .eq('n_id', n_id)
+    .select();
 
   if (error) {
     console.error(JSON.stringify(error));
@@ -67,7 +76,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   const { n_id } = await request.json();
 
-  const { error } = await supabase.from('note_list').delete().eq('n_id', n_id);
+  const { error } = await createServerComponentClient({ cookies }).from('note_list').delete().eq('n_id', n_id);
 
   if (error) {
     console.error(error);
