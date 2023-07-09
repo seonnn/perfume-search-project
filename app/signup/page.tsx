@@ -15,13 +15,15 @@ function Page() {
     event.preventDefault();
 
     try {
-      await supabase.auth.signUp({
+      const response = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+          emailRedirectTo: `${window.location.origin}/api/auth`,
         },
       });
+
+      console.log(response);
 
       setEmail('');
       setPassword('');
