@@ -1,11 +1,12 @@
-import { supabase } from '@/utils/supabase/supabase';
 import { AdminPerfumeDetailResponseData } from '@/types/response';
 import { NextResponse } from 'next/server';
 import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { getAdminPerfumeDetail } from '@/utils/supabase/getAdminPerfumeDetail';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { data, error } = await supabase
+  const { data, error } = await createServerComponentClient({ cookies })
     .from('perfume_list')
     .select(
       `
@@ -70,7 +71,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
   let perfume_data = undefined;
   if (prevPerfume.name !== p_name || prevPerfume.brandId !== b_id || prevPerfume.imgurl !== imgurl) {
-    const { data, error } = await supabase
+    const { data, error } = await createServerComponentClient({ cookies })
       .from('perfume_list')
       .update({ p_name, b_id, imgurl })
       .eq('p_id', +params.id)
@@ -88,7 +89,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     .filter((note) => note.perfumeNoteId)
     .map((note) => note.perfumeNoteId);
 
-  const { error: note_delete_error } = await supabase
+  const { error: note_delete_error } = await createServerComponentClient({ cookies })
     .from('perfume_note_list')
     .delete()
     .in('p_n_id', [...notesToDelete, ...perfumeNoteToDelete]);
@@ -109,7 +110,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     });
   });
 
-  const { data, error } = await supabase.from('perfume_note_list').insert(perfumeNoteList).select();
+  const { data, error } = await createServerComponentClient({ cookies })
+    .from('perfume_note_list')
+    .insert(perfumeNoteList)
+    .select();
 
   if (error) {
     console.error(error);
@@ -148,7 +152,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     .filter((note) => note.perfumeNoteId)
     .map((note) => note.perfumeNoteId);
 
-  const { error: note_delete_error } = await supabase
+  const { error: note_delete_error } = await createServerComponentClient({ cookies })
     .from('perfume_note_list')
     .delete()
     .in('p_n_id', [perfumeNoteToDelete]);
@@ -158,8 +162,10 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     throw new Error('향수 데이터 삭제 실패');
   }
 
-  const { error } = await supabase.from('perfume_list').delete().eq('p_id', +params.id);
-  const { data, error: image_delete_error } = await supabase.storage.from('perfume_image').remove([imageUrl]);
+  const { error } = await createServerComponentClient({ cookies }).from('perfume_list').delete().eq('p_id', +params.id);
+  const { data, error: image_delete_error } = await createServerComponentClient({ cookies })
+    .storage.from('perfume_image')
+    .remove([imageUrl]);
 
   if (error || image_delete_error) {
     console.error(error, image_delete_error);
