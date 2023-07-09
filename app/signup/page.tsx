@@ -19,7 +19,7 @@ function Page() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/api/auth`,
+          emailRedirectTo: `${location.origin}/api/auth`,
         },
       });
 
