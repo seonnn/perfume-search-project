@@ -1,8 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import { Database } from './schema';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from './schema';
 
-export const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_KEY || '',
-  { auth: { persistSession: false } }
-);
+export const supabase = createClientComponentClient<Database>();

@@ -1,6 +1,7 @@
 import { PerfumeNote, SelectedNoteList } from '@/types/admin';
-import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface PerfumeRequestData {
   p_name: string;
@@ -12,7 +13,7 @@ interface PerfumeRequestData {
 export async function POST(request: Request) {
   const { p_name, b_id, imgurl, selectedNoteList }: PerfumeRequestData = await request.json();
 
-  const { data: perfume_data, error: perfume_error } = await supabase
+  const { data: perfume_data, error: perfume_error } = await createServerComponentClient({ cookies })
     .from('perfume_list')
     .insert({ p_name, b_id, imgurl })
     .select();
@@ -36,7 +37,10 @@ export async function POST(request: Request) {
     });
   });
 
-  const { data, error } = await supabase.from('perfume_note_list').insert(perfumeNoteList).select();
+  const { data, error } = await createServerComponentClient({ cookies })
+    .from('perfume_note_list')
+    .insert(perfumeNoteList)
+    .select();
 
   if (error) {
     console.error(error);
