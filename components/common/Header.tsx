@@ -9,17 +9,17 @@ import ProfileModal from './ProfileModal';
 import { FaUserCircle } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '@/recoil/atom';
+import { getCookie } from 'cookies-next';
 
 function Header() {
   const profileModal = useModal('profileModal');
   const [user, setUser] = useRecoilState(userAtom);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userName');
-    setUser({
-      id: userId || '',
-      role: userId === 'admin' ? 'admin' : 'user',
-    });
+    const userToken = getCookie(`sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`);
+    if (typeof userToken === 'string') {
+      setUser(JSON.parse(userToken)[0]);
+    }
   }, []);
 
   return (
@@ -32,7 +32,7 @@ function Header() {
           {profileModal.isModalOpened && <ProfileModal handleIsModalOpened={profileModal.handleIsModalOpened} />}
           {/* <div>향수 검색</div>
           <div>계절&색 추천</div> */}
-          {user.id ? (
+          {user ? (
             <FaUserCircle
               size={40}
               className="text-stone-600 cursor-pointer"
