@@ -11,7 +11,7 @@ export async function POST() {
 
   const response = NextResponse.json({ status: 204 });
 
-  response.cookies.delete('access_token');
+  response.cookies.delete(`sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`);
 
   return response;
 }
