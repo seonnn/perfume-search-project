@@ -4,11 +4,10 @@ import Logo from '@/public/logo.svg';
 import Image from 'next/image';
 import LabelInput from '@/components/common/LabelInput';
 import Button from '@/components/common/Button';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSetRecoilState } from 'recoil';
 import { userAtom } from '@/recoil/atom';
-// import SocialLoginButton from '@/components/login/SocialLoginButton';
+import { getCookie } from 'cookies-next';
 
 function Page() {
   const [email, setEmail] = useState('');
@@ -20,16 +19,14 @@ function Page() {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/login', {
+      await fetch('/api/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
-      }).then((res) => res.json());
-      const userId = response.data.email.split('@')[0];
-
-      localStorage.setItem('user', userId);
-      setUser({
-        id: userId,
-        role: userId === 'admin' ? 'admin' : 'user',
+      }).then(() => {
+        const userToken = getCookie(`sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`);
+        if (typeof userToken === 'string') {
+          setUser(JSON.parse(userToken)[0]);
+        }
       });
 
       window.alert('로그인 되었습니다.');
