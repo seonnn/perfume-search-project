@@ -2,11 +2,28 @@
 import { userAtom } from '@/recoil/atom';
 import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import jwtDecode from 'jwt-decode';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
-function ProfileModal({ handleIsModalOpened }: { handleIsModalOpened: () => void }) {
+interface ProfileModalProps {
+  handleIsModalOpened: () => void;
+}
+
+function ProfileModal({ handleIsModalOpened }: ProfileModalProps) {
+  const user = useRecoilValue(userAtom);
+  const resetUser = useResetRecoilState(userAtom);
+
+  const router = useRouter();
+  const modalRef = useRef(null);
+  let userEmail = '';
+
+  if (user) {
+    const { email }: { email: string } = jwtDecode(user);
+    userEmail = email;
+  }
+
   const profileMenu =
-    localStorage.getItem('user') === 'admin'
+    userEmail === 'surfragmanager@gmail.com' || userEmail === 'admin@surfrag.test'
       ? [
           { name: '향수 목록 관리', url: '/admin/perfume' },
           { name: '노트 목록 관리', url: '/admin/note' },
@@ -14,10 +31,6 @@ function ProfileModal({ handleIsModalOpened }: { handleIsModalOpened: () => void
           { name: '로그아웃', url: '/' },
         ]
       : [{ name: '로그아웃', url: '/' }];
-
-  const router = useRouter();
-  const modalRef = useRef(null);
-  const resetUser = useResetRecoilState(userAtom);
 
   const handleLinkChange = (url: string) => {
     router.push(url);

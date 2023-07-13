@@ -1,5 +1,5 @@
 'use client';
-
+import { withAuth } from '@/components/common/hocs/withAuth';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import React from 'react';
@@ -30,4 +30,4 @@ function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default Layout;
+export default withAuth(Layout);

@@ -16,13 +16,13 @@ export async function POST(request: Request) {
 
   const response = NextResponse.json({ status: 201, data: data.session?.user });
   const accessToken = data.session?.access_token;
+  const refreshToken = data.session?.refresh_token;
 
-  if (accessToken) {
+  if (accessToken && refreshToken) {
     response.cookies.set({
-      name: 'access_token',
-      value: accessToken,
+      name: `sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`,
+      value: JSON.stringify([accessToken, refreshToken, null, null, null]),
       maxAge: 3600,
-      httpOnly: true,
     });
   }
 

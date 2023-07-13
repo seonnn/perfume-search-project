@@ -7,8 +7,5 @@ export const modalAtomFamily = atomFamily({
 
 export const userAtom = atom({
   key: 'userAtom',
-  default: {
-    id: '',
-    role: '',
-  },
+  default: '',
 });

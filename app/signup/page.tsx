@@ -19,7 +19,7 @@ function Page() {
         email,
         password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+          emailRedirectTo: `${location.origin}/api/auth`,
         },
       });
 
