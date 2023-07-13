@@ -2,24 +2,28 @@
 import { userAtom } from '@/recoil/atom';
 import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
-import jwt_decode from 'jwt-decode';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import jwtDecode from 'jwt-decode';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 interface ProfileModalProps {
   handleIsModalOpened: () => void;
 }
 
 function ProfileModal({ handleIsModalOpened }: ProfileModalProps) {
-  const [user, setUser] = useRecoilState(userAtom);
+  const user = useRecoilValue(userAtom);
   const resetUser = useResetRecoilState(userAtom);
 
   const router = useRouter();
   const modalRef = useRef(null);
+  let userEmail = '';
 
-  const { email }: { email: string } = jwt_decode(user);
+  if (user) {
+    const { email }: { email: string } = jwtDecode(user);
+    userEmail = email;
+  }
 
   const profileMenu =
-    email === 'surfragmanager@gmail.com' || email === 'admin@surfrag.test'
+    userEmail === 'surfragmanager@gmail.com' || userEmail === 'admin@surfrag.test'
       ? [
           { name: '향수 목록 관리', url: '/admin/perfume' },
           { name: '노트 목록 관리', url: '/admin/note' },
