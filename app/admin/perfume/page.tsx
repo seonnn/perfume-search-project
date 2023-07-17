@@ -7,6 +7,8 @@ import Loading from '@/components/common/Loading';
 import Link from 'next/link';
 import Button from '@/components/common/Button';
 
+export const revalidate = 0;
+
 function Page() {
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();
 
