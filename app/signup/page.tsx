@@ -4,8 +4,8 @@ import Logo from '@/public/logo.svg';
 import Image from 'next/image';
 import LabelInput from '@/components/common/LabelInput';
 import Button from '@/components/common/Button';
-import { supabase } from '@/utils/supabase/supabase';
 import { useRouter } from 'next/navigation';
+
 function Page() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,20 +15,18 @@ function Page() {
     event.preventDefault();
 
     try {
-      await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${location.origin}/api/auth`,
-        },
-      });
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      }).then((res) => res.json());
+
+      if (response.status === 409) return window.alert('이미 사용중인 이메일입니다.');
 
       setEmail('');
       setPassword('');
-      window.alert(
-        '회원 가입에 성공했습니다. 가입하신 이메일 주소로 가입 확인을 위한 메일이 발송되었으니 이메일을 확인해주세요.'
-      );
-      return router.refresh();
+      window.alert('회원 가입에 성공했습니다.');
+
+      return router.push('/');
     } catch (error) {
       console.error(error);
       throw new Error('회원가입 실패!');

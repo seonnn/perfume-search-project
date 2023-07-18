@@ -1,7 +1,9 @@
 import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { PerfumeListResponseData } from '@/types/response';
+import { supabase } from '@/utils/supabase/supabase';
 
 interface PerfumeRequestData {
   p_name: string;
@@ -10,10 +12,50 @@ interface PerfumeRequestData {
   selectedNoteList: SelectedNoteList;
 }
 
+export const revalidate = 0;
+
+export async function GET() {
+  try {
+    const { data } = await supabase
+      .from('perfume_list')
+      .select(
+        `
+      p_id,
+      p_name,
+      imgurl,
+      brand_list (
+        b_name
+      )
+    `
+      )
+      .returns<PerfumeListResponseData[]>();
+
+    if (!data || !data.length) {
+      return NextResponse.json([]);
+    }
+
+    return NextResponse.json(
+      data.map((perfume) => {
+        const {
+          p_id: id,
+          p_name: name,
+          imgurl: imgUrl,
+          brand_list: { b_name: brand },
+        } = perfume;
+
+        return { id, name, imgUrl, brand };
+      })
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error('향수 목록 조회 실패');
+  }
+}
+
 export async function POST(request: Request) {
   const { p_name, b_id, imgurl, selectedNoteList }: PerfumeRequestData = await request.json();
 
-  const { data: perfume_data, error: perfume_error } = await createServerComponentClient({ cookies })
+  const { data: perfume_data, error: perfume_error } = await createRouteHandlerClient({ cookies })
     .from('perfume_list')
     .insert({ p_name, b_id, imgurl })
     .select();
@@ -37,7 +79,7 @@ export async function POST(request: Request) {
     });
   });
 
-  const { data, error } = await createServerComponentClient({ cookies })
+  const { data, error } = await createRouteHandlerClient({ cookies })
     .from('perfume_note_list')
     .insert(perfumeNoteList)
     .select();

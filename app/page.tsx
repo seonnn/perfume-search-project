@@ -10,6 +10,8 @@ import FilterMenuModal from '@/components/home/FilterMenuModal';
 import { useSearchParams } from 'next/navigation';
 import Loading from '@/components/common/Loading';
 
+export const revalidate = 1;
+
 function Home() {
   const searchParams = useSearchParams();
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();

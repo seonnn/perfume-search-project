@@ -2,8 +2,7 @@ import { PerfumeListResponseData } from '@/types/response';
 import { supabase } from '@/utils/supabase/supabase';
 import { NextResponse } from 'next/server';
 
-// export const revalidate = 3600;
-export const dynamic = 'force-dynamic';
+export const revalidate = 1;
 
 export async function GET() {
   try {

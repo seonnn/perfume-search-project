@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useSetRecoilState } from 'recoil';
 import { userAtom } from '@/recoil/atom';
 import { getCookie } from 'cookies-next';
+import Link from 'next/link';
 
 function Page() {
   const [email, setEmail] = useState('');
@@ -61,12 +62,12 @@ function Page() {
             />
           </div>
           <Button text="로그인" />
-          {/* <div className="mt-4 text-center text-xs text-stone-500">
+          <div className="mt-4 text-center text-xs text-stone-500">
             계정이 없으신가요?{' '}
             <Link href="/signup">
               <span>회원가입</span>
             </Link>
-          </div> */}
+          </div>
           {/* <div className="flex flex-col gap-4 w-full">
           <SocialLoginButton type="google" />
           <SocialLoginButton type="naver" />
