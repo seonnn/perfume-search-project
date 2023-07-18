@@ -7,13 +7,11 @@ import Loading from '@/components/common/Loading';
 import Link from 'next/link';
 import Button from '@/components/common/Button';
 
-export const revalidate = 0;
-
 function Page() {
   const [perfumeList, setPerfumeList] = useState<Perfume[]>();
 
   const getBrandList = async () => {
-    let perfumeResponse = await fetch('/api/perfumeList', { cache: 'no-store' }).then((res) => res.json());
+    let perfumeResponse = await fetch('/api/perfume', { cache: 'no-store' }).then((res) => res.json());
     setPerfumeList(perfumeResponse);
   };
 
