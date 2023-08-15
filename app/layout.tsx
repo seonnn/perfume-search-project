@@ -2,7 +2,7 @@ import React from 'react';
 import '@/app/globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import Header from '@/components/common/Header';
-import Recoil from '@/components/Recoil';
+import Provider from './Provider';
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
@@ -25,10 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${notoSansKr.variable} font-sans flex justify-center items-center`}>
-        <Recoil>
+        <Provider>
           <Header />
           {children}
-        </Recoil>
+        </Provider>
       </body>
     </html>
   );
