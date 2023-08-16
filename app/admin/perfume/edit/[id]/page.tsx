@@ -158,6 +158,7 @@ function Page({ params }: { params: { id: string } }) {
           selectedNoteList={selectedNoteList[noteType]}
           handleSelectedNoteList={handleSelectedNoteList}
           setIsNoteModalOpen={setIsNoteModalOpen}
+          isEdit={true}
         />
       )}
       <h2 className="text-2xl font-bold mb-16">향수 등록</h2>
