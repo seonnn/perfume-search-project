@@ -15,6 +15,7 @@ interface NoteFilterModalProps {
   selectedNoteList: PerfumeNote[];
   handleSelectedNoteList: (type: string, id: number) => void;
   setIsNoteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEdit?: boolean;
 }
 
 function NoteFilterModal({
@@ -23,6 +24,7 @@ function NoteFilterModal({
   selectedNoteList,
   handleSelectedNoteList,
   setIsNoteModalOpen,
+  isEdit = false,
 }: NoteFilterModalProps) {
   const wrapperRef = useRef(null);
 
@@ -70,7 +72,7 @@ function NoteFilterModal({
           ))}
         </div>
         <div className="w-full flex justify-center mt-5">
-          <Button text="노트 입력" onClick={() => setIsNoteModalOpen(false)} />
+          <Button text={isEdit ? '노트 수정' : '노트 입력'} onClick={() => setIsNoteModalOpen(false)} />
         </div>
       </div>
     </div>
