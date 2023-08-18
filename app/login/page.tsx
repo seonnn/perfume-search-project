@@ -20,21 +20,25 @@ function Page() {
     event.preventDefault();
 
     try {
-      await fetch('/api/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
-      }).then(() => {
+      });
+
+      if (response.status === 200) {
         const userToken = getCookie(`sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`);
         if (typeof userToken === 'string') {
           setUser(JSON.parse(userToken)[0]);
         }
-      });
-
-      window.alert('로그인 되었습니다.');
-      router.refresh();
-      return router.push('/');
+        router.refresh();
+        window.alert('로그인 되었습니다.');
+        return router.push('/');
+      } else {
+        return window.alert('아이디 또는 비밀번호를 확인해주세요.');
+      }
     } catch (error) {
       console.error(error);
+      window.alert('로그인 요청 중 오류가 발생했습니다.');
     }
   };
 
