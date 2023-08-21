@@ -1,13 +1,11 @@
 import { Note } from '@/types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import FilterItem from '../common/FilterItem';
 import { PerfumeNote } from '@/types/admin';
 import Button from '../common/Button';
 
-interface FilterModalNoteList extends Omit<Note, 'fragranceId'> {
-  checked: boolean;
-}
+type FilterModalNoteList = Omit<Note, 'fragranceId'>;
 
 interface NoteFilterModalProps {
   noteList: FilterModalNoteList[];
@@ -26,6 +24,7 @@ function NoteFilterModal({
   setIsNoteModalOpen,
   isEdit = false,
 }: NoteFilterModalProps) {
+  // const [temporarySelectedNoteList, setTemporarySelectedNoteList] = useState();
   const wrapperRef = useRef(null);
 
   const handleModalWrapperClick = (event: React.MouseEvent<HTMLDivElement>) => {
