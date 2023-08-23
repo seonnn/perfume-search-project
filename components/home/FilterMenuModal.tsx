@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import FilterMenu, { FilterMenuProps } from './FilterMenu';
 import { IoClose } from 'react-icons/io5';
+import Button from '../common/Button';
 
 interface FilterMenuModalProps extends FilterMenuProps {
   handleIsModalOpened: () => void;
@@ -27,6 +28,9 @@ function FilterMenuModal({ noteList, brandList, handleIsModalOpened }: FilterMen
         </button>
       </div>
       <FilterMenu noteList={noteList} brandList={brandList} />
+      <div className="flex justify-center w-full mt-6">
+        <Button text="선택 완료" onClick={handleIsModalOpened} />
+      </div>
     </div>
   );
 }
