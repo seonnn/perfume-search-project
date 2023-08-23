@@ -106,8 +106,8 @@ function Page() {
         <NoteFilterModal
           noteList={noteList}
           type={noteType}
-          selectedNoteList={selectedNoteList[noteType]}
-          handleSelectedNoteList={handleSelectedNoteList}
+          selectedNoteList={selectedNoteList}
+          setSelectedNoteList={setSelectedNoteList}
           setIsNoteModalOpen={setIsNoteModalOpen}
         />
       )}
