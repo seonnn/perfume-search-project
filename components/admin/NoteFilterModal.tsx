@@ -4,6 +4,7 @@ import { IoClose } from 'react-icons/io5';
 import FilterItem from '../common/FilterItem';
 import { SelectedNoteList } from '@/types/admin';
 import Button from '../common/Button';
+import { handleNoteList } from '@/utils/handleNoteList';
 
 type FilterModalNoteList = Omit<Note, 'fragranceId'>;
 
@@ -35,11 +36,7 @@ function NoteFilterModal({
   };
 
   const handleTemporarySelectedNoteList = (id: number) => {
-    const noteIdx = temporarySelectedNoteList.map((note) => note.noteId).findIndex((noteId) => noteId === id);
-    let newNoteList =
-      noteIdx > -1
-        ? temporarySelectedNoteList.filter((noteId, idx) => idx !== noteIdx)
-        : [...temporarySelectedNoteList, { noteId: id }];
+    const { newNoteList } = handleNoteList(temporarySelectedNoteList, id);
 
     setTemporarySelectedNoteList(newNoteList);
   };
