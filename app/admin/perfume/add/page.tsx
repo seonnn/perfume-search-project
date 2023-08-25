@@ -10,6 +10,7 @@ import { Brand } from '@/types';
 import { ImageState, SelectedNoteList } from '@/types/admin';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { handleNoteList } from '@/utils/handleNoteList';
 
 function Page() {
   const router = useRouter();
@@ -27,11 +28,7 @@ function Page() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   const handleSelectedNoteList = (type: string, id: number) => {
-    const prevNoteList = selectedNoteList[type];
-    const noteIdx = prevNoteList.map((note) => note.noteId).findIndex((noteId) => noteId === id);
-    let newNoteList =
-      noteIdx > -1 ? prevNoteList.filter((noteId, idx) => idx !== noteIdx) : [...prevNoteList, { noteId: id }];
-
+    const { newNoteList } = handleNoteList(selectedNoteList[type], id);
     setSelectedNoteList({ ...selectedNoteList, [type]: newNoteList });
   };
 

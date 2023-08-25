@@ -10,6 +10,7 @@ import LabelSelect from '@/components/admin/LabelSelect';
 import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/common/Button';
+import { handleNoteList } from '@/utils/handleNoteList';
 
 function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -28,18 +29,14 @@ function Page({ params }: { params: { id: string } }) {
   const [notesToDelete, setNotesToDelete] = useState<number[]>([]);
 
   const handleSelectedNoteList = (type: string, id: number) => {
-    const prevNoteList = selectedNoteList[type];
-    const noteIdx = prevNoteList.map((note) => note.noteId).findIndex((noteId) => noteId === id);
+    const { newNoteList, noteIdx } = handleNoteList(selectedNoteList[type], id);
 
     if (noteIdx > -1) {
-      let newNoteToDelete = prevNoteList[noteIdx].perfumeNoteId;
+      let newNoteToDelete = selectedNoteList[type][noteIdx].perfumeNoteId;
       if (typeof newNoteToDelete === 'number') {
         setNotesToDelete([...notesToDelete, newNoteToDelete]);
       }
     }
-
-    let newNoteList =
-      noteIdx > -1 ? prevNoteList.filter((noteId, idx) => idx !== noteIdx) : [...prevNoteList, { noteId: id }];
 
     setSelectedNoteList({ ...selectedNoteList, [type]: newNoteList });
   };
