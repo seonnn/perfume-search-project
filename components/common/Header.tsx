@@ -42,7 +42,7 @@ function Header() {
             <Link href="/login">로그인</Link>
           )}
         </div>
-        <div className="sm:hidden">
+        <div className="sm:hidden cursor-pointer">
           <FaBars size={22} />
         </div>
       </div>
