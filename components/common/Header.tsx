@@ -10,9 +10,11 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '@/recoil/atom';
 import { getCookie } from 'cookies-next';
+import HeaderModal from './HeaderModal';
 
 function Header() {
   const profileModal = useModal('profileModal');
+  const headerModal = useModal('headerModal');
   const [user, setUser] = useRecoilState(userAtom);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ function Header() {
         </Link>
         <div className="flex relative gap-8 font-bold text-lg max-sm:hidden">
           {profileModal.isModalOpened && <ProfileModal handleIsModalOpened={profileModal.handleIsModalOpened} />}
+          {headerModal.isModalOpened && <HeaderModal />}
           {/* <div>향수 검색</div>
           <div>계절&색 추천</div> */}
           {user ? (
@@ -43,7 +46,7 @@ function Header() {
           )}
         </div>
         <div className="sm:hidden cursor-pointer">
-          <FaBars size={22} />
+          <FaBars size={22} onClick={headerModal.handleIsModalOpened} />
         </div>
       </div>
     </nav>
