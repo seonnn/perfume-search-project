@@ -24,6 +24,8 @@ function Header() {
     }
   }, []);
 
+  console.log(headerModal.isModalOpened);
+
   return (
     <nav className="fixed top-0 left-0 flex justify-center w-full h-24 bg-stone-200 z-10 max-sm:h-20">
       <div className="flex w-full max-w-screen-xl justify-between items-center mx-5 text-stone-400">
@@ -32,7 +34,6 @@ function Header() {
         </Link>
         <div className="flex relative gap-8 font-bold text-lg max-sm:hidden">
           {profileModal.isModalOpened && <ProfileModal handleIsModalOpened={profileModal.handleIsModalOpened} />}
-          {headerModal.isModalOpened && <HeaderModal />}
           {/* <div>향수 검색</div>
           <div>계절&색 추천</div> */}
           {user ? (
@@ -46,6 +47,7 @@ function Header() {
           )}
         </div>
         <div className="sm:hidden cursor-pointer">
+          {headerModal.isModalOpened && <HeaderModal />}
           <FaBars size={22} onClick={headerModal.handleIsModalOpened} />
         </div>
       </div>
