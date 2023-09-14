@@ -32,6 +32,9 @@ module.exports = {
           naver: '#03C75A',
         },
       },
+      screens: {
+        sm: '576px',
+      },
     },
   },
   plugins: [],
