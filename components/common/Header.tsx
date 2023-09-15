@@ -25,10 +25,16 @@ function Header() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 flex justify-center w-full h-24 bg-stone-200 z-10 max-sm:h-20">
+    <nav className="fixed top-0 left-0 flex justify-center w-full h-24 bg-stone-200 z-10 max-sm:h-20 max-xs:h-16">
       <div className="flex w-full max-w-screen-xl justify-between items-center mx-5 text-stone-400">
         <Link href="/">
-          <Image src={Logo} alt="logo" width={208} height={34} className="max-sm:w-4/5 max-sm:h-4/5" />
+          <Image
+            src={Logo}
+            alt="logo"
+            width={208}
+            height={34}
+            className="max-sm:w-4/5 max-sm:h-4/5 max-xs:w-3/5 max-xs:h-3/5"
+          />
         </Link>
         <div className="flex relative gap-8 font-bold text-lg max-sm:text-base">
           {profileModal.isModalOpened && <ProfileModal handleIsModalOpened={profileModal.handleIsModalOpened} />}
@@ -37,7 +43,7 @@ function Header() {
           {user ? (
             <FaUserCircle
               size={40}
-              className="text-stone-600 cursor-pointer"
+              className="text-stone-600 cursor-pointer max-sm:w-4/5 max-xs:w-3/5"
               onClick={profileModal.handleIsModalOpened}
             />
           ) : (
