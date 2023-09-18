@@ -36,7 +36,7 @@ function Header() {
             className="max-sm:w-4/5 max-sm:h-4/5 max-xs:w-3/5 max-xs:h-3/5"
           />
         </Link>
-        <div className="flex relative gap-8 font-bold text-lg max-sm:text-base">
+        <div className="flex relative gap-8 font-bold text-lg max-sm:text-base max-xs:text-sm">
           {profileModal.isModalOpened && <ProfileModal handleIsModalOpened={profileModal.handleIsModalOpened} />}
           {/* <div>향수 검색</div>
           <div>계절&색 추천</div> */}
