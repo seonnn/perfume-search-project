@@ -59,7 +59,7 @@ function Home() {
 
   if (!perfumeList || !noteList.length || !brandList.length) return <Loading />;
   return (
-    <div className="flex gap-11 my-44 w-full max-w-screen-xl">
+    <div className="flex gap-11 my-44 w-full max-w-screen-xl max-xs:my-32">
       <SideFilterMenu noteList={noteList} brandList={brandList} />
       {filterModal.isModalOpened && (
         <FilterMenuModal
@@ -70,9 +70,9 @@ function Home() {
       )}
       <main className="w-full">
         <div className="flex flex-col items-center gap-4 mb-4 relative">
-          <h2 className="text-2xl text-stone-800 font-bold">향수</h2>
+          <h2 className="text-2xl text-stone-800 font-bold max-xs:text-xl">향수</h2>
           <FilterButton handleIsModalOpened={filterModal.handleIsModalOpened} />
-          <div className="text-stone-700">
+          <div className="text-stone-700 max-xs:text-sm">
             {perfumeList.length ? `${perfumeList.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>

@@ -13,8 +13,8 @@ async function Page({ params }: { params: { id: string } }) {
     <div className="h-screen w-full flex justify-center items-center max-xl:h-full max-xl:mx-5 max-xl:my-48 max-sm:my-32">
       <div className="box-border w-full max-w-screen-xl flex justify-start gap-24 max-xl:w-auto max-xl:flex-col max-xl:items-center max-xl:gap-8">
         <div className="flex flex-col w-full justify-start gap-4 xl:hidden">
-          <h3 className="text-stone-600 text-xl max-sm:text-lg">{perfume.brandName}</h3>
-          <h2 className="text-stone-800 font-bold text-3xl max-sm:text-2xl">{perfume.name}</h2>
+          <h3 className="text-stone-600 text-xl max-sm:text-lg max-xs:text-base">{perfume.brandName}</h3>
+          <h2 className="text-stone-800 font-bold text-3xl max-sm:text-2xl max-xs:text-xl">{perfume.name}</h2>
         </div>
         <div className="relative flex justify-center bg-stone-50 max-xl:w-full">
           <Image
