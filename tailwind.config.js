@@ -37,6 +37,5 @@ module.exports = {
       },
     },
   },
-  optimizeFonts: false,
   plugins: [],
 };
