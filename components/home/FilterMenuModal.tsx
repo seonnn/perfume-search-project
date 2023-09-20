@@ -18,7 +18,7 @@ function FilterMenuModal({ noteList, brandList, handleIsModalOpened }: FilterMen
   return (
     <div className="fixed top-0 left-0 w-full h-screen bg-white z-30 p-8 overflow-y-scroll">
       <div className="flex justify-between items-center px-2 text-stone-800">
-        <h2 className="text-2xl font-bold my-4">Filter Options</h2>
+        <h2 className="text-2xl font-bold my-4 max-xs:text-xl">Filter Options</h2>
         <button
           onClick={() => {
             handleIsModalOpened();

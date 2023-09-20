@@ -21,13 +21,13 @@ function FilterMenu({ noteList, brandList }: FilterMenuProps) {
   return (
     <React.Fragment>
       <div className="border-y-1 py-3 px-4">
-        <h3 className="text-xl text-stone-800 font-bold py-2">Note Filter</h3>
+        <h3 className="text-xl text-stone-800 font-bold py-2 max-xs:text-lg">Note Filter</h3>
         {fragranceList.map((fragrance) => (
           <DropDown title={fragrance.name} key={fragrance.id} dropDownList={noteList[fragrance.id - 1].noteList} />
         ))}
       </div>
       <div className="border-b-1 py-3 px-4">
-        <h3 className="text-xl text-stone-800 font-bold py-2">Brands</h3>
+        <h3 className="text-xl text-stone-800 font-bold py-2 max-xs:text-lg">Brands</h3>
         <SearchBar setSearchKeyWord={setSearchKeyWord} />
         <FilterList list={filteredBrandList} type={'brand'} />
       </div>
