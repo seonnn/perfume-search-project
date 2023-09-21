@@ -3,8 +3,6 @@ import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 
-// export const dynamicParams = true;
-
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
 
