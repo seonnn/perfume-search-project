@@ -20,17 +20,18 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: seonnn-perfume-search-project/surfrag
           stage: main
-          yaml: >
+          yaml: |
             name: surfrag
 
             app: node@16
 
             options:
               env:
-                - NEXT_PUBLIC_BASE_URL: http://localhost:3000
-                - NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-                - NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-              ports: 3000
+                NEXT_PUBLIC_BASE_URL: http://localhost:3000
+                NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+                NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+              ports:
+                - 3000
               build: npm run build
               install: npm install
               start: npm run start
