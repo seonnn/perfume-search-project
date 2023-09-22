@@ -27,9 +27,12 @@ jobs:
 
             options:
               env:
-                NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-                NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-                NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+                - name: NEXT_PUBLIC_BASE_URL
+                  value: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+                - name: NEXT_PUBLIC_SUPABASE_URL
+                  value: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+                - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+                  value: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
               ports: 3000
               build: npm run build
               install: npm install
