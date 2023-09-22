@@ -73,7 +73,6 @@ function Home() {
           <h2 className="text-2xl text-stone-800 font-bold max-xs:text-xl">향수</h2>
           <FilterButton handleIsModalOpened={filterModal.handleIsModalOpened} />
           <div className="text-stone-700 max-xs:text-sm">
-            배포테스트입니다@@
             {perfumeList.length ? `${perfumeList.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>
