@@ -2,6 +2,8 @@ import { Perfume } from '@/types';
 import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 import React from 'react';
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const perfumeListData = await getPerfumeList();
 
