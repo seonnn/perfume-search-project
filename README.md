@@ -9,7 +9,7 @@
 
 ## 배포
 
-[배포 링크로 이동](https://perfume-search-project.vercel.app/)
+<a href="https://port-0-surfrag-iciy2almujk1ho.sel5.cloudtype.app" target="_blank">배포 링크로 이동</a>
 <br />
 
 
