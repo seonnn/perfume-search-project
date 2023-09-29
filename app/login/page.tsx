@@ -29,6 +29,7 @@ function Page() {
         const userToken = getCookie(`sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(8).split('.')[0]}-auth-token`);
         if (typeof userToken === 'string') {
           setUser(JSON.parse(userToken)[0]);
+          localStorage.setItem('token', JSON.parse(userToken)[0]);
         }
         router.refresh();
         window.alert('로그인 되었습니다.');
