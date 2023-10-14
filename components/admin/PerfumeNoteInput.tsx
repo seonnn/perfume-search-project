@@ -1,7 +1,7 @@
 import { Note } from '@/types';
 import { PerfumeNote } from '@/types/admin';
 import React from 'react';
-import { IoClose } from 'react-icons/io5';
+import SelectedItem from '../common/SelectedItem';
 
 interface PerfumeNoteInputProps {
   type: 't' | 'm' | 'b';
@@ -43,13 +43,11 @@ function PerfumeNoteInput({
             selectedNoteList
               .map((selectedNote) => noteList.filter((note) => note.id === selectedNote.noteId)[0])
               .map((note) => (
-                <span
+                <SelectedItem
                   key={note.id}
-                  className="flex gap-1 items-center font-bold p-2 text-sm bg-beige-400 text-white rounded "
-                >
-                  {note.name}
-                  <IoClose size={16} onClick={() => handleSelectedNoteList(type, note.id)} />
-                </span>
+                  text={note.name}
+                  handleSelected={() => handleSelectedNoteList(type, note.id)}
+                />
               ))
           ) : (
             <></>
