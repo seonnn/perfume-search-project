@@ -3,8 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 interface SelectedFilterProps {
-  noteList: FragranceNoteList;
-  brandList: Brand;
+  noteList: FragranceNoteList[];
+  brandList: Brand[];
 }
 
 function SelectedFilter({ noteList, brandList }: SelectedFilterProps) {
