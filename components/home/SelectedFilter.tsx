@@ -1,6 +1,15 @@
+import { Brand, FragranceNoteList } from '@/types';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
-function SelectedFilter() {
+interface SelectedFilterProps {
+  noteList: FragranceNoteList;
+  brandList: Brand;
+}
+
+function SelectedFilter({ noteList, brandList }: SelectedFilterProps) {
+  const searchParams = useSearchParams();
+
   return <div>SelectedFilter</div>;
 }
 
