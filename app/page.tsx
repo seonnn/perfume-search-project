@@ -9,6 +9,7 @@ import useModal from '@/hooks/useModal';
 import FilterMenuModal from '@/components/home/FilterMenuModal';
 import { useSearchParams } from 'next/navigation';
 import Loading from '@/components/common/Loading';
+import SelectedFilter from '@/components/home/SelectedFilter';
 
 export const revalidate = 1;
 
@@ -56,7 +57,6 @@ function Home() {
   useEffect(() => {
     fetchPerfumeList();
   }, [searchParams.get('note'), searchParams.get('brand')]);
-
   if (!perfumeList || !noteList.length || !brandList.length) return <Loading />;
   return (
     <div className="flex gap-11 my-44 w-full max-w-screen-xl max-xs:my-32">
@@ -76,6 +76,7 @@ function Home() {
             {perfumeList.length ? `${perfumeList.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>
+        <SelectedFilter noteList={noteList.flatMap((item) => item.noteList)} brandList={brandList} />
         <div className="grid grid-cols-4 gap-5 max-xl:px-5 max-lg:grid-cols-3 max-md:grid-cols-2 max">
           {perfumeList.map((perfume) => (
             <Link key={perfume.id} href={`/perfume/${perfume.id}`}>
