@@ -76,7 +76,7 @@ function Home() {
             {perfumeList.length ? `${perfumeList.length}개의 향수가 검색되었습니다.` : '검색 결과가 없습니다.'}
           </div>
         </div>
-        <SelectedFilter noteList={noteList.flatMap((item) => item.noteList)} brandList={brandList} />
+        {/* <SelectedFilter noteList={noteList.flatMap((item) => item.noteList)} brandList={brandList} /> */}
         <div className="grid grid-cols-4 gap-5 max-xl:px-5 max-lg:grid-cols-3 max-md:grid-cols-2 max">
           {perfumeList.map((perfume) => (
             <Link key={perfume.id} href={`/perfume/${perfume.id}`}>
