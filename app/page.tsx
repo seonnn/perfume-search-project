@@ -24,12 +24,11 @@ function Home() {
     const brand = searchParams.get('brand');
 
     const perfumeListResponse =
-      // note || brand
-      //   ? await fetch(
-      //       `/api/filteredPerfumeList?notes=${note ? note.split('|') : []}&brands=${brand ? brand.split('|') : []}`
-      //     ).then((res) => res.json())
-      //   :
-      await fetch('/api/perfumeList').then((res) => res.json());
+      note || brand
+        ? await fetch(
+            `/api/filteredPerfumeList?notes=${note ? note.split('|') : []}&brands=${brand ? brand.split('|') : []}`
+          ).then((res) => res.json())
+        : await fetch('/api/perfumeList').then((res) => res.json());
 
     setPerfumeList(perfumeListResponse);
   };
