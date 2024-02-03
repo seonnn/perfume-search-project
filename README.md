@@ -9,7 +9,7 @@
 
 ## 배포
 
-<a href="https://port-0-surfrag-iciy2almujk1ho.sel5.cloudtype.app" target="_blank">배포 링크로 이동</a>
+<a href="https://surfrag.xyz/" target="_blank">배포 링크로 이동</a>
 <br />
 
 **:lock: 테스트 계정**
