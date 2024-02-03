@@ -28,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${notoSansKr.variable} font-sans flex justify-center items-center`}>
         <Provider>
           <Header />
+          <div id="portal"></div>
           {children}
         </Provider>
       </body>
