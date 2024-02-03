@@ -1,3 +1,4 @@
+'use client';
 import { fragranceList } from '@/utils/fragranceList';
 import React, { useState } from 'react';
 import DropDown from './DropDown';
