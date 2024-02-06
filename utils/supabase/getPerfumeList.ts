@@ -1,5 +1,6 @@
-import { PerfumeListResponseData } from '@/types/response';
+import { FilteredPerfumeListResponseData, PerfumeListResponseData } from '@/types/response';
 import { supabase } from './supabase';
+import { Perfume } from '@/types';
 
 export async function getPerfumeList() {
   const { data, error } = await supabase
@@ -31,4 +32,52 @@ export async function getPerfumeList() {
 
     return { id, name, imgUrl, brand };
   });
+}
+
+export async function getFilteredPerfumeList(notes: string, brands: string) {
+  const filteredData = supabase.from('perfume_note_list').select(`
+      perfume_list (
+        p_id,
+        p_name,
+        imgurl,
+        brand_list (
+          b_name
+        )
+      )
+    `);
+
+  if (notes?.length) {
+    filteredData.in('n_id', notes.split('|'));
+  }
+
+  if (brands?.length) {
+    filteredData.in('b_id', brands.split('|'));
+  }
+
+  const { data, error } = await filteredData.returns<FilteredPerfumeListResponseData[]>();
+
+  if (error) {
+    console.error(error);
+    throw new Error('향수 필터 목록 조회 실패');
+  }
+
+  if (!data || !data.length) {
+    return [];
+  }
+
+  const deduplicatedData = data.reduce<Record<string, Perfume>>((acc, cur) => {
+    if (acc[cur.perfume_list.p_id]) return acc;
+
+    const {
+      p_id: id,
+      p_name: name,
+      imgurl: imgUrl,
+      brand_list: { b_name: brand },
+    } = cur.perfume_list;
+
+    acc[id] = { id, name, imgUrl, brand };
+    return acc;
+  }, {});
+
+  return Object.values(deduplicatedData);
 }

@@ -4,7 +4,7 @@ import { supabase } from '@/utils/supabase/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-export const cache = 'no-store';
+// export const cache = 'no-store';
 
 export async function GET(request: NextRequest) {
   try {

@@ -2,6 +2,10 @@ import Image from 'next/image';
 import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
+import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
+import { Perfume } from '@/types';
+
+export const revalidate = 3;
 
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
@@ -40,3 +44,9 @@ async function Page({ params }: { params: { id: string } }) {
 }
 
 export default Page;
+
+export async function generateStaticParams() {
+  const perfumeListData = await getPerfumeList();
+
+  return perfumeListData.map((perfume: Perfume) => ({ id: perfume.id.toString() }));
+}
