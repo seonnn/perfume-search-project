@@ -25,7 +25,7 @@ function Header() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 flex justify-center w-full h-24 bg-stone-200 max-sm:h-20 max-xs:h-16 z-1">
+    <nav className="fixed top-0 left-0 flex justify-center w-full h-24 bg-stone-200 max-sm:h-20 max-xs:h-16">
       <div className="flex w-full max-w-screen-xl justify-between items-center mx-5 text-stone-400">
         <Link href="/">
           <Image
