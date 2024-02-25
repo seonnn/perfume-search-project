@@ -1,23 +1,15 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { adminTableHeader } from '@/utils/admin';
-import { Perfume } from '@/types';
 import Loading from '@/components/common/Loading';
 import Link from 'next/link';
 import Button from '@/components/common/Button';
+import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 
-function Page() {
-  const [perfumeList, setPerfumeList] = useState<Perfume[]>();
+export const dynamic = 'force-dynamic';
 
-  const getBrandList = async () => {
-    let perfumeResponse = await fetch('/api/perfume', { cache: 'no-store' }).then((res) => res.json());
-    setPerfumeList(perfumeResponse);
-  };
-
-  useEffect(() => {
-    getBrandList();
-  }, []);
+async function Page() {
+  const perfumeList = await getPerfumeList();
 
   if (!perfumeList) return <Loading />;
   return (
