@@ -5,7 +5,7 @@ import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 import { Perfume } from '@/types';
 
-// export const revalidate = 3;
+export const revalidate = 60;
 
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
