@@ -3,7 +3,7 @@ import { postPerfume } from '@/utils/supabase/postPerfume';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetPerfumeList = () => {
-  return useQuery({ queryKey: ['perfumeList'], queryFn: getPerfumeList, staleTime: Infinity });
+  return useQuery({ queryKey: ['perfumeList'], queryFn: getPerfumeList, staleTime: 300 });
 };
 
 export const usePostPerfume = () => {
