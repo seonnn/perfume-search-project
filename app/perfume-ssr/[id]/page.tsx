@@ -2,8 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 import NoteBadges from '@/components/detail/NoteBadges';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
-import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
-import { Perfume } from '@/types';
 
 export const dynamic = 'force-dynamic';
 

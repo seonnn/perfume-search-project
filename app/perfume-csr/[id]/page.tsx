@@ -6,7 +6,6 @@ import DetailContents from '@/components/detail/DetailContents';
 
 function PerfumeDetail({ params }: { params: { id: string } }) {
   const [perfume, setPerfume] = useState<PerfumeDetail | null>();
-  console.log(perfume);
 
   const fetchPerfumeDetail = async () => {
     const { name, imgUrl, brandName, perfumeNoteList } = await getPerfumeDetail(params.id);
