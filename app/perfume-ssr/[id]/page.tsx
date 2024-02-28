@@ -25,6 +25,7 @@ async function Page({ params }: { params: { id: string } }) {
             width={500}
             height={500}
             className="max-xl:w-3/5 max-xl:h-3/5"
+            priority
           />
         </div>
         <div>
