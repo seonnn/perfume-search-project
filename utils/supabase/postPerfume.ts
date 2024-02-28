@@ -1,6 +1,7 @@
 'use server';
 import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export interface PerfumeRequestData {
@@ -44,6 +45,8 @@ export const postPerfume = async (data: PerfumeRequestData) => {
     console.error(perfume_note_error);
     throw new Error('향수 노트 정보 등록 실패');
   }
+
+  revalidatePath('/', 'page');
 
   return {
     status: 204,
