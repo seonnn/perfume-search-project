@@ -20,6 +20,7 @@ const DetailContents = ({ name, imgUrl, brandName, perfumeNoteList }: DetailCont
           width={500}
           height={500}
           className="bg-stone-50"
+          priority
         />
         <div className="h-125">
           <div className="flex flex-col gap-4">
