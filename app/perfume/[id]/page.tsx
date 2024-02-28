@@ -5,7 +5,7 @@ import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 import { getPerfumeList } from '@/utils/supabase/getPerfumeList';
 import { Perfume } from '@/types';
 
-export const revalidate = 3;
+export const revalidate = 60;
 
 async function Page({ params }: { params: { id: string } }) {
   const perfume = await getPerfumeDetail(params.id);
@@ -25,6 +25,7 @@ async function Page({ params }: { params: { id: string } }) {
             width={500}
             height={500}
             className="max-xl:w-3/5 max-xl:h-3/5"
+            priority
           />
         </div>
         <div>
