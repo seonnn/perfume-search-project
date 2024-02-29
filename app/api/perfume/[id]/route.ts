@@ -121,6 +121,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     throw new Error('향수 데이터 수정 실패');
   }
 
+  revalidatePath(`/perfume`);
   revalidatePath(`/perfume/${params.id}`);
 
   return NextResponse.json(
