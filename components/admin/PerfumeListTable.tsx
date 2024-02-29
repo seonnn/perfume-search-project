@@ -2,7 +2,7 @@
 import { adminTableHeader } from '@/utils/admin';
 import React from 'react';
 import Image from 'next/image';
-import { useGetPerfumeList } from '@/hooks/queries/perfume';
+import { useGetPerfumeList } from '@/hooks/queries/usePerfumeListQuery';
 import Link from 'next/link';
 import Loading from '../common/Loading';
 

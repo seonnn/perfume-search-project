@@ -11,7 +11,7 @@ import { ImageState, SelectedNoteList } from '@/types/admin';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { handleNoteList } from '@/utils/handleNoteList';
-import { usePostPerfume } from '@/hooks/queries/perfume';
+import { usePostPerfumeDetail } from '@/hooks/queries/usePerfumeDetailQuery';
 
 function Page() {
   const router = useRouter();
@@ -27,7 +27,7 @@ function Page() {
   const [noteType, setNoteType] = useState('');
   const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
-  const { mutate } = usePostPerfume();
+  const { mutate } = usePostPerfumeDetail();
 
   const handleSelectedNoteList = (type: string, id: number) => {
     const { newNoteList } = handleNoteList(selectedNoteList[type], id);
