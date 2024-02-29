@@ -7,8 +7,6 @@ import { getNoteList } from '@/utils/supabase/getNoteList';
 import { getBrandList } from '@/utils/supabase/getBrandList';
 import FilterButton from '@/components/home/FilterButton';
 
-export const revalidate = 3600;
-
 async function Home({ searchParams }: { searchParams: { note: string; brand: string } }) {
   const perfumeList =
     searchParams.note?.length || searchParams.brand?.length

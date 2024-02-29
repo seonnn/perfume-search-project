@@ -4,6 +4,7 @@ import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { getAdminPerfumeDetail } from '@/utils/supabase/getAdminPerfumeDetail';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { data, error } = await createRouteHandlerClient({ cookies })
@@ -120,6 +121,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     throw new Error('향수 데이터 수정 실패');
   }
 
+  revalidatePath(`/perfume/${params.id}`);
+
   return NextResponse.json(
     perfume_data
       ? {
@@ -171,6 +174,9 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     console.error(error, image_delete_error);
     throw new Error('향수 데이터 삭제 실패');
   }
+
+  revalidatePath(`/perfume`);
+  revalidatePath(`/perfume/${params.id}`);
 
   return NextResponse.json({ status: 204 });
 }
