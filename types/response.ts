@@ -2,7 +2,7 @@ export interface PerfumeListResponseData {
   p_id: number;
   p_name: string;
   imgurl: string;
-  brand_list: { b_name: string };
+  brand_list: { b_name: string; b_id: number };
 }
 
 export interface FilteredPerfumeListResponseData {

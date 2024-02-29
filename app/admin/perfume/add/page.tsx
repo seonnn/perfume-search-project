@@ -11,6 +11,7 @@ import { ImageState, SelectedNoteList } from '@/types/admin';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { handleNoteList } from '@/utils/handleNoteList';
+import { usePostPerfumeDetail } from '@/hooks/queries/usePerfumeDetailQuery';
 
 function Page() {
   const router = useRouter();
@@ -26,6 +27,7 @@ function Page() {
   const [noteType, setNoteType] = useState('');
   const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+  const { mutate } = usePostPerfumeDetail();
 
   const handleSelectedNoteList = (type: string, id: number) => {
     const { newNoteList } = handleNoteList(selectedNoteList[type], id);
@@ -56,23 +58,14 @@ function Page() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-      const response = await fetch('/api/perfume', {
-        method: 'POST',
-        body: JSON.stringify({
-          p_name: perfumeName,
-          b_id: +brand,
-          imgurl: imageState.imageUrl,
-          selectedNoteList,
-        }),
-      }).then((res) => res.json());
-
-      if (response.status === 409) return window.alert(`이미 등록된 향수입니다.`);
-
-      window.alert('향수 등록이 완료되었습니다.');
-      router.push('/admin/perfume');
-      return response.data;
+      mutate({
+        p_name: perfumeName,
+        b_id: +brand,
+        imgurl: imageState.imageUrl,
+        selectedNoteList,
+      });
+      return router.push('/admin/perfume');
     } catch (error) {
       console.error(error);
       throw new Error('향수 등록 실패!');
