@@ -11,6 +11,7 @@ export async function getPerfumeDetail(id: string) {
       p_name,
       imgurl,
       brand_list (
+        b_id,
         b_name
       ),
       perfume_note_list (
@@ -34,7 +35,7 @@ export async function getPerfumeDetail(id: string) {
   const {
     p_name: name,
     imgurl: imgUrl,
-    brand_list: { b_name: brandName },
+    brand_list: { b_name: brandName, b_id: brandId },
     perfume_note_list,
   } = data[0];
 
@@ -60,5 +61,5 @@ export async function getPerfumeDetail(id: string) {
     }
   });
 
-  return { name, imgUrl, brandName, perfumeNoteList };
+  return { name, imgUrl, brandName, brandId, perfumeNoteList };
 }
