@@ -121,7 +121,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     throw new Error('향수 데이터 수정 실패');
   }
 
-  revalidatePath(`/perfume`, 'page');
+  revalidatePath(`/`, 'page');
   revalidatePath(`/perfume/${params.id}`, 'page');
 
   return NextResponse.json(
@@ -176,7 +176,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     throw new Error('향수 데이터 삭제 실패');
   }
 
-  revalidatePath(`/perfume`, 'page');
+  revalidatePath(`/`, 'page');
   revalidatePath(`/perfume/${params.id}`, 'page');
 
   return NextResponse.json({ status: 204 });
