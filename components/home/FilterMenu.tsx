@@ -29,8 +29,11 @@ function FilterMenu({ noteList, brandList }: FilterMenuProps) {
       </div>
       <div className="border-b-1 py-3 px-4">
         <h3 className="text-xl text-stone-800 font-bold py-2 max-xs:text-lg">Brands</h3>
-        <SearchBar setSearchKeyWord={setSearchKeyWord} />
         <FilterList list={filteredBrandList} type={'brand'} />
+      </div>
+      <div className="border-b-1 py-3 px-4">
+        <h3 className="text-xl text-stone-800 font-bold py-2 max-xs:text-lg">Perfume Name</h3>
+        <SearchBar setSearchKeyWord={setSearchKeyWord} placeholder="향수 이름을 검색해보세요." />
       </div>
     </React.Fragment>
   );
