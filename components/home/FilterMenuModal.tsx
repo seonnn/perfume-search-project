@@ -3,11 +3,11 @@ import FilterMenu, { FilterMenuProps } from './FilterMenu';
 import { IoClose } from 'react-icons/io5';
 import Button from '../common/Button';
 
-interface FilterMenuModalProps extends FilterMenuProps {
+interface FilterMenuModalProps {
   handleIsFilterModalOpen: () => void;
 }
 
-function FilterMenuModal({ noteList, brandList, handleIsFilterModalOpen }: FilterMenuModalProps) {
+function FilterMenuModal({ handleIsFilterModalOpen }: FilterMenuModalProps) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -23,7 +23,7 @@ function FilterMenuModal({ noteList, brandList, handleIsFilterModalOpen }: Filte
           <IoClose size={28} />
         </button>
       </div>
-      <FilterMenu noteList={noteList} brandList={brandList} />
+      <FilterMenu />
       <div className="flex justify-center w-full mt-6">
         <Button text="선택 완료" onClick={handleIsFilterModalOpen} />
       </div>
