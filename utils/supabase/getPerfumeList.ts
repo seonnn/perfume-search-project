@@ -81,3 +81,21 @@ export async function getFilteredPerfumeList(notes: string, brands: string) {
 
   return Object.values(deduplicatedData);
 }
+
+export const getFilterAndSearchPerfumeList = async (keyword: string, notes: string, brands: string) => {
+  const { data, error } = await supabase.rpc('fn_filter_search_perfume', {
+    notes,
+    brands,
+    keyword: keyword.replaceAll(' ', ''),
+  });
+
+  if (error) {
+    console.error(error);
+    throw new Error('향수 검색 & 필터 실패');
+  }
+
+  return data.map((perfume) => {
+    const { p_id: id, p_name: name, imgurl: imgUrl, b_name: brand } = perfume;
+    return { id, name, imgUrl, brand };
+  });
+};
