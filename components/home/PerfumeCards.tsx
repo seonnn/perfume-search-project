@@ -2,13 +2,16 @@
 import React from 'react';
 import Link from 'next/link';
 import PerfumeCard from './PerfumeCard';
-import { useGetPerfumeList } from '@/hooks/queries/usePerfumeListQuery';
 import Loading from '../common/Loading';
 import FilterButton from './FilterButton';
+import { Perfume } from '@/types';
 
-function PerfumeCards() {
-  const { data, isLoading } = useGetPerfumeList();
+interface PerfumeCardsProps {
+  data?: Perfume[];
+  isLoading: boolean;
+}
 
+function PerfumeCards({ data, isLoading }: PerfumeCardsProps) {
   if (isLoading) return <Loading />;
   return (
     <>
