@@ -1,12 +1,22 @@
-import React, { Dispatch, SetStateAction } from 'react';
+'use client';
+import useCustomSearchParams from '@/hooks/useCustomSearchParams';
+import useDebounce from '@/hooks/useDebounce';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 interface SearchBarProps {
-  setSearchKeyWord: Dispatch<SetStateAction<string>>;
   placeholder?: string;
 }
 
-function SearchBar({ setSearchKeyWord, placeholder }: SearchBarProps) {
+function SearchBar({ placeholder }: SearchBarProps) {
+  const { setSearchParams } = useCustomSearchParams();
+  const [searchKeyWord, setSearchKeyWord] = useState('');
+  const debouncedSearchKeyWord = useDebounce(searchKeyWord, 500);
+
+  useEffect(() => {
+    setSearchParams({ keyword: debouncedSearchKeyWord });
+  }, [debouncedSearchKeyWord]);
+
   return (
     <label className="relative">
       <input
