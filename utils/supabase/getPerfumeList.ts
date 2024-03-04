@@ -34,7 +34,7 @@ export async function getPerfumeList() {
   });
 }
 
-export async function getFilteredPerfumeList(notes: string, brands: string) {
+export async function getFilteredPerfumeList(notes: string, brands: string, keyword?: string) {
   const filteredData = supabase.from('perfume_note_list').select(`
       perfume_list (
         p_id,
@@ -82,20 +82,35 @@ export async function getFilteredPerfumeList(notes: string, brands: string) {
   return Object.values(deduplicatedData);
 }
 
-export const getFilterAndSearchPerfumeList = async (keyword: string, notes: string, brands: string) => {
-  const { data, error } = await supabase.rpc('fn_filter_search_perfume', {
-    notes,
-    brands,
-    keyword: keyword.replaceAll(' ', ''),
-  });
+export async function getFilterAndSearchPerfumeList(keyword: string, notes: string, brands: string) {
+  let start = new Date();
+  let perfumeList = notes || brands ? await getFilteredPerfumeList(notes || '', brands || '') : await getPerfumeList();
 
-  if (error) {
-    console.error(error);
-    throw new Error('향수 검색 & 필터 실패');
+  if (keyword?.replaceAll(' ', '').length) {
+    perfumeList = perfumeList.filter((perfume) =>
+      perfume.name.replaceAll(' ', '').includes(keyword.replaceAll(' ', ''))
+    );
   }
+  let end = new Date();
+  console.log('데이터 처리 시간!!!', end.getTime() - start.getTime());
 
-  return data.map((perfume) => {
-    const { p_id: id, p_name: name, imgurl: imgUrl, b_name: brand } = perfume;
-    return { id, name, imgUrl, brand };
-  });
-};
+  return perfumeList;
+}
+
+// export const getFilterAndSearchPerfumeList = async (keyword: string, notes: string, brands: string) => {
+//   const { data, error } = await supabase.rpc('fn_filter_search_perfume', {
+//     notes,
+//     brands,
+//     keyword: keyword.replaceAll(' ', ''),
+//   });
+
+//   if (error) {
+//     console.error(error);
+//     throw new Error('향수 검색 & 필터 실패');
+//   }
+
+//   return data.map((perfume) => {
+//     const { p_id: id, p_name: name, imgurl: imgUrl, b_name: brand } = perfume;
+//     return { id, name, imgUrl, brand };
+//   });
+// };
