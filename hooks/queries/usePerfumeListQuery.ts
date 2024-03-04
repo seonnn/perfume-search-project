@@ -1,26 +1,26 @@
 import { getFilteredPerfumeList, getPerfumeList, getFilterAndSearchPerfumeList } from '@/utils/supabase/getPerfumeList';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const useGetPerfumeList = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['perfumeList'],
     queryFn: getPerfumeList,
-    staleTime: 300000,
+    staleTime: 1000 * 60 * 10,
   });
 };
 
 export const useGetFilteredPerfumeList = (notes: string, brands: string) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['filteredPerfumeList', notes, brands],
     queryFn: () => getFilteredPerfumeList(notes, brands),
-    staleTime: 300000,
+    staleTime: 1000 * 60 * 10,
   });
 };
 
 export const useGetFilterAndSearchPerfumeList = (keyword: string, notes: string, brands: string) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['filterAndSearchPerfumeList', keyword, notes, brands],
     queryFn: () => getFilterAndSearchPerfumeList(keyword, notes, brands),
-    staleTime: 300000,
+    staleTime: 1000 * 60 * 10,
   });
 };

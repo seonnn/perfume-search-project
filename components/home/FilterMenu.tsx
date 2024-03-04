@@ -7,7 +7,6 @@ import FilterList from '../common/FilterList';
 import { Brand, FragranceNoteList } from '@/types';
 import { useGetNoteList } from '@/hooks/queries/useNoteListQuery';
 import { useGetBrandList } from '@/hooks/queries/useBrandListQuery';
-import Loading from '../common/Loading';
 
 export interface FilterMenuProps {
   noteList?: FragranceNoteList[];
@@ -15,10 +14,10 @@ export interface FilterMenuProps {
 }
 
 function FilterMenu() {
-  const { data: noteList, isLoading: noteIsLoading } = useGetNoteList();
-  const { data: brandList, isLoading: brandIsLoading } = useGetBrandList();
+  const { data: noteList } = useGetNoteList();
+  const { data: brandList } = useGetBrandList();
+  // const [{ data: noteList }, { data: brandList }] = useGetNoteAndBrandList();
 
-  if (noteIsLoading || brandIsLoading) return <Loading />;
   return (
     <React.Fragment>
       <div className="border-y-1 py-3 px-4">

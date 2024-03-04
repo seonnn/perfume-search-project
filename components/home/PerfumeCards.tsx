@@ -11,8 +11,7 @@ interface PerfumeCardsProps {
   isLoading: boolean;
 }
 
-function PerfumeCards({ data, isLoading }: PerfumeCardsProps) {
-  if (isLoading) return <Loading />;
+function PerfumeCards({ data }: PerfumeCardsProps) {
   return (
     <>
       <div className="flex flex-col items-center gap-4 mb-4 relative">
