@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { useGetFilteredPerfumeList } from '@/hooks/queries/usePerfumeListQuery';
-import Loading from '../common/Loading';
 import PerfumeCards from './PerfumeCards';
 
 interface FilteredPerfumeCardsProps {
@@ -10,10 +9,9 @@ interface FilteredPerfumeCardsProps {
 }
 
 function FilteredPerfumeCards({ notes, brands }: FilteredPerfumeCardsProps) {
-  const { data, isLoading } = useGetFilteredPerfumeList(notes, brands);
+  const { data } = useGetFilteredPerfumeList(notes, brands);
 
-  if (isLoading) return <Loading />;
-  return <PerfumeCards data={data} isLoading={isLoading} />;
+  return <PerfumeCards data={data} />;
 }
 
 export default FilteredPerfumeCards;

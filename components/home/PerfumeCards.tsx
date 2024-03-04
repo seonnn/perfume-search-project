@@ -2,13 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import PerfumeCard from './PerfumeCard';
-import Loading from '../common/Loading';
 import FilterButton from './FilterButton';
 import { Perfume } from '@/types';
 
 interface PerfumeCardsProps {
   data?: Perfume[];
-  isLoading: boolean;
 }
 
 function PerfumeCards({ data }: PerfumeCardsProps) {

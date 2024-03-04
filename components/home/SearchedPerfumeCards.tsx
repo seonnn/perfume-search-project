@@ -10,8 +10,8 @@ interface SearchedPerfumeCardsProps {
 }
 
 function SearchedPerfumeCards({ keyword, notes, brands }: SearchedPerfumeCardsProps) {
-  const { data, isLoading } = useGetFilterAndSearchPerfumeList(keyword, notes, brands);
-  return <PerfumeCards data={data} isLoading={isLoading} />;
+  const { data } = useGetFilterAndSearchPerfumeList(keyword, notes, brands);
+  return <PerfumeCards data={data} />;
 }
 
 export default SearchedPerfumeCards;
