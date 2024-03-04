@@ -1,12 +1,12 @@
 'use client';
-import { useGetPerfumeList } from '@/hooks/queries/usePerfumeListQuery';
 import React from 'react';
 import PerfumeCards from './PerfumeCards';
+import { useGetPerfumeNoteBrandList } from '@/hooks/queries/usePerfumeNoteBrandList';
 
 function DefaultPerfumeCards() {
-  const { data, isLoading } = useGetPerfumeList();
+  const [{ data }] = useGetPerfumeNoteBrandList();
 
-  return <PerfumeCards data={data} isLoading={isLoading} />;
+  return <PerfumeCards data={data} />;
 }
 
 export default DefaultPerfumeCards;

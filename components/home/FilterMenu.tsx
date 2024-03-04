@@ -5,8 +5,7 @@ import DropDown from './DropDown';
 import SearchBar from './SearchBar';
 import FilterList from '../common/FilterList';
 import { Brand, FragranceNoteList } from '@/types';
-import { useGetNoteList } from '@/hooks/queries/useNoteListQuery';
-import { useGetBrandList } from '@/hooks/queries/useBrandListQuery';
+import { useGetPerfumeNoteBrandList } from '@/hooks/queries/usePerfumeNoteBrandList';
 
 export interface FilterMenuProps {
   noteList?: FragranceNoteList[];
@@ -14,9 +13,7 @@ export interface FilterMenuProps {
 }
 
 function FilterMenu() {
-  const { data: noteList } = useGetNoteList();
-  const { data: brandList } = useGetBrandList();
-  // const [{ data: noteList }, { data: brandList }] = useGetNoteAndBrandList();
+  const [, { data: noteList }, { data: brandList }] = useGetPerfumeNoteBrandList();
 
   return (
     <React.Fragment>
