@@ -6,6 +6,8 @@ import SearchBar from './SearchBar';
 import FilterList from '../common/FilterList';
 import { Brand, FragranceNoteList } from '@/types';
 import { useGetPerfumeNoteBrandList } from '@/hooks/queries/usePerfumeNoteBrandList';
+import { useRecoilValue } from 'recoil';
+import { searchKeywordAtom } from '@/recoil/atom';
 
 export interface FilterMenuProps {
   noteList?: FragranceNoteList[];
@@ -14,6 +16,9 @@ export interface FilterMenuProps {
 
 function FilterMenu() {
   const [, { data: noteList }, { data: brandList }] = useGetPerfumeNoteBrandList();
+  const searchKeyword = useRecoilValue(searchKeywordAtom);
+
+  console.log('searchKeyword', searchKeyword);
 
   return (
     <React.Fragment>
