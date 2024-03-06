@@ -22,9 +22,9 @@
 
 ## 기술 스택
 
-| TypeScript | React | Next.js | Recoil | Tailwind<br>CSS | Supabase |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| <img src="https://user-images.githubusercontent.com/65848374/212696094-a7269472-2be7-49c3-9911-508d8e740710.svg" alt="TypeScript icon" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/65848374/212695846-dde59eaf-ccea-41bd-9189-0dfde6ff11ae.svg" alt="React icon" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/65848374/212695324-65df1b52-bf0f-4fe3-b91d-ee7c84f6a2a6.svg" alt="Next.js icon" width="65" height="65" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/9e431e2c-74fe-4e29-b22b-dc941359d008" alt="Recoil icon" width="60" height="60" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/c0af9084-611d-4034-a514-d4da8a6b2f61" alt="TailwindCSS icon" width="65" height="65" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/f47e57fc-b9dc-4fc0-a932-ddc459fe48f3" alt="icon" width="65" height="65" />
+| TypeScript | React | Next.js | React<br/>Query | Recoil | Tailwind<br/>CSS | Supabase |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| <img src="https://user-images.githubusercontent.com/65848374/212696094-a7269472-2be7-49c3-9911-508d8e740710.svg" alt="TypeScript icon" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/65848374/212695846-dde59eaf-ccea-41bd-9189-0dfde6ff11ae.svg" alt="React icon" width="65" height="65" /> | <img src="https://user-images.githubusercontent.com/65848374/212695324-65df1b52-bf0f-4fe3-b91d-ee7c84f6a2a6.svg" alt="Next.js icon" width="65" height="65" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/53d6c143-5c4d-4bc0-8a7e-0b20ab0f73ab" alt="React Query icon" width="65" height="65" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/9e431e2c-74fe-4e29-b22b-dc941359d008" alt="Recoil icon" width="60" height="60" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/c0af9084-611d-4034-a514-d4da8a6b2f61" alt="TailwindCSS icon" width="65" height="65" /> | <img src="https://github.com/seonnn/perfume-search-project/assets/90498108/f47e57fc-b9dc-4fc0-a932-ddc459fe48f3" alt="icon" width="65" height="65" />
 <br />
 <br />
 
