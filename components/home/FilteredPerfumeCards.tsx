@@ -2,7 +2,6 @@
 import React from 'react';
 import { useGetFilteredPerfumeList } from '@/hooks/queries/usePerfumeListQuery';
 import PerfumeCards from './PerfumeCards';
-import Loading from '../common/Loading';
 
 interface FilteredPerfumeCardsProps {
   notes: string;
@@ -10,9 +9,8 @@ interface FilteredPerfumeCardsProps {
 }
 
 function FilteredPerfumeCards({ notes, brands }: FilteredPerfumeCardsProps) {
-  const { data, isFetching } = useGetFilteredPerfumeList(notes, brands);
+  const { data } = useGetFilteredPerfumeList(notes, brands);
 
-  if (isFetching) return <Loading />;
   return <PerfumeCards data={data} />;
 }
 
