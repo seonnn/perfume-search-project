@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-function useCustomSearchParams<T extends Partial<{ [key: string]: string[] | undefined }>>() {
+function useCustomSearchParams<T extends Partial<{ [key: string]: string | string[] | undefined }>>() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -11,7 +11,10 @@ function useCustomSearchParams<T extends Partial<{ [key: string]: string[] | und
 
     Object.entries(params).forEach(([key, value]) => {
       if (!value.length) urlSearchParams?.delete(key);
-      else urlSearchParams?.set(key, String(value.join('|')));
+      else {
+        if (Array.isArray(value)) urlSearchParams?.set(key, String(value.join('|')));
+        else urlSearchParams?.set(key, value);
+      }
     });
 
     const paramsToString = urlSearchParams?.toString();

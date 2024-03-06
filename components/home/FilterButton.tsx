@@ -2,15 +2,9 @@
 import React, { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import FilterMenuModal from './FilterMenuModal';
-import { Brand, FragranceNoteList } from '@/types';
 import { createPortal } from 'react-dom';
 
-interface FilterButtonProps {
-  noteList: FragranceNoteList[];
-  brandList: Brand[];
-}
-
-function FilterButton({ noteList, brandList }: FilterButtonProps) {
+function FilterButton() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const handleIsFilterModalOpen = () => {
@@ -28,11 +22,7 @@ function FilterButton({ noteList, brandList }: FilterButtonProps) {
       </button>
       {isFilterModalOpen &&
         createPortal(
-          <FilterMenuModal
-            noteList={noteList}
-            brandList={brandList}
-            handleIsFilterModalOpen={handleIsFilterModalOpen}
-          />,
+          <FilterMenuModal handleIsFilterModalOpen={handleIsFilterModalOpen} />,
           document.getElementById('portal') as Element
         )}
     </>

@@ -1,10 +1,10 @@
 import React from 'react';
-import FilterMenu, { FilterMenuProps } from './FilterMenu';
+import FilterMenu from './FilterMenu';
 
-function SideFilterMenu({ noteList, brandList }: FilterMenuProps) {
+function SideFilterMenu() {
   return (
     <aside className="flex flex-col shrink-0 w-69 mt-22.5 max-xl:hidden">
-      <FilterMenu noteList={noteList} brandList={brandList} />
+      <FilterMenu />
     </aside>
   );
 }
