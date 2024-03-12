@@ -3,14 +3,14 @@ import { PerfumeNote, SelectedNoteList } from '@/types/admin';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-export interface PerfumeRequestData {
+export interface PostPerfumeRequestData {
   p_name: string;
   b_id: number;
   imgurl: string;
   selectedNoteList: SelectedNoteList;
 }
 
-export const postPerfume = async (data: PerfumeRequestData) => {
+export const postPerfume = async (data: PostPerfumeRequestData) => {
   const { p_name, b_id, imgurl, selectedNoteList } = data;
   const { data: perfume_data, error: perfume_error } = await createServerActionClient({ cookies })
     .from('perfume_list')
