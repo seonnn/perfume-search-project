@@ -1,3 +1,4 @@
+import { deletePerfume } from '@/utils/supabase/deletePerfume';
 import { getPerfumeDetail } from '@/utils/supabase/getPerfumeDetail';
 import { postPerfume } from '@/utils/supabase/postPerfume';
 import { putPerfume } from '@/utils/supabase/putPerfume';
@@ -40,6 +41,20 @@ export const usePutPerfumeDetail = (perfumeId: string) => {
         queryClient.invalidateQueries({ queryKey: ['perfumeList', perfumeId] });
         router.push('/admin/perfume');
       }
+    },
+  });
+};
+
+export const useDeletePerfumeDetail = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: deletePerfume,
+    onSuccess: () => {
+      window.alert('향수 정보가 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['perfumeList'] });
+      router.push('/admin/perfume');
     },
   });
 };
