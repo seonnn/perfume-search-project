@@ -8,13 +8,11 @@ import Button from '@/components/common/Button';
 import Loading from '@/components/common/Loading';
 import { Brand } from '@/types';
 import { ImageState, SelectedNoteList } from '@/types/admin';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { handleNoteList } from '@/utils/handleNoteList';
 import { usePostPerfumeDetail } from '@/hooks/queries/usePerfumeDetailQuery';
 
 function Page() {
-  const router = useRouter();
   const [imageState, setImageState] = useState<ImageState>({
     imageFile: null,
     imageSrc: '',
@@ -65,7 +63,6 @@ function Page() {
         imgurl: imageState.imageUrl,
         selectedNoteList,
       });
-      return router.push('/admin/perfume');
     } catch (error) {
       console.error(error);
       throw new Error('향수 등록 실패!');

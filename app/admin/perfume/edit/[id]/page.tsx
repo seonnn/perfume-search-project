@@ -11,6 +11,7 @@ import PerfumeNoteInput from '@/components/admin/PerfumeNoteInput';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/common/Button';
 import { handleNoteList } from '@/utils/handleNoteList';
+import { useDeletePerfumeDetail, usePutPerfumeDetail } from '@/hooks/queries/usePerfumeDetailQuery';
 
 function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -27,6 +28,8 @@ function Page({ params }: { params: { id: string } }) {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [selectedNoteList, setSelectedNoteList] = useState<SelectedNoteList>({ t: [], m: [], b: [] });
   const [notesToDelete, setNotesToDelete] = useState<number[]>([]);
+  const { mutate: putPerfume } = usePutPerfumeDetail(params.id);
+  const { mutate: deletePerfume } = useDeletePerfumeDetail();
 
   const handleSelectedNoteList = (type: string, id: number) => {
     const { newNoteList, noteIdx } = handleNoteList(selectedNoteList[type], id);
@@ -68,27 +71,14 @@ function Page({ params }: { params: { id: string } }) {
     event.preventDefault();
 
     try {
-      const response = await fetch(`/api/perfume/${params.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          p_id: +params.id,
-          p_name: perfumeName,
-          b_id: +brand,
-          imgurl: imageState.imageUrl,
-          selectedNoteList,
-          notesToDelete,
-        }),
-      }).then((res) => res.json());
-
-      if (response.status === 409) {
-        if (window.confirm('수정된 정보가 없습니다. 향수 정보 수정을 취소하시겠습니까?'))
-          return router.push('/admin/perfume');
-        return;
-      }
-
-      window.alert('향수 정보 수정이 완료되었습니다.');
-      router.push('/admin/perfume');
-      return response.data;
+      putPerfume({
+        p_id: +params.id,
+        p_name: perfumeName,
+        b_id: +brand,
+        imgurl: imageState.imageUrl,
+        selectedNoteList,
+        notesToDelete,
+      });
     } catch (error) {
       console.error(error);
       throw new Error('향수 등록 실패!');
@@ -97,21 +87,7 @@ function Page({ params }: { params: { id: string } }) {
 
   const handleDelete = async () => {
     try {
-      if (window.confirm('향수 정보를 정말로 삭제하시겠습니까?')) {
-        const response = await fetch(`/api/perfume/${params.id}`, {
-          method: 'DELETE',
-          body: JSON.stringify({
-            selectedNoteList,
-            imageUrl: imageState.imageUrl,
-          }),
-        }).then((res) => res.json());
-
-        window.alert('향수 정보가 삭제되었습니다.');
-        router.push('/admin/perfume');
-        return response.data;
-      }
-
-      return;
+      deletePerfume({ selectedNoteList, imageUrl: imageState.imageUrl, p_id: +params.id });
     } catch (error) {
       console.error(error);
       throw new Error('향수 등록 실패!');
