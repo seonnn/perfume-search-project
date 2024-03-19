@@ -16,7 +16,7 @@ export interface FilterMenuProps {
 function FilterMenu() {
   const [, { data: noteList }, { data: brandList }] = useGetPerfumeNoteBrandList();
 
-  const categorizedNoteList = () => {
+  const categorizedNoteList = useMemo(() => {
     const newNoteList = noteList?.reduce(
       (acc, cur) => {
         const idx = cur.f_id - 1;
@@ -31,7 +31,7 @@ function FilterMenu() {
     );
 
     return newNoteList;
-  };
+  }, [noteList]);
 
   return (
     <React.Fragment>
@@ -42,7 +42,7 @@ function FilterMenu() {
             <DropDown
               title={fragrance.name}
               key={fragrance.id}
-              dropDownList={categorizedNoteList()[fragrance.id - 1].noteList}
+              dropDownList={categorizedNoteList[fragrance.id - 1].noteList}
             />
           ))}
       </div>
