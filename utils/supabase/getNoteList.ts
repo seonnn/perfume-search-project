@@ -3,14 +3,12 @@ import { supabase } from './supabase';
 
 export async function getNoteList() {
   const { data, error } = await supabase
-    .from('fragrance_list')
+    .from('note_list')
     .select(
       `
       f_id,
-      note_list (
-        n_id,
-        n_name
-      )
+      n_id,
+      n_name
     `
     )
     .returns<FragranceNoteListResponseData[]>();
@@ -24,11 +22,5 @@ export async function getNoteList() {
     return [];
   }
 
-  return data.map((note) => {
-    const noteList = note.note_list.map((item) => {
-      return { id: item.n_id, name: item.n_name, fragranceId: note.f_id };
-    });
-
-    return { fragranceId: note.f_id, noteList };
-  });
+  return data;
 }
