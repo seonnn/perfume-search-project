@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { fragranceList } from '@/utils/fragranceList';
 import DropDown from './DropDown';
 import SearchBar from './SearchBar';
@@ -16,13 +16,34 @@ export interface FilterMenuProps {
 function FilterMenu() {
   const [, { data: noteList }, { data: brandList }] = useGetPerfumeNoteBrandList();
 
+  const categorizedNoteList = () => {
+    const newNoteList = noteList?.reduce(
+      (acc, cur) => {
+        const idx = cur.f_id - 1;
+        if (acc[idx]) acc[idx].noteList.push({ id: cur.n_id, name: cur.n_name, fragranceId: cur.f_id });
+
+        return acc;
+      },
+      fragranceList.map((fragrance) => {
+        const defaultItem: FragranceNoteList = { fragranceId: fragrance.id, noteList: [] };
+        return defaultItem;
+      })
+    );
+
+    return newNoteList;
+  };
+
   return (
     <React.Fragment>
       <div className="border-y-1 py-3 px-4">
         <h3 className="text-xl text-stone-800 font-bold py-2 max-xs:text-lg">Note Filter</h3>
         {noteList &&
           fragranceList.map((fragrance) => (
-            <DropDown title={fragrance.name} key={fragrance.id} dropDownList={noteList[fragrance.id - 1].noteList} />
+            <DropDown
+              title={fragrance.name}
+              key={fragrance.id}
+              dropDownList={categorizedNoteList()[fragrance.id - 1].noteList}
+            />
           ))}
       </div>
       <div className="border-b-1 py-3 px-4">
