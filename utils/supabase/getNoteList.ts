@@ -1,4 +1,4 @@
-import { FragranceNoteListResponseData } from '@/types/response';
+import { NoteListResponseData } from '@/types/response';
 import { supabase } from './supabase';
 
 export async function getNoteList() {
@@ -11,7 +11,7 @@ export async function getNoteList() {
       n_name
     `
     )
-    .returns<FragranceNoteListResponseData[]>();
+    .returns<NoteListResponseData[]>();
 
   if (error) {
     console.error(error);
