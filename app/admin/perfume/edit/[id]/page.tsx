@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Brand } from '@/types';
 import { ImageState, SelectedNoteList } from '@/types/admin';
 import NoteFilterModal from '@/components/admin/NoteFilterModal';
@@ -14,7 +13,6 @@ import { handleNoteList } from '@/utils/handleNoteList';
 import { useDeletePerfumeDetail, usePutPerfumeDetail } from '@/hooks/queries/usePerfumeDetailQuery';
 
 function Page({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const [imageState, setImageState] = useState<ImageState>({
     imageFile: null,
     imageSrc: '',
